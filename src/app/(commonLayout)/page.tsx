@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Navbar from "@/modules/shared/Navbar";
+
 
 export default function HomePage() {
   return (
     <div>
-        Home Page
+        <Navbar/>
     </div>
   );
 }
