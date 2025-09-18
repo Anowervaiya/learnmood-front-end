@@ -47,7 +47,6 @@ function Navbar() {
 
   return (
     <>
-
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl">
           {/* right side  */}
@@ -120,15 +119,15 @@ function Navbar() {
               <Bell />
             </span>
 
-            <Avatar className="border-2 border-teal-200 dark:border-teal-900">
-              <AvatarImage
-                src="/placeholder.svg?height=40&width=40"
-                alt="User"
-              />
-              <AvatarFallback className="bg-gradient-to-br from-teal-400 to-emerald-400 text-white">
-                P
-              </AvatarFallback>
-            </Avatar>
+            {/* avatar  */}
+            <div className="flex items-center gap-4">
+          
+      
+                <Button variant={'ghost'}>
+                  <Link href={'/login'}>Login</Link>
+                </Button>
+              
+            </div>
           </div>
         </div>
       </header>

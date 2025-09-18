@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+import Navbar from '@/modules/shared/Navbar';
 
-
+import { Toaster } from '@/components/ui/sonner';
+import { ReduxProvider } from '@/redux/provider/provider';
 
 export const metadata: Metadata = {
-  title: 'Learnmood'
+  title: 'Learnmood',
 };
 
 export default function RootLayout({
@@ -14,13 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-      
-      </head>
-      <body suppressHydrationWarning>
-        
-        {children}
-      
+      <body>
+        <ReduxProvider>
+          {/* <Toaster richColors/> */}
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );
