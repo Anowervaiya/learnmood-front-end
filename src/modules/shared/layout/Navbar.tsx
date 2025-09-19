@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+
 
 import React, { useState } from 'react';
 import {
@@ -9,6 +9,7 @@ import {
   Briefcase,
   Calendar,
   Code,
+  Droplets,
   Film,
   Flame,
   House,
@@ -30,8 +31,30 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Image from 'next/image';
+import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
+import { ROLE } from '@/constants/constant';
+import UserMenu from '@/components/ui/userMenu';
+import Link from 'next/link';
+type UserInfoResponse = {
+  data?: {
+    data?: {
+      email?: string;
+    };
+
+    // add other user fields if needed
+  };
+  // add other response fields if needed
+};
+
+const navigationLinks = [
+  { href: '/', label: 'Home', role: 'PUBLIC' },
+  { href: '/admin', label: 'Dashboard', role: ROLE.ADMIN },
+  { href: '/seller', label: 'Dashboard', role: ROLE.SELLER },
+  { href: '/user', label: 'Dashboard', role: ROLE.USER },
+];
+
 function Navbar() {
-  const [activeMode, setActiveMode] = useState('growth');
+    const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
   const [isDark, setIsDark] = useState(false);
 
   const toggleTheme = () => {
@@ -45,6 +68,7 @@ function Navbar() {
     }
   };
 
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
@@ -52,13 +76,8 @@ function Navbar() {
           {/* right side  */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center">
-              <div className="w-10 h-10 flex items-center justify-center ">
-                <Image
-                  src="/logo.png"
-                  width={500}
-                  height={500}
-                  alt="Picture of the author"
-                />
+              <div className="w-10 h-10 flex items-center justify-center">
+                <Image src="/logo.png" alt="Logo" width={40} height={40} />
               </div>
             </Link>
             <div className="hidden md:flex items-center justify-center flex-1 max-w-md ">
@@ -101,6 +120,13 @@ function Navbar() {
               {' '}
               <Trophy />
             </Link>
+            <Link
+              href={'/challenge'}
+              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              {' '}
+              <Droplets />
+            </Link>
           </div>
           {/* left side */}
           <div className="flex items-center gap-5">
@@ -121,12 +147,15 @@ function Navbar() {
 
             {/* avatar  */}
             <div className="flex items-center gap-4">
-          
-      
+              {/* User menu */}
+
+              {data?.data?.email ? (
+                <UserMenu navigationLinks={navigationLinks} data={data?.data} />
+              ) : (
                 <Button variant={'ghost'}>
                   <Link href={'/login'}>Login</Link>
                 </Button>
-              
+              )}
             </div>
           </div>
         </div>

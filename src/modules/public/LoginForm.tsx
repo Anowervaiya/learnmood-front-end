@@ -13,8 +13,13 @@ import {
 
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useLoginMutation } from '@/redux/api/auth/auth.api';
+import { useRouter } from 'next/navigation';
 
 function LoginForm() {
+  const [login] = useLoginMutation();
+   const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -22,17 +27,25 @@ function LoginForm() {
     },
   });
 
+
+  
+
+
   const onSubmit: SubmitHandler<FieldValues> = async data => {
+
+   
     try {
-      // const res = await login(data).unwrap();
+      const res = await login(data).unwrap();
       // Type assertion for expected response shape
-      // if ((res as { success?: boolean }).success) {
-      //   toast.success('Logged in successfully');
-      // }
+  
+      if ((res as { success?: boolean }).success) {
+        router.push('/')
+        toast.success('Logged in successfully');
+      }
     } catch (err: any) {
       // if (err.data.message === "User is not verified") {
-      //   toast.error("Your account is not verified");
-      //   navigate("/verify", { state: data.email });
+        // toast.error("Your account is not verified");
+        // navigate("/verify", { state: data.email });
       // }
       toast.error(err?.data?.message);
     }

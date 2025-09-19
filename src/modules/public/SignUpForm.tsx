@@ -15,7 +15,7 @@ import {
 import { toast } from 'sonner';
 import config from '@/config/config';
 import Link from 'next/link';
-import { useRegisterMutation } from '@/redux/api/auth/auth.api';
+import { useRegisterMutation } from '@/redux/api/user/user.api';
 
 
 const signUpSchema = z
@@ -62,7 +62,7 @@ const SignUpForm = () => {
     try {
   
       const res = await Register(formData).unwrap();
-      console.log(res);
+    
       toast.success('Account created successfully');
 
       

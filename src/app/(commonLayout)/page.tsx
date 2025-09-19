@@ -1,8 +1,8 @@
-import LeftSiderbar from "@/modules/shared/LeftSiderbar";
-import MainFeed from "@/modules/shared/MainFeed";
-import Navbar from "@/modules/shared/Navbar";
-import RightSiderbar from "@/modules/shared/RightSiderbar";
 
+import LeftSiderbar from "@/modules/shared/home/leftSide/LeftSiderbar";
+import MainFeed from "@/modules/shared/home/mainFeed/MainFeed";
+import RightSiderbar from "@/modules/shared/home/rightSide/RightSiderbar";
+import Navbar from "@/modules/shared/layout/Navbar";
 
 export default function HomePage() {
   return (
@@ -10,8 +10,8 @@ export default function HomePage() {
       <Navbar />
       <main className="flex mx-auto max-w-7xl px-4 py-6 gap-6">
         <LeftSiderbar />
-        <MainFeed/>
-        <RightSiderbar/>
+        <MainFeed />
+        <RightSiderbar />
       </main>
     </div>
   );

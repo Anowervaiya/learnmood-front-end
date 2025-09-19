@@ -1,5 +1,4 @@
-import { Button } from '@/components/ui/button';
-
+'use client';
 import { Code, PieChart, Plus, Trophy, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -8,9 +7,12 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { recommendedfriends } from './LeftSiderbar';
+
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { useAllUserQuery } from '@/redux/api/user/user.api';
+// import { recommendedfriends } from '../leftSide/LeftSiderbar';
 function RightSiderbar() {
+    const {data: recommendFriends} = useAllUserQuery(undefined)
   return (
     <>
       <aside className="hidden xl:block w-[280px] sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
@@ -68,7 +70,7 @@ function RightSiderbar() {
           <h3 className="font-semibold pb-4">Frequent Chat </h3>
 
           <div className="flex flex-col gap-1">
-            {recommendedfriends.map((friend, idx) => (
+            {recommendFriends?.data?.map((friend : any, idx: number) => (
               <div key={idx} className="border rounded-lg p-2">
                 <div className="flex justify-between">
                   {' '}
@@ -77,7 +79,7 @@ function RightSiderbar() {
                       <Avatar className="w-8 h-8  border-2 border-blue-500">
                         <AvatarImage
                           className="object-cover"
-                          src={friend.image}
+                          src={friend?.image?.profile}
                           alt="User"
                         />
                       </Avatar>

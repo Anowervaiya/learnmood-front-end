@@ -4,3 +4,10 @@ export const ROLE = {
   USER:"USER"
   
 }
+
+export const VISIBILITY = {
+  PUBLIC : 'PUBLIC',
+  FOLLOWERS : 'FOLLOWERS',
+  FRIENDS : 'FRIENDS',
+  ONLY_ME : 'ONLY_ME',
+}
