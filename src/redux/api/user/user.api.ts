@@ -18,14 +18,6 @@ export const UserApi = baseApi.injectEndpoints({
       invalidatesTags: ['USER'],
     }),
 
-    myUser: builder.query({
-      query: () => ({
-        url: '/User/my-User',
-        method: 'GET',
-      }),
-      providesTags: ['USER'],
-    }),
-
     filterByStatusUser: builder.query({
       query: payload => ({
         url: `/User/filterByStatus`,
@@ -42,13 +34,29 @@ export const UserApi = baseApi.injectEndpoints({
       }),
       providesTags: ['USER'],
     }),
+    recommendedFriends: builder.query({
+      query: () => ({
+        url: '/user/recommended',
+        method: 'GET',
+      }),
+      providesTags: ['RECOMMENDED_USER'],
+    }),
+    sendFriendRequest: builder.mutation({
+      query: reciepentId => ({
+        url: `/user/friend-request/${reciepentId}`,
+        method: 'POST',
+        data: null,
+      }),
+      invalidatesTags: ['RECOMMENDED_USER'],
+    }),
   }),
 });
 
 export const {
 useRegisterMutation,
-  useMyUserQuery,
   useAllUserQuery,
   useDeleteUserMutation,
   useFilterByStatusUserQuery,
+  useRecommendedFriendsQuery,
+  useSendFriendRequestMutation,
 } = UserApi;

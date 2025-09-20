@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 
 export default function PostMedia({
   media,
@@ -17,23 +18,28 @@ export default function PostMedia({
     <CardContent className="p-0">
       {/* 1 IMAGE */}
       {images.length === 1 && (
-        <img
-          src={images[0].url || '/placeholder.svg'}
-          alt="Post media 1"
-          className="object-cover rounded-lg w-full h-[400px]"
-        />
+        <div className="relative w-full h-[400px]">
+          <Image
+            src={images[0].url}
+            alt="Post media 1"
+            fill
+            className="object-cover rounded-lg"
+          />
+        </div>
       )}
 
       {/* 2 IMAGES */}
       {images.length === 2 && (
         <div className="grid grid-cols-2 gap-2">
           {images.map((item, idx) => (
-            <img
-              key={idx}
-              src={item.url || '/placeholder.svg'}
-              alt={`Post media ${idx + 1}`}
-              className="object-cover rounded-lg w-full h-[300px]"
-            />
+            <div key={idx} className="relative w-full h-[300px]">
+              <Image
+                src={item.url}
+                alt={`Post media ${idx + 1}`}
+                fill
+                className="object-cover rounded-lg "
+              />
+            </div>
           ))}
         </div>
       )}
@@ -42,21 +48,25 @@ export default function PostMedia({
       {images.length === 3 && (
         <div className="grid gap-2">
           {/* Top big image */}
-          <img
-            src={images[0].url || '/placeholder.svg'}
-            alt="Post media 1"
-            className="object-cover rounded-lg w-full h-[300px]"
-          />
-
+          <div className="relative w-full h-[300px]">
+            <Image
+              src={images[0].url}
+              alt="Post media 1"
+              fill
+              className="object-cover rounded-lg"
+            />
+          </div>
           {/* Bottom two side-by-side */}
           <div className="grid grid-cols-2 gap-2">
             {images.slice(1).map((item, idx) => (
-              <img
-                key={idx + 1}
-                src={item.url || '/placeholder.svg'}
-                alt={`Post media ${idx + 2}`}
-                className="object-cover rounded-lg w-full h-[200px]"
-              />
+              <div key={idx + 1} className="relative w-full h-[200px]">
+                <Image
+                  src={item.url}
+                  alt={`Post media ${idx + 2}`}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -74,11 +84,15 @@ export default function PostMedia({
                   className="relative cursor-pointer"
                   onClick={() => setShowAll(true)}
                 >
-                  <img
-                    src={item.url || '/placeholder.svg'}
-                    alt={`Post media ${idx + 1}`}
-                    className="object-cover rounded-lg w-full h-[200px]"
-                  />
+                  <div className="relative w-full h-[200px]">
+                    <Image
+                      src={item.url}
+                      alt={`Post media ${idx + 1}`}
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
                     <span className="text-white text-xl font-semibold">
                       +{extraCount}
@@ -89,12 +103,14 @@ export default function PostMedia({
             }
 
             return (
-              <img
-                key={idx}
-                src={item.url || '/placeholder.svg'}
-                alt={`Post media ${idx + 1}`}
-                className="object-cover rounded-lg w-full h-[200px]"
-              />
+              <div key={idx} className="relative w-full h-[200px]">
+                <Image
+                  src={item.url}
+                  alt={`Post media ${idx + 1}`}
+                  fill
+                  className="object-cover rounded-lg "
+                />
+              </div>
             );
           })}
         </div>

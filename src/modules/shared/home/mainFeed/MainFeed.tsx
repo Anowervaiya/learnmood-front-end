@@ -27,7 +27,7 @@ function MainFeed() {
 
   return (
     <>
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Create Post */}
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">

@@ -13,16 +13,27 @@ import {
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import { UserInfoResponse } from '@/interfaces/global.interfaces';
-import { useAllUserQuery } from '@/redux/api/user/user.api';
+import { useAllUserQuery, useRecommendedFriendsQuery, useSendFriendRequestMutation } from '@/redux/api/user/user.api';
+import { toast } from 'sonner';
 
 
 
 function LeftSiderbar() {
   const { data : userData} = useUserInfoQuery(undefined) as UserInfoResponse;
-  const { data: recommendFriends } = useAllUserQuery(undefined)
-  // if (recommendFriends.length === 0) {
-  //   return "loading......."
-  // }
+  const { data: recommendFriends } = useRecommendedFriendsQuery(undefined)
+  const [sendFriendRequest] = useSendFriendRequestMutation();
+console.log(recommendFriends);
+  const handleSendFriendRequest = async (reciepentId : string) => {
+try {
+  const res = await sendFriendRequest(reciepentId).unwrap();
+  if (res.success) {
+   toast.success(res.message)
+  }
+  
+} catch (error : any) {
+  toast.error(error)
+}
+}
     return (
       <>
         <aside className="hidden lg:block w-[240px] sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
@@ -109,6 +120,7 @@ function LeftSiderbar() {
                       </div>
                     </div>
                     <Button
+                      onClick={()=> handleSendFriendRequest(friend?._id)}
                       size="sm"
                       variant="outline"
                       className="h-8 rounded-full"

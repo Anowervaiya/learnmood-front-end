@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Navbar from '@/modules/shared/layout/Navbar';
 
 import { Toaster } from '@/components/ui/sonner';
 import { ReduxProvider } from '@/redux/provider/provider';
@@ -19,6 +18,7 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
           <Toaster richColors />
+
           {children}
         </ReduxProvider>
       </body>
