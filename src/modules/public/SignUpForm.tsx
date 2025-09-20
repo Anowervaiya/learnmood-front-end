@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import z from 'zod';
@@ -17,7 +17,6 @@ import config from '@/config/config';
 import Link from 'next/link';
 import { useRegisterMutation } from '@/redux/api/user/user.api';
 
-
 const signUpSchema = z
   .object({
     name: z
@@ -28,8 +27,7 @@ const signUpSchema = z
     password: z.string().min(8, { error: 'Password is too short' }),
     confirmPassword: z
       .string()
-      .min(8, { error: 'Confirm Password is too short' })
-
+      .min(8, { error: 'Confirm Password is too short' }),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: 'Password do not match',
@@ -37,8 +35,8 @@ const signUpSchema = z
   });
 
 const SignUpForm = () => {
-  const [Register] = useRegisterMutation()
 
+  const [Register] = useRegisterMutation();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -47,27 +45,25 @@ const SignUpForm = () => {
       email: '',
       password: '',
       confirmPassword: '',
-       },
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-  
- const formData = new FormData();
-
-
-    formData.append('data', JSON.stringify(data));
-    // formData.append('file', image as File);
-   
+    const payload = {
+      name: data.name,
+      email: data.email,
+      password: data.password
+    }
 
     try {
-  
-      const res = await Register(formData).unwrap();
+      const res = await Register(payload).unwrap();
     
-      toast.success('Account created successfully');
-
-      
-    } catch (error) {
-      toast.error('some is wrong');
+      if (res.success) {
+        toast.success('Account created successfully');
+      }
+    } catch (error: any) {
+    
+      toast.error(error.data.message);
     }
   };
 
@@ -138,7 +134,6 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-        
 
             <Button variant={'outline'} type="submit" className="w-full">
               Register
@@ -201,6 +196,6 @@ const SignUpForm = () => {
       </Form>
     </>
   );
-}
+};
 
 export default SignUpForm;

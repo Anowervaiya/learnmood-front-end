@@ -49,14 +49,48 @@ export const UserApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['RECOMMENDED_USER'],
     }),
+    incommingFriendRequest: builder.query({
+      query: () => ({
+        url: '/user/incomming-friend-requests',
+        method: 'GET',
+      }),
+      providesTags: ['REQUEST'],
+    }),
+    outgoingFriendRequest: builder.query({
+      query: () => ({
+        url: '/user/outgoing-friend-requests',
+        method: 'GET',
+      }),
+      providesTags: ['REQUEST'],
+    }),
+
+    filterByStatusRequest: builder.mutation({
+      query: payload => ({
+        url: `/user/friend-request-status/${payload.id}`,
+        method: 'PATCH',
+        data: { status: payload.status },
+      }),
+      invalidatesTags: ['REQUEST'],
+    }),
+    myFriends: builder.query({
+      query: () => ({
+        url: '/user/my-friends',
+        method: 'GET',
+      }),
+      providesTags: ['USER'],
+    }),
   }),
 });
 
 export const {
-useRegisterMutation,
+  useRegisterMutation,
   useAllUserQuery,
   useDeleteUserMutation,
   useFilterByStatusUserQuery,
   useRecommendedFriendsQuery,
   useSendFriendRequestMutation,
+  useIncommingFriendRequestQuery,
+  useFilterByStatusRequestMutation,
+  useOutgoingFriendRequestQuery,
+  useMyFriendsQuery,
 } = UserApi;

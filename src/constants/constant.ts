@@ -11,3 +11,9 @@ export const VISIBILITY = {
   FRIENDS : 'FRIENDS',
   ONLY_ME : 'ONLY_ME',
 }
+
+export const FRIEND_REQUEST_STATUS = {
+  PENDING : 'PENDING',
+  ACCEPTED : 'ACCEPTED',
+  CANCELLED : 'CANCELLED',
+}

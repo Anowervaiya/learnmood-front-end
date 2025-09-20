@@ -22,7 +22,6 @@ function LeftSiderbar() {
   const { data : userData} = useUserInfoQuery(undefined) as UserInfoResponse;
   const { data: recommendFriends } = useRecommendedFriendsQuery(undefined)
   const [sendFriendRequest] = useSendFriendRequestMutation();
-console.log(recommendFriends);
   const handleSendFriendRequest = async (reciepentId : string) => {
 try {
   const res = await sendFriendRequest(reciepentId).unwrap();
