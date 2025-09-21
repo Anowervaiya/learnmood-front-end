@@ -1,40 +1,27 @@
 'use client';
 
-
 import React, { useState } from 'react';
 import {
-  BarChart3,
   Bell,
-  BookOpen,
-  Briefcase,
-  Calendar,
-  Code,
   Droplets,
-  Film,
-  Flame,
   House,
-  Lightbulb,
   MessageSquare,
   Moon,
-  Palette,
-  PieChart,
-  Plus,
   Search,
   SquarePlay,
   Sun,
   Trophy,
   Users,
-  Users2,
-  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Image from 'next/image';
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import { ROLE } from '@/constants/constant';
 import UserMenu from '@/components/ui/userMenu';
 import Link from 'next/link';
+import { ChatDropDown } from '../messages/ChatDropDown';
+import ChatCard from '../messages/ChatCard';
 type UserInfoResponse = {
   data?: {
     data?: {
@@ -52,11 +39,19 @@ const navigationLinks = [
   { href: '/seller', label: 'Dashboard', role: ROLE.SELLER },
   { href: '/user', label: 'Dashboard', role: ROLE.USER },
 ];
+type User = {
+  _id: string;
+  name?: string;
+  image?: {
+    profile: string;
+    banner: string;
+  };
+  isOpen?: boolean;
+};
 
 function Navbar() {
-    const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
+  const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
   const [isDark, setIsDark] = useState(false);
-
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
@@ -67,13 +62,33 @@ function Navbar() {
       document.documentElement.classList.remove('dark');
     }
   };
+  const [openChat, setOpenChat] = useState<User[]>([]);
 
+  const handleSingleChatOpen = (user: User) => {
+    setOpenChat(prev => {
+      const exists = prev.find(chat => chat._id === user._id);
+      if (exists) {
+        return prev.map(chat =>
+          chat._id === user._id ? { ...chat, isOpen: true } : chat
+        );
+      }
+
+      return [...prev, { ...user, isOpen: true }];
+    });
+  };
+  const handleSingleChatClose = (userId: string) => {
+    setOpenChat(prev =>
+      prev.map(chat =>
+        chat._id === userId ? { ...chat, isOpen: false } : chat
+      )
+    );
+  };
 
   return (
     <>
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl">
-          {/* right side  */}
+          {/* left side  */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center">
               <div className="w-10 h-10 flex items-center justify-center">
@@ -128,7 +143,7 @@ function Navbar() {
               <Droplets />
             </Link>
           </div>
-          {/* left side */}
+          {/* right side */}
           <div className="flex items-center gap-5">
             <span
               onClick={toggleTheme}
@@ -136,9 +151,9 @@ function Navbar() {
             >
               {isDark ? <Sun /> : <Moon />}
             </span>
-
+            {/* chat */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-              <MessageSquare />
+              <ChatDropDown handleSingleChatOpen={handleSingleChatOpen} />
             </span>
 
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
@@ -160,6 +175,23 @@ function Navbar() {
           </div>
         </div>
       </header>
+
+      {/* Floating Chat Window */}
+      <div className="fixed bottom-4 right-4 z-50 flex gap-4">
+        {openChat
+          .filter(chat => chat.isOpen)
+          .map(chat => (
+            <div key={chat._id} className="relative">
+              <ChatCard user={chat} />
+              <button
+                onClick={() => handleSingleChatClose(chat._id)}
+                className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+      </div>
     </>
   );
 }
