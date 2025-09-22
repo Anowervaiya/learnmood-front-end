@@ -176,7 +176,7 @@ function Navbar() {
         </div>
       </header>
 
-      {/* Floating Chat Window */}
+      {/* Bottom Single Chat  */}
       <div className="fixed bottom-4 right-4 z-50 flex gap-4">
         {openChat
           .filter(chat => chat.isOpen)

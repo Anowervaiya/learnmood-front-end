@@ -23,17 +23,16 @@ const data = {
       items: [
         {
           title: 'Home',
-          url: '/friends',
-          isActive: true,
+          url: '/',
         },
         {
           title: 'Recommended',
-          url: '/friends/recommended'
-          
+          url: '/friends/recommended',
+          isActive: true,
         },
         {
           title: 'Incomming Request',
-          url: '/friends/incomming-request',          
+          url: '/friends/incomming-request',
         },
         {
           title: 'Outgoing Request',
@@ -42,8 +41,7 @@ const data = {
         {
           title: 'My Friends',
           url: '/friends/my-friends',
-        }
-      
+        },
       ],
     },
   ],

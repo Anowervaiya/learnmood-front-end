@@ -43,9 +43,9 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
   // adjust import path if needed
   const [createPost] = useCreatePostMutation();
 
+  const router = useRouter();
   const [images, setImage] = useState<(File | FileMetadata)[] | []>([]);
 
-  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
