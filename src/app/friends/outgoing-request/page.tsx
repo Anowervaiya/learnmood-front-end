@@ -6,7 +6,7 @@ import React from 'react';
 function OutgoingRequest() {
   const { data } = useOutgoingFriendRequestQuery(undefined);
 
-  console.log(data);
+ 
 
   return (
     <div>

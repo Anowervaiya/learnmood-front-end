@@ -5,7 +5,7 @@ import React from 'react'
 
 function MyFriends() {
   const { data } = useMyFriendsQuery(undefined);
-console.log(data);
+
   return (
     <div className='max-w-[500px]'>
 

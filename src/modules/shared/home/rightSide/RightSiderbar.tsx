@@ -15,7 +15,7 @@ function RightSiderbar() {
     const {data: recommendFriends} = useAllUserQuery(undefined)
   return (
     <>
-      <aside className="hidden xl:block w-[280px] sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
+      <aside className="hidden lg:block w-[280px] sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
         <Card className="border-none shadow-sm bg-white dark:bg-gray-800">
           <CardHeader>
             <h3 className="font-semibold">Upcoming Challenges</h3>

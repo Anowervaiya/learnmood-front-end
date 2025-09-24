@@ -17,7 +17,7 @@ export const messageApi = baseApi.injectEndpoints({
 
     getMessage: builder.query({
       query: ({ userToChatId, authUserId }) => ({
-        url: '/message/receive',
+        url: '/message/receive',                     
         method: 'GET',
         params: { userToChatId, authUserId },
       }),
@@ -33,12 +33,8 @@ export const messageApi = baseApi.injectEndpoints({
             query: { userId: authUserId },
             withCredentials: true,
           });
-        }
-   
-        const messageHandler = (newMessage: any) => {
-
- 
-        
+        }   
+        const messageHandler = (newMessage: any) => {      
           if (
             (newMessage.senderId === userToChatId &&
               newMessage.receiverId === authUserId) ||

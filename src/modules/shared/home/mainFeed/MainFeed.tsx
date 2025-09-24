@@ -27,7 +27,13 @@ function MainFeed() {
 
   return (
     <>
-      <div className="max-w-3xl mx-auto">
+      <div className="  
+    max-w-xl   
+    lg:w-2xl 
+    xl:w-3xl 
+    2xl:w-5xl 
+    mx-auto
+    px-2 sm:px-4 md:px-6 ">
         {/* Create Post */}
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">
@@ -108,7 +114,7 @@ function MainFeed() {
         {/* show Post */}
         <>
           {PostData?.data?.map((post: IPost, idx: number) => (
-            <PostCard key={idx} post={post} />
+            <PostCard key={idx} post={post} UserData={UserData} />
           ))}
         </>
       </div>

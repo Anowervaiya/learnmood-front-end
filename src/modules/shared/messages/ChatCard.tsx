@@ -80,7 +80,7 @@ export default function ChatCard({ user: selectedUser }: any) {
           <img
             src={selectedUser?.image?.profile || '/logo.png'}
             alt="profile"
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 object-cover rounded-full"
           />
           <div>
             <h3 className="text-sm font-semibold">{selectedUser?.name}</h3>
@@ -184,6 +184,12 @@ export default function ChatCard({ user: selectedUser }: any) {
                       maxRows={9}
                       placeholder="Type a message"
                       className="w-full  resize-none rounded-md border px-4 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-200"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();                         
+                          form.handleSubmit(onSubmit)();                        
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

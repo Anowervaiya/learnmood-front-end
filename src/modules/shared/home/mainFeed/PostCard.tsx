@@ -13,7 +13,26 @@ import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { IPost } from './MainFeed';
 import PostMedia from './PostMedia';
-function PostCard({post}:{post: IPost}) {
+import ReactInitialButton from '../../reacts/ReactInitialButton';
+import { useGetReactsQuery } from '@/redux/api/react/react.api';
+import CommentInitialButton from '../../comments/CommentInitialButton';
+import { useState } from 'react';
+import { useGetcommentsQuery } from '@/redux/api/comment/comment.api';
+import CommentCard from '../../comments/CommentCard';
+import { skip } from 'node:test';
+import { IComment } from '@/interfaces/react.interface';
+function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
+  const [showComment, setShowComment] = useState(false);
+  const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'POST' },
+    // { skip: !showComment }
+  )
+
+ 
+
+  const handleComment = () => {
+    setShowComment(!showComment)
+  }
+  const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'POST' });
 
   return (
     <>
@@ -26,7 +45,7 @@ function PostCard({post}:{post: IPost}) {
                   src={post?.user?.image?.profile}
                   alt="User"
                 />
-                
+
               </Avatar>
               <div>
                 <p className="font-semibold">{post?.user?.name}</p>
@@ -63,10 +82,10 @@ function PostCard({post}:{post: IPost}) {
             </Button>
           </div>
           <p className="pt-2">
-           {post?.content}
+            {post?.content}
           </p>
         </CardHeader>
-        <PostMedia media={post?.media}/>
+        <PostMedia media={post?.media} />
         <CardFooter className="flex flex-col py-0">
           <div className="flex justify-between items-center w-full py-3 px-4">
             <div className="flex items-center gap-1">
@@ -74,38 +93,23 @@ function PostCard({post}:{post: IPost}) {
                 👍
               </div>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                128
+                {data?.meta?.total}
               </span>
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              24 comments • 36 saves
+              {AllComments?.meta?.total} comments • 36 share
             </div>
           </div>
           <Separator />
-          <div className="flex justify-between py-2 w-full">
+          <div className="grid grid-cols-3 w-full">
+            {/* React button  */}
+            <ReactInitialButton entityId={post?._id} entityType={'POST'} currentUserId={UserData?.data?._id} />
+
+            {/* Comment Button */}
             <Button
               variant="ghost"
               className="flex-1 gap-2 text-gray-600 dark:text-gray-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M7 10v12" />
-                <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
-              </svg>
-              <span>Helpful</span>
-            </Button>
-            <Button
-              variant="ghost"
-              className="flex-1 gap-2 text-gray-600 dark:text-gray-300"
+              onClick={handleComment}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +126,7 @@ function PostCard({post}:{post: IPost}) {
               </svg>
               <span>Comment</span>
             </Button>
+            {/* Share Button */}
             <Button
               variant="ghost"
               className="flex-1 gap-2 text-gray-600 dark:text-gray-300"
@@ -141,6 +146,17 @@ function PostCard({post}:{post: IPost}) {
               </svg>
               <span>Save</span>
             </Button>
+            {/* Comment input  */}
+            {showComment && (
+              <div className='col-span-3'>
+                <CommentInitialButton entityId={post?._id as string} entityType={'POST'} />
+                <div>
+                  {AllComments?.data?.map((comment: IComment) => (<CommentCard key={comment?._id} comment={comment} />))}
+                </div>
+
+              </div>
+
+            )}
           </div>
         </CardFooter>
       </Card>
