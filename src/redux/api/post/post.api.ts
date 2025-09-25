@@ -13,8 +13,8 @@ export const PostApi = baseApi.injectEndpoints({
     }),
 
     allPost: builder.query({
-      query: () => ({
-        url: '/post',
+      query: ({page,limit}) => ({
+        url: `/post?page=${page}&limit=${limit}`,
         method: 'GET',
       }),
       providesTags: ['POST'],

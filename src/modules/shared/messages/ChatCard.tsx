@@ -22,8 +22,7 @@ import {
 import { toast } from 'sonner';
 import { formatMessageTime } from '@/lib/utils';
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
-import { store } from '@/redux/store';
-import { Textarea } from '@/components/ui/textarea';
+
 import  TextareaAutosize from 'react-textarea-autosize'
 
 export default function ChatCard({ user: selectedUser }: any) {

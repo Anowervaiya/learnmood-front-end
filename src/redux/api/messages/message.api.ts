@@ -16,10 +16,10 @@ export const messageApi = baseApi.injectEndpoints({
     }),
 
     getMessage: builder.query({
-      query: ({ userToChatId, authUserId }) => ({
+      query: ({ userToChatId, authUserId , page, limit}) => ({
         url: '/message/receive',                     
         method: 'GET',
-        params: { userToChatId, authUserId },
+        params: { userToChatId, authUserId ,page,limit},
       }),
       providesTags: ['MESSAGE'],
 

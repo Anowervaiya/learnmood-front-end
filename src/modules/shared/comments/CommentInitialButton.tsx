@@ -62,6 +62,7 @@ export default function CommentInitialButton({ entityType, entityId }: {entityTy
                       maxRows={9}
                       placeholder="Type a comment..."
                       className="w-full resize-none rounded-md border px-4 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-200"
+                      autoFocus
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();

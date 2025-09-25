@@ -1,5 +1,5 @@
 'use client'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar,  AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,7 +8,6 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { IPost } from './MainFeed';
@@ -81,7 +80,7 @@ function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
               </svg>
             </Button>
           </div>
-          <p className="pt-2">
+          <p className="pt-2 max-w-full break-all">
             {post?.content}
           </p>
         </CardHeader>

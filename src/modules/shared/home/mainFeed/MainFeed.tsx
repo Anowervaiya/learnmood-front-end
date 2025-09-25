@@ -7,6 +7,8 @@ import CreatePostModal from './CreatePostModal';
 import { UserInfoResponse } from '@/interfaces/global.interfaces';
 import PostCard from './PostCard';
 import { useAllPostQuery } from '@/redux/api/post/post.api';
+import { useEffect, useRef, useState } from 'react';
+import { PostLoading } from './PostLoading';
 
 export interface IPost {
   _id?: string;
@@ -18,16 +20,60 @@ export interface IPost {
 }
 
 function MainFeed() {
-  const { data: UserData } = useUserInfoQuery(undefined) as UserInfoResponse;
-  const { data: PostData } = useAllPostQuery(undefined)
+  const { data: UserData } = useUserInfoQuery(undefined) as any;
+  const limit = 4;
+  const [page, setPage] = useState(1);
+  const [allPosts, setAllPosts] = useState<IPost[]>([]);
+  const { data: PostData, isFetching } = useAllPostQuery({ page, limit });
 
-  if (PostData?.length === 0) {
-    return "loadinggg....."
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // attach sentinel div
+  const setLoadMoreRef = (node: HTMLDivElement | null) => {
+    if (observerRef.current) observerRef.current.disconnect();
+    if (!node) return;
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry?.isIntersecting && !isFetching && PostData?.meta?.page! < PostData?.meta?.totalPage!) {
+        setPage(prev => prev + 1);
+      }
+    }, { threshold: 0.1 });
+
+    observerRef.current.observe(node);
+  };
+
+  // merge incoming posts
+  useEffect(() => {
+    if (!PostData?.data) return;
+
+    if (page === 1) setAllPosts(PostData.data);
+    else setAllPosts(prev => [
+      ...prev,
+      ...PostData.data.filter((p: any) => !prev.some(prevPost => prevPost._id === p._id))
+    ]);
+  }, [PostData, page]);
+
+
+  useEffect(() =>
+    () => observerRef.current?.disconnect(),
+    []);
+
+  
+
+  if (allPosts.length === 0) {
+    return (
+      <div className="max-w-xl lg:w-2xl xl:w-3xl 2xl:w-5xl mx-auto px-2 sm:px-4 md:px-6">
+        {Array.from({ length: limit }).map((_, i) => (
+          <PostLoading key={i} />
+        ))}
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="  
+      <div className=" 
     max-w-xl   
     lg:w-2xl 
     xl:w-3xl 
@@ -111,12 +157,18 @@ function MainFeed() {
           </div>
         </div>
 
-        {/* show Post */}
-        <>
-          {PostData?.data?.map((post: IPost, idx: number) => (
-            <PostCard key={idx} post={post} UserData={UserData} />
+          {/* show Posts */}
+        <div className='flex flex-col gap-4'>
+          {allPosts.map((post, idx) => (
+            <PostCard key={post._id || idx} post={post} UserData={UserData} />
           ))}
-        </>
+        </div>
+
+        {isFetching && Array.from({ length: limit }).map((_, i) => <PostLoading key={i} />)}
+        
+          {/* sentinel div for infinite scroll */}
+          <div ref={setLoadMoreRef} className="h-40" />
+      
       </div>
     </>
   );
