@@ -3,7 +3,6 @@ import './globals.css';
 
 import { Toaster } from '@/components/ui/sonner';
 import { ReduxProvider } from '@/redux/provider/provider';
-import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
   title: 'Learnmood',
@@ -18,7 +17,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ReduxProvider>
-      
                <Toaster richColors />
           {children}
          
