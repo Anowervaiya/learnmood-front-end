@@ -22,15 +22,17 @@ interface ReactResponse {
 }
 
 export default function ReactionButtons({
+  reacts,
   entityId,
   entityType,
   currentUserId,
 }: {
+    reacts: ReactResponse,
   entityId: string;
   entityType: string;
   currentUserId: string;
 }) {
-  const { data: reacts } = useGetReactsQuery({ entityId, entityType });
+  // const { data: reacts } = useGetReactsQuery({ entityId, entityType });
   const [addReact] = useAddReactMutation();
   const [updateReact] = useUpdateReactMutation();
   const [removeReact] = useRemoveReactMutation();

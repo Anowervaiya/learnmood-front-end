@@ -15,6 +15,7 @@ import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import { UserInfoResponse } from '@/interfaces/global.interfaces';
 import { useAllUserQuery, useRecommendedFriendsQuery, useSendFriendRequestMutation } from '@/redux/api/user/user.api';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 
 
@@ -38,21 +39,23 @@ try {
         <aside className="hidden lg:block w-[240px] sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
           {/* profile (top)  */}
           <div className="p-4 bg-white dark:bg-gray-800  rounded-t-lg  shadow-sm">
-            <div className="flex items-center gap-3">
-              <Avatar className="w-12 h-12  border-2 border-blue-500">
-                <AvatarImage
-                  className="object-cover"
-                  src={userData?.data?.image?.profile}
-                  alt="User"
-                />
-              </Avatar>
-              <div>
-                <h3 className="font-semibold">{userData?.data?.name}</h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Programmer
-                </p>
+            <Link href={`/profile/${userData?.data?._id}`}>
+              <div className="flex items-center gap-3">
+                <Avatar className="w-12 h-12  border-2 border-blue-500">
+                  <AvatarImage
+                    className="object-cover"
+                    src={userData?.data?.image?.profile}
+                    alt="User"
+                  />
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold">{userData?.data?.name}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Programmer
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* my learning path */}

@@ -68,7 +68,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
     try {
       const res = await createPost(formData).unwrap();
       if ((res as { success?: boolean }).success) {
-        router.push('/');
+        // router.push('/');
         toast.success('post created successfully');
         setOpen(false)
       }

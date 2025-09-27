@@ -21,17 +21,19 @@ import CommentCard from '../../comments/CommentCard';
 import { skip } from 'node:test';
 import { IComment } from '@/interfaces/react.interface';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
+
   const [showComment, setShowComment] = useState(false);
   const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'POST' },
     // { skip: !showComment }
   )
-
- 
-
   const handleComment = () => {
     setShowComment(!showComment)
   }
   const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'POST' });
+
+
+
+
 
   return (
     <>
