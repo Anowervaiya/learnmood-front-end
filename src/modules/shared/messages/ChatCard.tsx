@@ -35,6 +35,7 @@ export default function ChatCard({ user: selectedUser }: any) {
     },
     { skip: !userMe?.data?._id }
   ) as any;
+  
   const [sendMessage] = useSendMessageMutation();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 

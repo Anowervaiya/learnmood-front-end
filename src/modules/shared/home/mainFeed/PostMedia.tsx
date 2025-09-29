@@ -15,7 +15,7 @@ export default function PostMedia({
   const extraCount = media.length - 4;
 
   return (
-    <CardContent className="p-0">
+    <CardContent className="p-0 ">
       {/* 1 IMAGE */}
       {images.length === 1 && (
         <div className="relative w-full h-[400px]">
@@ -23,7 +23,7 @@ export default function PostMedia({
             src={images[0].url}
             alt="Post media 1"
             fill
-            className="object-cover rounded-lg"
+            className="object-cover  "
           />
         </div>
       )}
@@ -37,7 +37,7 @@ export default function PostMedia({
                 src={item.url}
                 alt={`Post media ${idx + 1}`}
                 fill
-                className="object-cover rounded-lg "
+                className="object-cover   "
               />
             </div>
           ))}
@@ -53,7 +53,7 @@ export default function PostMedia({
               src={images[0].url}
               alt="Post media 1"
               fill
-              className="object-cover rounded-lg"
+              className="object-cover  "
             />
           </div>
           {/* Bottom two side-by-side */}
@@ -64,7 +64,7 @@ export default function PostMedia({
                   src={item.url}
                   alt={`Post media ${idx + 2}`}
                   fill
-                  className="object-cover rounded-lg"
+                  className="object-cover  "
                 />
               </div>
             ))}
@@ -89,11 +89,11 @@ export default function PostMedia({
                       src={item.url}
                       alt={`Post media ${idx + 1}`}
                       fill
-                      className="object-cover rounded-lg"
+                      className="object-cover  "
                     />
                   </div>
 
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center  ">
                     <span className="text-white text-xl font-semibold">
                       +{extraCount}
                     </span>
@@ -108,7 +108,7 @@ export default function PostMedia({
                   src={item.url}
                   alt={`Post media ${idx + 1}`}
                   fill
-                  className="object-cover rounded-lg "
+                  className="object-cover   "
                 />
               </div>
             );

@@ -44,7 +44,7 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
           <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
             <div className="flex gap-3">
               <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-                <AvatarImage src='/anower.jpg' className="object-cover" alt="User" />
+                <AvatarImage src='/anower.jpg' className="object-cover" alt="User"  />
               </Avatar>
             <CreatePostModal data={UserMe} />
             </div>
@@ -124,7 +124,7 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
       <TabsContent value="about">
 
         {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="*:mb-8">
           <Card className="border-border">
             <CardContent className="p-6">
               <h3 className="font-semibold mb-4 flex items-center">

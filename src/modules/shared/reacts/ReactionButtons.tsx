@@ -8,11 +8,11 @@ import { ThumbsUp, Heart, Laugh, Frown, Angry } from "lucide-react";
 import { toast } from "sonner";
 
 const reactionOptions = [
-  { type: ReactType.LIKE, icon: <ThumbsUp className="w-5 h-5" />, label: "Like" },
-  { type: ReactType.LOVE, icon: <Heart className="w-5 h-5 text-red-500" />, label: "Love" },
-  { type: ReactType.HAHA, icon: <Laugh className="w-5 h-5 text-yellow-500" />, label: "Haha" },
-  { type: ReactType.SAD, icon: <Frown className="w-5 h-5 text-blue-500" />, label: "Sad" },
-  { type: ReactType.ANGRY, icon: <Angry className="w-5 h-5 text-orange-500" />, label: "Angry" },
+  { type: ReactType.LIKE, icon: <span>👍</span>, label: "Like" },
+  { type: ReactType.LOVE, icon: <span>❤</span>, label: "Love" },
+  { type: ReactType.HAHA, icon: <span>😂</span>, label: "Haha" },
+  { type: ReactType.SAD, icon: <span>😢</span>, label: "Sad" },
+  { type: ReactType.ANGRY, icon: <span>😡</span>, label: "Angry" },
 ];
 
 interface ReactResponse {
@@ -65,7 +65,7 @@ export default function ReactionButtons({
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="  flex items-center gap-2 shadow-2xl  border rounded-full   dark:bg-gray-800 bg-white">
       {reactionOptions.map((r) => (
         <button
           key={r.type}
@@ -73,8 +73,8 @@ export default function ReactionButtons({
           // className={`flex items-center gap-1 px-2 py-1 rounded-lg border 
          
           //   `}
-          className={`flex items-center gap-1 px-2 py-1 rounded-lg border 
-            ${userReact?.reactType === r.type ? "bg-blue-100 border-blue-500" : "hover:bg-gray-100"}
+          className={`flex items-center p-1  text-2xl  rounded-full 
+        hover:bg-blue-200 hover:scale-125 hover:cursor-pointer 
             `}
         >
           {r.icon}

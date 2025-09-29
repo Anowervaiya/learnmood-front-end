@@ -9,15 +9,8 @@ import PostCard from './PostCard';
 import { useAllPostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
 import { PostLoading } from './PostLoading';
+import { IPost } from '@/interfaces/post.interface';
 
-export interface IPost {
-  _id?: string;
-  user: any;
-  content: string;
-  media?: { url: string, type: string}[] ;
-  tag?: string[];
-  visibility: string;
-}
 
 function MainFeed() {
   const { data: UserData } = useUserInfoQuery(undefined) as any;
@@ -84,7 +77,7 @@ function MainFeed() {
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">
             <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-              <AvatarImage src={UserData?.data?.image?.profile} alt="User" />
+              <AvatarImage src={UserData?.data?.image?.profile} alt="User" className='object-cover' />
             </Avatar>
             <CreatePostModal data={UserData} />
           </div>

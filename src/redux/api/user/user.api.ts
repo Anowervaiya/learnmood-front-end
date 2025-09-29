@@ -70,8 +70,9 @@ export const UserApi = baseApi.injectEndpoints({
         method: 'PATCH',
         data: { status: payload.status },
       }),
-      invalidatesTags: ['REQUEST'],
+      invalidatesTags: ['REQUEST' , 'USER'],
     }),
+
     myFriends: builder.query({
       query: () => ({
         url: '/user/my-friends',

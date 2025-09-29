@@ -154,8 +154,9 @@ function Navbar() {
             {/* chat */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
               <ChatDropDown handleSingleChatOpen={handleSingleChatOpen} />
-            </span>
-
+            </span> 
+            
+         {/* notification */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
               <Bell />
             </span>

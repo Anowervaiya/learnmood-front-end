@@ -1,8 +1,32 @@
+'use client'
 import { Card, CardContent } from '@/components/ui/card'
+import { IPost } from '@/interfaces/post.interface'
+import { IUser } from '@/interfaces/user.interface';
+import { useMypostQuery } from '@/redux/api/post/post.api';
 import Image from 'next/image'
 import React from 'react'
 
-function Photos() {
+function Photos({profileData} : {profileData: IUser}) {
+  const page = 1
+  const limit = 20
+  const { data, isFetching } = useMypostQuery({ page, limit, userId: profileData?._id }, { skip: !profileData?._id });
+
+  const imageUrls  = [] as string[];
+  // Loop through each post in the data
+  data?.data.forEach((post: IPost) => {
+    // Check if the post has a media array and if it's not empty
+   
+    if (post.media && post.media.length > 0) {
+      // Loop through the media items and collect the image URLs
+      post.media.forEach((mediaItem: any) => {
+        if (mediaItem.type) { // Only collect image type media
+          imageUrls.push(mediaItem.url);
+        }
+      });
+    }
+  });
+
+ 
   return (
     <div className="">
       <div className="p-4 ">
@@ -13,11 +37,11 @@ function Photos() {
           </a>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-            <div key={i} className="relative aspect-square bg-gray-200 ">
+          {imageUrls.slice(0,9).map((img) => (
+            <div key={img} className="relative aspect-square bg-gray-200 ">
               <Image
-                src="/anower.jpg"
-                alt={`Photo ${i}`}
+                src={img}
+                alt={`Photo ${img}`}
                 fill
                 className="object-cover hover:scale-105 transition-transform cursor-pointer"
               />

@@ -14,16 +14,16 @@ const ProfilePage = async ({ params }: { params: Promise<{ profileId: string }> 
     <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
       {/* Left Side */}
     
-      <div className="lg:col-span-4 lg:sticky lg:top-20  lg:h-[calc(100vh-80px)] overflow-y-autospace-y-6 ">
+      <div className="lg:col-span-5 lg:sticky lg:top-20  lg:h-[calc(100vh-80px)] overflow-y-auto space-y-6 ">
           <ProfileCard profileData={profile?.data[0]} />
-          <Photos />
+        <Photos profileData={profile?.data[0]} />
         </div>
   
 
 
 
       {/* Right Side */}
-      <div className="lg:col-span-8 space-y-6 lg:space-y-8">
+      <div className="lg:col-span-7 space-y-6 lg:space-y-8">
         {/* Affiliate Board */}
         <AffiliateBoard />
         <ProfileTabs profileData={profile?.data[0]} />

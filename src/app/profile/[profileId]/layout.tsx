@@ -12,7 +12,7 @@ export default function CommonLayout({
       <Navbar />
 
       {/* Main container */}
-      <main className="flex mx-auto max-w-7xl px-4 mt-6 gap-6">
+      <main className="flex mx-auto max-w-4xl px-4 mt-6 gap-6">
         {children}
       </main>
     </div>

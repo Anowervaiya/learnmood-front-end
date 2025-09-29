@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
-import { IPost } from './MainFeed';
 import PostMedia from './PostMedia';
 import ReactInitialButton from '../../reacts/ReactInitialButton';
 import { useGetReactsQuery } from '@/redux/api/react/react.api';
@@ -20,8 +19,14 @@ import { useGetcommentsQuery } from '@/redux/api/comment/comment.api';
 import CommentCard from '../../comments/CommentCard';
 import { skip } from 'node:test';
 import { IComment } from '@/interfaces/react.interface';
+import CommentInitialInputButton from '../../comments/CommentInitialButton';
+import { IPost } from '@/interfaces/post.interface';
+import { formateExactTime } from '@/utils/formateExactTime';
+import { PiShareFat } from "react-icons/pi";
+import { FaRegComment } from "react-icons/fa";
+import { Share } from 'lucide-react';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
-
+const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'POST' },
     // { skip: !showComment }
@@ -32,19 +37,17 @@ function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
   const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'POST' });
 
 
-
-
-
   return (
     <>
-      <Card className="overflow-hidden border-none shadow-sm bg-white dark:bg-gray-800">
-        <CardHeader className="pb-2">
+      <Card className=" border-none shadow-sm bg-white dark:bg-gray-800 pt-3 pb-1 gap-0 ">
+        <CardHeader className="px-3 ">
           <div className="flex justify-between items-start">
             <div className="flex gap-3">
-              <Avatar className="border-2 border-blue-400 dark:border-teal-900">
+              <Avatar className="border-2 border-blue-400 dark:border-teal-900 w-10 h-10">
                 <AvatarImage
                   src={post?.user?.image?.profile}
                   alt="User"
+                  className='object-cover '
                 />
 
               </Avatar>
@@ -52,7 +55,12 @@ function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
                 <p className="font-semibold">{post?.user?.name}</p>
                 <div className="flex items-center gap-1">
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Data Scientist at TechCorp
+                    {
+                      
+                      formateExactTime(post.createdAt as unknown as string)
+                    
+                    
+                    }
                   </p>
                   <Badge className="text-[10px] py-0 h-4 bg-teal-100 text-teal-700 dark:bg-teal-800 dark:text-teal-300">
                     Expert
@@ -82,13 +90,13 @@ function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
               </svg>
             </Button>
           </div>
-          <p className="pt-2 max-w-full break-all">
+          <p className="  max-w-full break-all pb-2">
             {post?.content}
           </p>
         </CardHeader>
         <PostMedia media={post?.media} />
-        <CardFooter className="flex flex-col py-0">
-          <div className="flex justify-between items-center w-full py-3 px-4">
+        <CardFooter className="flex flex-col py-0 px-2 ">
+          <div className="flex justify-between items-center w-full py-2 px-4">
             <div className="flex items-center gap-1">
               <div className="bg-teal-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 👍
@@ -102,55 +110,44 @@ function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
             </div>
           </div>
           <Separator />
-          <div className="grid grid-cols-3 w-full">
+          <div className="grid grid-cols-3 w-full relative">
             {/* React button  */}
-            <ReactInitialButton entityId={post?._id} entityType={'POST'} currentUserId={UserData?.data?._id} />
+            <div
+              onMouseEnter={() => setShowReactions(true)}
+              onMouseLeave={() => setShowReactions(false)}
+          
+              className=" flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 py-1 text-gray-600 dark:text-gray-300"
+           
+            >
+              <ReactInitialButton showReactions={showReactions} entityId={post?._id} entityType={'POST'} currentUserId={UserData?.data?._id} />
+              
+            
+            </div>
+           
 
             {/* Comment Button */}
-            <Button
-              variant="ghost"
-              className="flex-1 gap-2 text-gray-600 dark:text-gray-300"
+            <div
+              className="flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 gap-2 py-1 text-gray-600 dark:text-gray-300"
               onClick={handleComment}
+             
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+              <FaRegComment size={20}  />  {/* Icon size 50px */}
               <span>Comment</span>
-            </Button>
+            </div>
+
             {/* Share Button */}
-            <Button
-              variant="ghost"
-              className="flex-1 gap-2 text-gray-600 dark:text-gray-300"
+            <div
+              // variant="ghost"
+              className="flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 gap-2 py-1 text-gray-600 dark:text-gray-300"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-              </svg>
-              <span>Save</span>
-            </Button>
+              <PiShareFat size={23} />
+              <span>Share</span>
+              
+            </div>
             {/* Comment input  */}
             {showComment && (
               <div className='col-span-3'>
-                <CommentInitialButton entityId={post?._id as string} entityType={'POST'} />
+                <CommentInitialInputButton entityId={post?._id as string} entityType={'POST'} />
                 <div>
                   {AllComments?.data?.map((comment: IComment) => (<CommentCard key={comment?._id} comment={comment} />))}
                 </div>

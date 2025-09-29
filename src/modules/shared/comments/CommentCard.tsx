@@ -1,4 +1,5 @@
 import { IComment } from "@/interfaces/react.interface";
+import { formateExactTime } from "@/utils/formateExactTime";
 
 
 
@@ -25,7 +26,7 @@ export default function CommentCard( {comment} : {comment:IComment}) {
             {comment?.user?.name || "Unknown User"}
           </p>
           <span className="text-xs text-gray-500">
-            {new Date(comment.createdAt).toLocaleString()}
+            {formateExactTime(comment.createdAt)}
           </span>
         </div>
 

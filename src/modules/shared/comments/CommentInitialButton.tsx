@@ -9,7 +9,7 @@ import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { useAddcommentMutation } from "@/redux/api/comment/comment.api";
 
-export default function CommentInitialButton({ entityType, entityId }: {entityType:string, entityId:string}) {
+export default function CommentInitialInputButton({ entityType, entityId }: {entityType:string, entityId:string}) {
   const [addComment] = useAddcommentMutation();
   const form = useForm({
     defaultValues: {

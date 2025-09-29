@@ -12,16 +12,9 @@ import CreatePostModal from '@/modules/shared/home/mainFeed/CreatePostModal';
 import PostCard from '@/modules/shared/home/mainFeed/PostCard';
 import { IUser } from '@/interfaces/user.interface';
 import { skip } from 'node:test';
+import { IPost } from '@/interfaces/post.interface';
 
 
-export interface IPost {
-  _id?: string;
-  user: any;
-  content: string;
-  media?: { url: string, type: string}[] ;
-  tag?: string[];
-  visibility: string;
-}
 
 
 function ProfileFeed({ user }: { user: IUser }) {
