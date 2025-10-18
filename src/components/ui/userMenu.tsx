@@ -1,5 +1,5 @@
 "use client"
-import { CircleUser, LayoutDashboard, LogOutIcon } from 'lucide-react';
+import { CircleUser, LayoutDashboard, LogOutIcon, PersonStanding } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -76,9 +76,15 @@ export default function UserMenu({ data, navigationLinks }: any) {
             </React.Fragment>
           ))}
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:cursor-pointer">
+        <DropdownMenuItem onClick={handleLogout} className="hover:cursor-pointer">
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <button onClick={handleLogout}>Logout</button>
+          <span >Logout</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="hover:cursor-pointer">
+          <Link href={'/become-tutor'} className='flex items-center gap-2'>
+            <PersonStanding size={16} className="opacity-60" aria-hidden="true" />
+            <span>Become Tutor</span>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

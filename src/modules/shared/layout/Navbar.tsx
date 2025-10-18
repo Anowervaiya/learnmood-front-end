@@ -1,5 +1,5 @@
 'use client';
-
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import React, { useState } from 'react';
 import {
   Bell,
@@ -122,6 +122,13 @@ function Navbar() {
               <Users />
             </Link>
             <Link
+              href={'/tutors'}
+              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 "
+            >
+              {' '}
+              <LiaChalkboardTeacherSolid className="w-7 h-7"/>
+            </Link>
+            <Link
               href={'/course'}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
@@ -136,7 +143,7 @@ function Navbar() {
               <Trophy />
             </Link>
             <Link
-              href={'/challenge'}
+              href={'/blood'}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               {' '}

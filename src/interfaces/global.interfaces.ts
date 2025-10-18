@@ -1,3 +1,5 @@
+import { MEDIA_TYPE } from "@/constants/constant";
+
 export type UserInfoResponse = {
   data?: {
     data?: {
@@ -12,3 +14,17 @@ export type UserInfoResponse = {
   };
  
 };
+
+
+export interface IMedia {
+  url: string;
+  type: MEDIA_TYPE;
+}
+// export interface IFollowers {
+//   user: Types.ObjectId;
+// }
+
+export interface IImage {
+  profile?: string;
+  banner?: string;
+}

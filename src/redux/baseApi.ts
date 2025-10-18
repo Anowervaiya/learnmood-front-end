@@ -15,6 +15,8 @@ export const baseApi = createApi({
     'REACT',
     'MESSAGE',
     'NOTIFICATION',
+    'MENTOR',
+    'PAGE'
   ],
   endpoints: () => ({}),
 });

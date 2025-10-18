@@ -49,7 +49,7 @@ const data = {
 
 export function FriendSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} className="pt-16">
       
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}

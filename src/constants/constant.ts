@@ -30,3 +30,15 @@ export enum ReactType {
   HELPFUL = 'HELPFUL',
   THANKS = 'THANKS',
 }
+
+export enum EntityType {
+  POST = 'POST',
+  CHALLENGE = 'CHALLENGE',
+  STORY = 'STORY',
+  SERVICE = 'SERVICE',
+}
+export enum MEDIA_TYPE {
+  image = 'image',
+  video = 'video',
+  raw = 'raw',
+}
