@@ -20,17 +20,31 @@ export const handleVideoUpload = async (file: File) => {
   }
   const { data } = await res.json();
 
+
+
+
+
   const upload = await fetch(data?.uploadUrl, {
     method: 'PUT',
     headers: { 'Content-Type': file.type },
     body: file,
   });
 
+
+ 
+
   if (!upload.ok) {
     toast.error('❌ Failed to get upload URL');
     return;
   }
+
   toast.success("video upload successfully")
+  return {
+    uploadUrl: data.uploadUrl,
+    key: data.key,
+    fileName: data.fileName,
+    fileType: data.fileType,
+  };
 };
 
 export  const getVideosKeys = async () => {
