@@ -1,8 +1,10 @@
 "use client"
 
-import { FileVideoIcon, Trash2Icon, UploadIcon, AlertCircleIcon } from "lucide-react"
+import { FileVideoIcon, Trash2Icon, UploadIcon, AlertCircleIcon, XIcon, VideoIcon } from "lucide-react"
 import { useFileUpload, type FileWithPreview, formatBytes } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
+
 
 export default function MultiVideoUploader({ setVideos }:any) {
   const maxSizeMB = 500
@@ -17,14 +19,18 @@ export default function MultiVideoUploader({ setVideos }:any) {
     accept: ".mp4",
     maxFiles,
     maxSize,
-    onFilesAdded: (addedFiles: FileWithPreview[]) => {
-      // just send file name and size to parent
-      const filesData = addedFiles.map(file => ({
-       file
-      }))
-      setVideos(filesData)
-    }
+   
   })
+
+
+     useEffect(() => {
+       if (files.length > 0) {
+         const imageList = files.map(item => item.file);
+         setVideos(imageList);
+       } else {
+         setVideos([]);
+       }
+     }, [files]);
 
   const handleRemove = (fileId: string) => {
     removeFile(fileId)
@@ -33,52 +39,107 @@ export default function MultiVideoUploader({ setVideos }:any) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        data-dragging={isDragging || undefined}
-        data-files={files.length > 0 || undefined}
-        className="relative flex min-h-52 flex-col items-center overflow-hidden rounded-xl border border-dashed border-input p-4"
-      >
-        <input {...getInputProps()} className="sr-only" />
-        {files.length > 0 ? (
-          <div className="flex w-full flex-col gap-3">
-            {files.map(f => (
-              <div key={f.id} className="flex items-center justify-between border rounded p-2">
-                <div className="flex items-center gap-3">
-                  <FileVideoIcon className="size-5 opacity-60" />
-                  <div className="flex flex-col">
-                    <span>{f.file.name}</span>
-                    <span className="text-xs text-muted-foreground">{formatBytes(f.file.size)}</span>
-                  </div>
-                </div>
-                <Button size="icon" variant="ghost" onClick={() => handleRemove(f.id)}>
-                  <Trash2Icon className="size-4" />
-                </Button>
+     <div className="flex flex-col gap-2">
+          {/* Drop area */}
+          <div
+            role="button"
+            onClick={openFileDialog}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            data-dragging={isDragging || undefined}
+            className="flex min-h-40 flex-col items-center justify-center rounded-xl border border-dashed border-input p-4 transition-colors hover:bg-accent/50 has-disabled:pointer-events-none has-disabled:opacity-50 has-[input:focus]:border-ring has-[input:focus]:ring-[3px] has-[input:focus]:ring-ring/50 data-[dragging=true]:bg-accent/50"
+          >
+            <input
+              {...getInputProps()}
+              className="sr-only"
+              aria-label="Upload files"
+            />
+    
+            <div className="flex flex-col items-center justify-center text-center">
+              <div
+                className="mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border bg-background"
+                aria-hidden="true"
+              >
+                <VideoIcon className="size-4 opacity-60" />
               </div>
-            ))}
+              <p className="mb-1.5 text-sm font-medium">Upload files</p>
+              <p className="mb-2 text-xs text-muted-foreground">
+                Drag & drop or click to browse
+              </p>
+              <div className="flex flex-wrap justify-center gap-1 text-xs text-muted-foreground/70">
+                <span>.mp4 files</span>
+                <span>∙</span>
+                <span>Max {maxFiles} files</span>
+                <span>∙</span>
+                <span>Up to {formatBytes(maxSize)}</span>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center text-center">
-            <FileVideoIcon className="size-8 opacity-60 mb-2" />
-            <p>Drop your .mp4 files here</p>
-            <p className="text-xs text-muted-foreground">Max {maxFiles} files ∙ Up to {maxSizeMB}MB</p>
-            <Button type="button" className="mt-2" onClick={openFileDialog}>
-              <UploadIcon className="-ms-1 opacity-60" /> Select files
-            </Button>
-          </div>
-        )}
-      </div>
-
-      {errors.length > 0 && (
-        <div className="flex items-center gap-1 text-xs text-destructive" role="alert">
-          <AlertCircleIcon className="size-3 shrink-0" />
-          <span>{errors[0]}</span>
+    
+          {errors.length > 0 && (
+            <div
+              className="flex items-center gap-1 text-xs text-destructive"
+              role="alert"
+            >
+              <AlertCircleIcon className="size-3 shrink-0" />
+              <span>{errors[0]}</span>
+            </div>
+          )}
+    
+          {/* File list */}
+          {files.length > 0 && (
+            <div className="space-y-2">
+              {files.map((file) => (
+                <div
+                  key={file.id}
+                  className="flex items-center justify-between gap-2 rounded-lg border bg-background p-2 pe-3"
+                >
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="flex aspect-square size-10 shrink-0 items-center justify-center rounded border">
+                      <VideoIcon className="size-4 opacity-60" />
+                    </div>
+                    <div className="flex min-w-0 flex-col gap-0.5">
+                      <p className="truncate text-[13px] font-medium">
+                        {file.file instanceof File
+                          ? file.file.name
+                          : file.file.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatBytes(
+                          file.file instanceof File
+                            ? file.file.size
+                            : file.file.size
+                        )}
+                      </p>
+                    </div>
+                  </div>
+    
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="-me-2 size-8 text-muted-foreground/80 hover:bg-transparent hover:text-foreground"
+                    onClick={() => handleRemove(file.id)}
+                    aria-label="Remove file"
+                  >
+                    <XIcon className="size-4" aria-hidden="true" />
+                  </Button>
+                </div>
+              ))}
+    
+              {/* Remove all files button */}
+              {files.length > 1 && (
+                <div>
+                  <Button size="sm" variant="outline" onClick={clearFiles}>
+                    Remove all files
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+    
+          
         </div>
-      )}
-    </div>
   )
 }

@@ -1,7 +1,7 @@
 
 
 
-import { IChallenge } from '@/interfaces/challenge.interface';
+import { IChallenge, IChallengeDay } from '@/interfaces/challenge.interface';
 import { baseApi } from '@/redux/baseApi';
 
 interface getchallengeResponse {
@@ -13,6 +13,13 @@ interface getchallengeResponse {
 
 interface createchallengeResponse {
   data: IChallenge;
+  message: string;
+  success: boolean;
+  statusCode:number
+
+}
+interface createchallengeDayResponse {
+  data: IChallengeDay;
   message: string;
   success: boolean;
   statusCode:number
@@ -38,12 +45,24 @@ export const challengeApi = baseApi.injectEndpoints({
     // Create challenge
     createChallenge: builder.mutation<
       createchallengeResponse,
-      { payload : FormData}
+      { payload: FormData }
     >({
       query: ({ payload }) => ({
         url: '/challenge/create',
         method: 'POST',
         data: payload,
+      }),
+      invalidatesTags: ['CHALLENGE'],
+    }),
+
+    createChallengeDay: builder.mutation<
+      createchallengeDayResponse,
+      {  payload: FormData }
+    >({
+      query: ({ payload }) => ({
+        url: `/challenge/create-day`,
+        method: 'POST',
+        data: payload ,
       }),
       invalidatesTags: ['CHALLENGE'],
     }),
@@ -80,6 +99,7 @@ export const challengeApi = baseApi.injectEndpoints({
 export const {
   useGetchallengesQuery,
   useCreateChallengeMutation,
+  useCreateChallengeDayMutation,
   useRemoveChallengeMutation,
   useUpdatechallengeMutation,
 } = challengeApi;

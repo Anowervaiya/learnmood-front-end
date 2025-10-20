@@ -1,7 +1,7 @@
 import config from "@/config/config";
 import { toast } from "sonner";
 
-export const handleVideoUpload = async (file: File) => {
+export const handleVideoUpload = async (file :File) => {
   if (!file) {
     return toast.error('Select a video file');
   }
@@ -22,8 +22,6 @@ export const handleVideoUpload = async (file: File) => {
 
 
 
-
-
   const upload = await fetch(data?.uploadUrl, {
     method: 'PUT',
     headers: { 'Content-Type': file.type },
@@ -31,7 +29,6 @@ export const handleVideoUpload = async (file: File) => {
   });
 
 
- 
 
   if (!upload.ok) {
     toast.error('❌ Failed to get upload URL');

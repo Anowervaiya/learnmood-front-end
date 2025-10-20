@@ -1,43 +1,44 @@
 import { CHALLENGE_CATEGORY, CHALLENGE_STATUS } from "@/constants/challenge.constant";
-import { IMedia } from "./global.interfaces";
 
+export interface IChallengeVideo {
+  fileName: string;
+  fileType: string;
+  key: string;
+  uploadUrl: string;
+}
 
-export interface IParticipant {
-  user: string;
-  joinedAt?: Date;
-  progress?: number; // % completion or streak count
-  completed?: boolean;
+export interface IQuize {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+}
+
+export interface IArticle {
+  image: string;
+  content: string;
 }
 
 export interface IChallengeDay {
+  challengeId: string;
   dayNumber: number;
   title: string;
-  video?: string;
-  article?: {
-    image: string;
-    content: string;
-  };
-  quiz?: [
-    {
-      question: string;
-      options: [string];
-      correctAnswer: string;
-    }
-  ];
+  notes?: string[];
+  video?: IChallengeVideo[];
+  article?: string;
+  // quiz?: IQuize[];
 }
 // Challenge interface
 export interface IChallenge {
+  _id: string;
   title: string;
   description?: string;
   category: CHALLENGE_CATEGORY;
   durationDays: number;
-  createdBy?: string;
-  participants?: IParticipant[];
+  createdBy: string;
   startsAt: Date;
   endsAt?: Date;
-  ratings?: number;
-  isPublic?: boolean;
+  ratings: number;
+  isPublic: boolean;
   status: CHALLENGE_STATUS;
-  banner: string;
-  days?: IChallengeDay;
+  banner?: string;
 }
