@@ -19,7 +19,7 @@ import {
   useFileUpload,
 } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
-import { useEffect } from "react"
+import { useEffect, useImperativeHandle } from "react"
 
 
 const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
@@ -57,7 +57,7 @@ const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
   return <FileIcon className="size-4 opacity-60" />
 }
 
-export default function MultiFileUploader({setFiles}: any) {
+export default function MultiFileUploader({setFiles , ref}: any) {
   const maxSize = 100 * 1024 * 1024 // 10MB default
   const maxFiles = 10
 
@@ -79,7 +79,12 @@ export default function MultiFileUploader({setFiles}: any) {
     maxSize,
      })
 
-  
+  // 👉 Expose `clearFiles()` to parent via ref
+    useImperativeHandle(ref, () => ({
+      clearAllFiles: () => {
+        clearFiles();
+      },
+    }));
   
    useEffect(() => {
          if (files.length > 0) {

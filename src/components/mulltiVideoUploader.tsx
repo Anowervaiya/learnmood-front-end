@@ -3,10 +3,10 @@
 import { FileVideoIcon, Trash2Icon, UploadIcon, AlertCircleIcon, XIcon, VideoIcon } from "lucide-react"
 import { useFileUpload, type FileWithPreview, formatBytes } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
-import { useEffect } from "react"
+import { useEffect, useImperativeHandle } from "react"
 
 
-export default function MultiVideoUploader({ setVideos }:any) {
+export default function MultiVideoUploader({ setVideos ,ref }:any ) {
   const maxSizeMB = 500
   const maxSize = maxSizeMB * 1024 * 1024
   const maxFiles = 6
@@ -22,6 +22,12 @@ export default function MultiVideoUploader({ setVideos }:any) {
    
   })
 
+  // 👉 Expose `clearFiles()` to parent via ref
+  useImperativeHandle(ref, () => ({
+    clearAllVideos: () => {
+      clearFiles();
+    },
+  }));
 
      useEffect(() => {
        if (files.length > 0) {

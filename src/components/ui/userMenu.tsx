@@ -1,5 +1,5 @@
 "use client"
-import { CircleUser, LayoutDashboard, LogOutIcon, PersonStanding } from 'lucide-react';
+import { CircleUser, LayoutDashboard, LogOutIcon, PersonStanding, PlusIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -84,6 +84,13 @@ export default function UserMenu({ data, navigationLinks }: any) {
           <Link href={'/become-tutor'} className='flex items-center gap-2'>
             <PersonStanding size={16} className="opacity-60" aria-hidden="true" />
             <span>Become Tutor</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="hover:cursor-pointer bg-blue-100 ">
+          <Link href={'/page'} className='flex items-center gap-2'>
+         
+            <PlusIcon size={16} className="opacity-60" aria-hidden="true" />
+            <span>Create your page</span>
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -6,7 +6,7 @@ import { baseApi } from '@/redux/baseApi';
 
 interface getchallengeResponse {
   data: IChallenge[];
-  meta?: { total: number };
+  meta: { total: number };
   message: string;
   success: boolean;
 }
@@ -31,15 +31,13 @@ export const challengeApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getchallenges: builder.query<
       getchallengeResponse,
-      { entityId: string; entityType: string }
+      { pageId: string }
     >({
-      query: ({ entityId, entityType }) => ({
-        url: `/challenge?entityId=${entityId}&entityType=${entityType}`,
+      query: ({ pageId }) => ({
+        url: `/challenge?createdBy=${pageId}`,
         method: 'GET',
       }),
-      providesTags: (_result, _err, { entityId }) => [
-        { type: 'CHALLENGE', id: `LIST-${entityId}` },
-      ],
+      providesTags:  [ 'CHALLENGE' ],
     }),
 
     // Create challenge

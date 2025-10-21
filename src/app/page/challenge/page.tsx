@@ -5,8 +5,12 @@ import { handleVideoUpload } from "@/utils/VideoUpload";
 import { useCreateChallengeDayMutation, useCreateChallengeMutation } from "@/redux/api/challenge/challenge.api";
 import CreateChallengeDayForm, { DayFormValues } from "@/modules/seller/challenge/createChallengeDayForm";
 import CreateChallengeForm, { ChallengeFormValues } from "@/modules/seller/challenge/createChallengeForm";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUserInfoQuery } from "@/redux/api/auth/auth.api";
 
 export default function CreateChallenge() {
+  const searchParams = useSearchParams()
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [challengeId, setChallengeId] = useState<string | null>(null);
   const [durationDays, setDurationDays] = useState(1);
@@ -17,11 +21,18 @@ export default function CreateChallenge() {
   const [ChallengeBanner, setChallengeBanner] = useState<File | null>(null);
   const [createChallenge] = useCreateChallengeMutation()
   const [createChallengeDay] = useCreateChallengeDayMutation()
+  const pageId = searchParams.get('pageId')
+
  
   const handleNext = async (data: ChallengeFormValues) => {
+   
+    const payload = { 
+      createdBy: pageId,
+      ...data
+    }
+
     const formData = new FormData();
-    const jsonData = JSON.stringify({ ...data });
-    formData.append("data", jsonData);
+    formData.append("data", JSON.stringify(payload));
     if (ChallengeBanner) {
       formData.append("file", ChallengeBanner);
     }
@@ -53,7 +64,7 @@ export default function CreateChallenge() {
       const payload = {
         title: data.title,
         article:data.article,
-        challengeId: challengeId ,
+        challengeId: challengeId,
         dayNumber:currentDay,
         video: UploadedVideosInfo
       }
@@ -68,7 +79,12 @@ export default function CreateChallenge() {
         toast.success(`Day ${currentDay} submitted!`);
         setDayVideos([]);
         setDayNotes([])
-        if (currentDay < durationDays) setCurrentDay(currentDay + 1);
+        setCurrentDay(currentDay + 1);
+        if (currentDay > durationDays) {
+          router.push(`/page/${pageId}`)
+        }
+     
+        
       }
 
 
