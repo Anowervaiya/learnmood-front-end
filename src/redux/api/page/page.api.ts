@@ -9,6 +9,7 @@ interface getpageResponse {
   message: string;
   success: boolean;
 }
+
 interface createpageResponse {
   data: IPage;
   message: string;
@@ -16,21 +17,22 @@ interface createpageResponse {
   statusCode:number
 
 }
+interface getMyPages {
+  data: IPage[];
+  message: string;
+  success: boolean;
+  statusCode: number;
+}
 
 
 export const pageApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getpages: builder.query<
-      getpageResponse,
-      { entityId: string; entityType: string }
-    >({
-      query: ({ entityId, entityType }) => ({
-        url: `/page?entityId=${entityId}&entityType=${entityType}`,
+    getMyPages: builder.query<getMyPages, undefined>({
+      query: () => ({
+        url: `/page/my-page`,
         method: 'GET',
       }),
-      providesTags: (_result, _err, { entityId }) => [
-        { type: 'PAGE', id: `LIST-${entityId}` },
-      ],
+      providesTags: ['PAGE'],
     }),
 
     // Create Page
@@ -73,7 +75,7 @@ export const pageApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetpagesQuery,
+  useGetMyPagesQuery,
   useCreatePageMutation,
   useRemovePageMutation,
   useUpdatepageMutation,

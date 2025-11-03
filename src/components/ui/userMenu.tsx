@@ -15,9 +15,11 @@ import { authApi, useLogoutMutation } from '@/redux/api/auth/auth.api';
 import React from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { IPage } from '@/interfaces/page.interface';
+import Image from 'next/image';
 
 
-export default function UserMenu({ data, navigationLinks }: any) {
+export default function UserMenu({ myPages, data, navigationLinks }: any) {
   const dispatch = useAppDispatch();
 
   const [logout] = useLogoutMutation();
@@ -60,6 +62,29 @@ export default function UserMenu({ data, navigationLinks }: any) {
           </span>
         </DropdownMenuLabel>
 
+        
+
+        {myPages?.map((page: IPage) =>
+          <DropdownMenuItem className="hover:cursor-pointer ">
+            <Link href={`/page/${page._id}`} className='flex items-center gap-2'>
+
+              {/* <PlusIcon size={16} className="opacity-60" aria-hidden="true" /> */}
+              <div className="w-10 h-10  flex items-center justify-center">
+                <Image src={page.image?.profile || '/logo.png'} alt="Logo" className='rounded-full' width={40} height={40} />
+              </div>
+              <span>{page.name}</span>
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        <DropdownMenuItem className="hover:cursor-pointer bg-blue-100 ">
+          <Link href={'/page'} className='flex items-center gap-2'>
+
+            <PlusIcon size={16} className="opacity-60" aria-hidden="true" />
+            <span>Create your page</span>
+          </Link>
+        </DropdownMenuItem>
+
         <DropdownMenuItem className="hover:cursor-pointer">
           {navigationLinks?.map((link: any, index: any) => (
             <React.Fragment key={index}>
@@ -76,22 +101,18 @@ export default function UserMenu({ data, navigationLinks }: any) {
             </React.Fragment>
           ))}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleLogout} className="hover:cursor-pointer">
-          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span >Logout</span>
-        </DropdownMenuItem>
+       
         <DropdownMenuItem className="hover:cursor-pointer">
           <Link href={'/become-tutor'} className='flex items-center gap-2'>
             <PersonStanding size={16} className="opacity-60" aria-hidden="true" />
             <span>Become Tutor</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:cursor-pointer bg-blue-100 ">
-          <Link href={'/page'} className='flex items-center gap-2'>
-         
-            <PlusIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Create your page</span>
-          </Link>
+
+      
+        <DropdownMenuItem onClick={handleLogout} className="hover:cursor-pointer">
+          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
+          <span >Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

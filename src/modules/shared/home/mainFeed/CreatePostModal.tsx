@@ -58,7 +58,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(inputData));
-
+    // formData.append("upload_preset", "unsigned_preset"); 
     images.forEach((img, idx) => {
       if (img instanceof File) {
         formData.append('files', img);

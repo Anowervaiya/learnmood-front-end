@@ -17,7 +17,8 @@ export const baseApi = createApi({
     'NOTIFICATION',
     'MENTOR',
     'PAGE',
-    'CHALLENGE'
+    'CHALLENGE',
+    'BLOOD'
   ],
   endpoints: () => ({}),
 });

@@ -22,6 +22,7 @@ import UserMenu from '@/components/ui/userMenu';
 import Link from 'next/link';
 import { ChatDropDown } from '../messages/ChatDropDown';
 import ChatCard from '../messages/ChatCard';
+import { useGetMyPagesQuery } from "@/redux/api/page/page.api";
 type UserInfoResponse = {
   data?: {
     data?: {
@@ -51,6 +52,10 @@ type User = {
 
 function Navbar() {
   const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
+
+  const { data: myPages } = useGetMyPagesQuery(undefined);
+  
+
   const [isDark, setIsDark] = useState(false);
   const toggleTheme = () => {
     const newTheme = !isDark;
@@ -173,7 +178,7 @@ function Navbar() {
               {/* User menu */}
 
               {data?.data?.email ? (
-                <UserMenu navigationLinks={navigationLinks} data={data?.data} />
+                <UserMenu myPages={myPages!?.data} navigationLinks={navigationLinks} data={data?.data} />
               ) : (
                 <Button variant={'ghost'}>
                   <Link href={'/login'}>Login</Link>
