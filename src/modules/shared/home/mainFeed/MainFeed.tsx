@@ -14,7 +14,7 @@ import { IPost } from '@/interfaces/post.interface';
 
 function MainFeed() {
   const { data: UserData } = useUserInfoQuery(undefined) as any;
-  const limit = 4;
+  const limit = 10;
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
   const { data: PostData, isFetching } = useAllPostQuery({ page, limit });

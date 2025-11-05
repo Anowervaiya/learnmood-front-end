@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function BloodHeroBanner() {
   const [open, setOpen] = useState(false)
   return (
-    <Card className="mb-12 p-0 overflow-hidden border-2 border-red-200 shadow-2xl rounded-3xl">
+    <Card className="mb-6 p-0 overflow-hidden border-2 border-red-200 shadow-md rounded-3xl">
       <div className="relative bg-gradient-to-br p-6 from-red-500 via-pink-500 to-red-600 text-white">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mb-32"></div>

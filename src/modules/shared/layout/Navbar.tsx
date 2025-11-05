@@ -1,4 +1,5 @@
 'use client';
+
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import React, { useState } from 'react';
 import {
@@ -51,12 +52,11 @@ export type IChat = {
 };
 
 function Navbar() {
+  const [openChat, setOpenChat] = useState<IChat[]>([]);
+  const [isDark, setIsDark] = useState(false);
   const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
-
   const { data: myPages } = useGetMyPagesQuery(undefined);
   
-
-  const [isDark, setIsDark] = useState(false);
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
@@ -67,7 +67,7 @@ function Navbar() {
       document.documentElement.classList.remove('dark');
     }
   };
-  const [openChat, setOpenChat] = useState<IChat[]>([]);
+
 
   const handleSingleChatOpen = (user: IChat) => {
     setOpenChat(prev => {
