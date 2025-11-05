@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { BLOOD_GROUP, BLOOD_URGENCY_LEVEL } from "@/constants/blood.constant";
 import { useCreatebloodRequestMutation } from "@/redux/api/blood/blood.api";
 import { IBloodRequest } from "@/interfaces/blood.interface";
+import { AnyARecord } from "node:dns";
 
 // ✅ Validation Schema
 const requestSchema = z.object({
@@ -42,7 +43,7 @@ const requestSchema = z.object({
 
 type RequestFormValues = z.infer<typeof requestSchema>;
 
-export default function BloodRequestForm() {
+export default function BloodRequestForm({ setOpen }: any) {
   const [createBloodRequest] = useCreatebloodRequestMutation();
   const [loading, setLoading] = useState(false);
   const form = useForm<RequestFormValues>({
@@ -70,11 +71,13 @@ const payload : IBloodRequest = {
       
 }
     try {
-      const res = await createBloodRequest({payload})
-      toast.success("✅ Blood request submitted successfully!");
-      console.log(res);
+      const res = await createBloodRequest({ payload })
+      console.log(res)
+      if ((res.data as any).success) {
+        toast.success("✅ Blood request submitted successfully!");
+        setOpen(false)
+      }
     } catch (err) {
-      console.error(err);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -83,7 +86,7 @@ const payload : IBloodRequest = {
 
   return (
     <motion.div
-      className="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-50 to-white p-4"
+      className="flex justify-center items-center  bg-gradient-to-br from-pink-50 to-white p-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}

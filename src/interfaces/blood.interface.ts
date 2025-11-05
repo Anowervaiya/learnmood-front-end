@@ -8,13 +8,22 @@ interface IDonationHistory {
   quantity: number;
 }
 export interface IBloodDonor {
+  _id: string;
   user:string; // Who created this page
   bloodGroup: BLOOD_GROUP;
   location: string;
   donationHistory?: IDonationHistory[];
 }
 export interface IBloodRequest {
-  requestedBy?:string; // Who created this page
+  _id?: string;
+  requestedBy?: {
+    _id: string;
+    name:string,
+    image: {
+      profile: string,
+      banner:string
+    }
+  }; // Who created this page
   bloodGroup: BLOOD_GROUP;
   location: string;
   hospital?: string;
@@ -22,4 +31,5 @@ export interface IBloodRequest {
   details?: string;
   urgencyLevel: BLOOD_URGENCY_LEVEL;
   status?: BLOOD_REQUEST_STATUS;
+  createdAt?: string;
 }

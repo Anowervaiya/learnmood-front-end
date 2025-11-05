@@ -1,9 +1,16 @@
 
 import { IBloodDonor, IBloodRequest } from '@/interfaces/blood.interface';
+import { IUser } from '@/interfaces/user.interface';
 import { baseApi } from '@/redux/baseApi';
 
 interface getbloodDonorResponse {
-  data: IBloodDonor[];
+  data: IUser[];
+  meta: { total: number };
+  message: string;
+  success: boolean;
+}
+interface getBloodRequestResponse {
+  data: IBloodRequest[];
   meta: { total: number };
   message: string;
   success: boolean;
@@ -26,14 +33,6 @@ interface createbloodRequestResponse {
 
 export const bloodApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    // getbloodDonors: builder.query<getbloodDonorResponse, { pageId: string }>({
-    //   query: ({ pageId }) => ({
-    //     url: `/bloodDonor?createdBy=${pageId}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['BLOOD'],
-    // }),
-
     // // Create bloodDonor
     // createbloodDonor: builder.mutation<
     //   createbloodDonorResponse,
@@ -57,6 +56,34 @@ export const bloodApi = baseApi.injectEndpoints({
         data: payload,
       }),
       invalidatesTags: ['BLOOD'],
+    }),
+
+    getbloodRequest: builder.query<
+      getBloodRequestResponse,
+      { page: number; limit: number; location?: string; bloodGroup?: string }
+    >({
+      query: ({ page, limit, location = '', bloodGroup = '' }) => {
+        const encodedBloodGroup = encodeURIComponent(bloodGroup);
+
+        return {
+          url: `/blood/blood-request?page=${page}&limit=${limit}&bloodGroup=${encodedBloodGroup}&searchTerm=${location}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['BLOOD'],
+    }),
+    getbloodDonor: builder.query<
+      getbloodDonorResponse,
+      { page: number; limit: number; location?: string; bloodGroup?: string }
+    >({
+      query: ({  page, limit, location = '', bloodGroup = ''  }) => {
+       const encodedBloodGroup = encodeURIComponent(bloodGroup)
+        return {
+          url: `/blood/blood-donor?page=${page}&limit=${limit}&blood=${encodedBloodGroup}&searchTerm=${location}`,
+        method: 'GET',
+        }
+      },
+      providesTags: ['BLOOD'],
     }),
 
     // ✅ Update bloodDonor
@@ -89,9 +116,10 @@ export const bloodApi = baseApi.injectEndpoints({
 });
 
 export const {
-  // useGetbloodDonorsQuery,
   // useCreatebloodDonorMutation,
   useCreatebloodRequestMutation,
+  useGetbloodRequestQuery,
+  useGetbloodDonorQuery
   // useRemovebloodDonorMutation,
   // useUpdatebloodDonorMutation,
 } = bloodApi;

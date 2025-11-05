@@ -73,7 +73,7 @@ function RightSiderbar() {
             {recommendFriends?.data?.map((friend : any, idx: number) => (
               <div key={idx} className="border rounded-lg p-2">
                 <div className="flex justify-between">
-                  {' '}
+            
                   <div className="flex items-center gap-2">
                     <div className=" rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
                       <Avatar className="w-8 h-8  border-2 border-blue-500">

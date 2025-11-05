@@ -6,8 +6,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import BecomeDonorForm from "./becomeDonorForm";
 import BloodRequestForm from "./bloodRequestForm";
+import { useState } from "react";
 
 export default function BloodHeroBanner() {
+  const [open, setOpen] = useState(false)
   return (
     <Card className="mb-12 p-0 overflow-hidden border-2 border-red-200 shadow-2xl rounded-3xl">
       <div className="relative bg-gradient-to-br p-6 from-red-500 via-pink-500 to-red-600 text-white">
@@ -35,26 +37,26 @@ export default function BloodHeroBanner() {
                 network.
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 ">
                 {/* ✅ Blood Request Dialog */}
-                <Dialog>
+                <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <Button
                       size="lg"
-                      className="bg-white text-red-600 hover:bg-red-50 rounded-full px-8 shadow-lg font-bold"
+                      className=" text-red-600 hover:bg-red-50 rounded-full px-8 shadow-lg font-bold"
                     >
                       <Droplet className="w-5 h-5 mr-2" />
                       Request Blood
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="rounded-3xl max-w-lg">
+                  <DialogContent className="rounded-3xl max-w-lg max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl font-bold">
                         Request Blood Donation
                       </DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 mt-4">
-                     <BloodRequestForm/>
+                      <BloodRequestForm setOpen={setOpen} />
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -71,7 +73,7 @@ export default function BloodHeroBanner() {
                       Become a Donor
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="rounded-3xl max-w-xl">
+                  <DialogContent className="rounded-3xl max-w-xl  max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl font-bold text-center text-red-600">
                         Become a Blood Donor ❤️
@@ -79,7 +81,7 @@ export default function BloodHeroBanner() {
                     </DialogHeader>
                     <div className="mt-4">
                       {/* 👇 Insert your awesome donor form here */}
-                      <BecomeDonorForm />
+                      <BecomeDonorForm setOpen={setOpen} />
                     </div>
                   </DialogContent>
                 </Dialog>

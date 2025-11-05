@@ -40,7 +40,7 @@ const navigationLinks = [
   { href: '/seller', label: 'Dashboard', role: ROLE.SELLER },
   { href: '/user', label: 'Dashboard', role: ROLE.USER },
 ];
-type User = {
+export type IChat = {
   _id: string;
   name?: string;
   image?: {
@@ -67,9 +67,9 @@ function Navbar() {
       document.documentElement.classList.remove('dark');
     }
   };
-  const [openChat, setOpenChat] = useState<User[]>([]);
+  const [openChat, setOpenChat] = useState<IChat[]>([]);
 
-  const handleSingleChatOpen = (user: User) => {
+  const handleSingleChatOpen = (user: IChat) => {
     setOpenChat(prev => {
       const exists = prev.find(chat => chat._id === user._id);
       if (exists) {

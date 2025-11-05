@@ -29,4 +29,5 @@ export interface IUser {
   languages?: LANGUAGE[];
   auths?: IAuthProvider[];
   friends?: string[];
+  createdAt: string;
 }

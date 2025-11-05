@@ -26,7 +26,7 @@ const donorSchema = z.object({
 
 type DonorFormValues = z.infer<typeof donorSchema>;
 
-export default function BecomeDonorForm() {
+export default function BecomeDonorForm({setOpen} : any) {
   const [loading, setLoading] = useState(false);
   const form = useForm<DonorFormValues>({
     resolver: zodResolver(donorSchema),
