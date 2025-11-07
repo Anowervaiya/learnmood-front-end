@@ -210,7 +210,7 @@ const Blood = () => {
       <div className="fixed bottom-4 right-4 z-50 flex gap-4">
         {chatData && (
           <div className="relative">
-            <ChatCard user={chatData} />
+            <ChatCard user={chatData} setChatData={setChatData } />
             <button
               onClick={() => setChatData(null)}
               className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"

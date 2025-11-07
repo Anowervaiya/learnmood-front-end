@@ -7,7 +7,7 @@ export default function CommonLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen  dark:bg-gray-900 transition-colors duration-300">
       {/* Navbar সব page এর উপরে থাকবে */}
       <Navbar />
 

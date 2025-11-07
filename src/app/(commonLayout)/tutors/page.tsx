@@ -1,111 +1,160 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import TutorCard from "./TutorCard";
-import Filters from "./Filters";
-import { IMentor } from "@/interfaces/mentor.interface";
-import { Loader2 } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { IMentor } from '@/interfaces/mentor.interface';
+import PostLoading from '@/modules/shared/home/mainFeed/PostLoading';
+import TutorCard from '@/modules/user/tutor/TutorCard';
+import { useAllMentorQuery } from '@/redux/api/mentor/mentor.api';
+import { Zap, Search } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import BecomeTutorForm from '@/modules/user/become-tutor-form/BecomeTutorForm';
+import { toast } from 'sonner';
+import { IChat } from '@/modules/shared/layout/Navbar';
+import ChatCard from '@/modules/shared/messages/ChatCard';
 
-export default function TutorsPage() {
-  const [tutors, setTutors] = useState<IMentor[]>([]);
-  const [filteredTutors, setFilteredTutors] = useState<IMentor[]>([]);
+
+const Mentors = () => {
+ const [chatData, setChatData] = useState<IChat | null>(null);
+  const [AllTutors, setAllTutors] = useState<IMentor[]>([])
   const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 3;
+  const [open, setOpen] = useState(false)
+  const {data: AllMentorData , isFetching: TutorLoading} = useAllMentorQuery({page,limit , searchTerm: search})
 
-  // 🧠 Fetch data directly from backend
-  useEffect(() => {
-    const fetchTutors = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/mentor`, {
-          cache: "no-store",
-        });
-        if (!res.ok) throw new Error("Failed to fetch tutors");
-        const {data} = await res.json();
-        setTutors(data);
-        setFilteredTutors(data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong!");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTutors();
-  }, []);
 
-  // 🧩 Filter tutors dynamically
-  useEffect(() => {
-    const results = tutors.filter((tutor) => {
-      const matchesLocation = location
-        ? tutor.location?.toLowerCase().includes(location.toLowerCase())
-        : true;
-      const matchesSearch = search
-        ? tutor.subject?.some((s) =>
-          s.toLowerCase().includes(search.toLowerCase())
-        )
-        : true;
-      const matchesPrice =
-        tutor.monthlyRate >= priceRange[0] &&
-        tutor.monthlyRate <= priceRange[1];
-      return matchesLocation && matchesSearch && matchesPrice;
+  // submit the search
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setSearch(e.target.location.value);
+    setPage(1);
+  };
+
+ // ✅ Handle chat popup
+  const handleChatData = (tutor: IMentor) => {
+    if (!tutor.userId) return;
+    setChatData({
+      _id: tutor.userId._id as string,
+      name: tutor.userId.name,
+      image: tutor.userId.image
     });
-    setFilteredTutors(results);
-  }, [search, location, priceRange, tutors]);
-  console.log(filteredTutors)
-  // 🧭 Render
+  };
+
+  
+     // ✅ Infinite Scroll (Requests)
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const setLoadMoreRef = (node: HTMLDivElement | null) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      if (!node) return;
+  
+      observerRef.current = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !TutorLoading && AllMentorData?.meta?.page! < AllMentorData?.meta?.totalPage!) {
+          setPage(prev => prev + 1);
+        }
+      }, { threshold: 0.1 });
+  
+      observerRef.current.observe(node);
+    };
+
+    // ✅ Merge incoming request data
+    useEffect(() => {
+      if (!AllMentorData?.data) return;
+  
+      if (page === 1) setAllTutors(AllMentorData.data);
+      else setAllTutors(prev => [
+        ...prev,
+        ...AllMentorData.data.filter((req: any) => !prev.some(p => p._id === req._id))
+      ]);
+    }, [AllMentorData, page]);
+  
+     // ✅ Cleanup observers
+    useEffect(() => {
+      return () => {
+        observerRef.current?.disconnect();
+      };
+    }, []);
+
   return (
-    <main className="min-h-screen flex flex-col lg:flex-row gap-6 p-4 sm:p-6 bg-gray-50">
-      {/* Left Filter Section */}
-      <aside className="w-full lg:w-1/4 bg-white p-4 rounded-2xl shadow-md h-fit sticky top-4">
-        <Filters
-          search={search}
-          setSearch={setSearch}
-          location={location}
-          setLocation={setLocation}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-        />
-      </aside>
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto px-4 ">
 
-      {/* Right Tutor List */}
-      <section className="flex-1">
-       
+        {/* ✅ CTA Section */}
+        <Card className="mb-8 p-0 border-2 border-gray-100 rounded-3xl overflow-hidden">
+          <CardContent className="p-12 text-center bg-gradient-to-br from-blue-50 to-purple-50">
+            <Zap className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Become a Mentor</h2>
+            <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+              Share your expertise and earn money while helping others grow. Join our community of expert mentors.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => setOpen(true)}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full px-10 shadow-lg"
+            >
+              Apply as Mentor
+            </Button>
+          </CardContent>
+        </Card>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex items-center justify-center h-40">
-            <Loader2 className="animate-spin text-gray-500" size={28} />
-            <span className="ml-2 text-gray-600">Loading tutors...</span>
-          </div>
-        )}
+        {/* ✅ Dialog for Tutor Form */}
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="rounded-3xl max-w-xl  max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-center text-xl font-semibold">Become a Tutor</DialogTitle>
+            </DialogHeader>
+            <BecomeTutorForm setOpen={setOpen} />
+          </DialogContent>
+        </Dialog>
 
-        {/* Error State */}
-        {error && !loading && (
-          <p className="text-red-500 text-center">{error}</p>
-        )}
+        {/* ✅ Search and Filter */}
+        <div className="flex justify-center items-center">
+          <form onSubmit={handleSubmit} className="relative w-full max-w-md">
+            <Input
+              type="text"
+              placeholder="Search by name, subject, location"
+              name="location"
+              className="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 bg-[#f8f8f8] hover:bg-white focus:border-gray-400 focus:ring-0 focus:outline-none shadow-sm transition-all"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              <Search size={18} />
+            </button>
+          </form>
+        </div>
 
-        {/* Tutors List */}
-        {!loading && !error && (
-          <>
-            {filteredTutors?.length === 0 ? (
-              <p className="text-gray-500">No tutors found...</p>
-            ) : (
-              <motion.div
-                layout
-                className="grid grid-cols-1  lg:grid-cols-2 gap-4"
-              >
-                {filteredTutors?.map((tutor) => (
-                  <TutorCard key={tutor._id} tutor={tutor} />
-                ))}
-              </motion.div>
-            )}
-          </>
-        )}
-      </section>
-    </main>
+        {/* ✅ Mentors Grid */}
+        <div className="grid grid-cols-1 pt-6 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {AllTutors.length > 0 ? (
+            AllTutors.map((tutor: any) => <TutorCard key={tutor._id} handleChatData={handleChatData} tutor={tutor} />)
+          ) : !TutorLoading ? (
+            <p className="col-span-full text-center text-gray-500">No Tutor Found</p>
+          ) : null}
+
+          {TutorLoading && Array.from({ length: limit }).map((_, i) => <PostLoading key={i} />)}
+        </div>
+
+        <div ref={setLoadMoreRef} className="h-40" />
+      </div>
+
+       {/* Chat Window */}
+            <div className="fixed bottom-4 right-4 z-50 flex gap-2">
+              {chatData && (
+                <div className="relative">
+            <ChatCard user={chatData} setChatData={setChatData} />
+                
+                </div>
+              )}
+            </div>
+    </div>
   );
-}
+};
+
+export default Mentors;

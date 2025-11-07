@@ -6,7 +6,7 @@ import { baseApi } from '@/redux/baseApi';
 
 interface getchallengeResponse {
   data: IChallenge[];
-  meta: { total: number };
+  meta: { total: number; page: number; limit: number; totalPage: number };
   message: string;
   success: boolean;
 }
@@ -29,15 +29,32 @@ interface createchallengeDayResponse {
 
 export const challengeApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getchallenges: builder.query<
-      getchallengeResponse,
-      { pageId: string }
-    >({
+    getchallenges: builder.query<getchallengeResponse, { pageId: string }>({
       query: ({ pageId }) => ({
         url: `/challenge?createdBy=${pageId}`,
         method: 'GET',
       }),
-      providesTags:  [ 'CHALLENGE' ],
+      providesTags: ['CHALLENGE'],
+    }),
+
+    getAllChallenges: builder.query<
+      getchallengeResponse,
+      { page: number; limit: number; searchTerm?: string }
+    >({
+      query: ({ page, limit, searchTerm }) => ({
+        url: `/challenge?page=${page}&limit=${limit}&searchTerm=${searchTerm}`,
+        method: 'GET',
+      }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: 'CHALLENGE' as const,
+                id: _id,
+              })), // individual items
+              { type: 'CHALLENGE' as const, id: 'CHALLENGE_LIST' }, // full list tag
+            ]
+          : [{ type: 'CHALLENGE' as const, id: 'CHALLENGE_LIST' }],
     }),
 
     // Create challenge
@@ -55,12 +72,12 @@ export const challengeApi = baseApi.injectEndpoints({
 
     createChallengeDay: builder.mutation<
       createchallengeDayResponse,
-      {  payload: FormData }
+      { payload: FormData }
     >({
       query: ({ payload }) => ({
         url: `/challenge/create-day`,
         method: 'POST',
-        data: payload ,
+        data: payload,
       }),
       invalidatesTags: ['CHALLENGE'],
     }),
@@ -100,4 +117,5 @@ export const {
   useCreateChallengeDayMutation,
   useRemoveChallengeMutation,
   useUpdatechallengeMutation,
+  useGetAllChallengesQuery
 } = challengeApi;

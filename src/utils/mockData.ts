@@ -158,7 +158,7 @@ export const mockMentors = [
     experience: '15+ years',
     rating: 4.9,
     students: 450,
-    rate: '$150/hr',
+    rate: '$150',
   },
   {
     id: '2',
@@ -169,7 +169,7 @@ export const mockMentors = [
     experience: '12+ years',
     rating: 4.8,
     students: 320,
-    rate: '$120/hr',
+    rate: '$120',
   },
   {
     id: '3',
@@ -180,7 +180,7 @@ export const mockMentors = [
     experience: '10+ years',
     rating: 4.9,
     students: 280,
-    rate: '$100/hr',
+    rate: '$100',
   },
 ];
 

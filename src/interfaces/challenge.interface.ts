@@ -1,4 +1,5 @@
 import { CHALLENGE_CATEGORY, CHALLENGE_STATUS } from "@/constants/challenge.constant";
+import { IUser } from "./user.interface";
 
 export interface IChallengeVideo {
   fileName: string;
@@ -34,11 +35,13 @@ export interface IChallenge {
   description?: string;
   category: CHALLENGE_CATEGORY;
   durationDays: number;
-  createdBy: string;
-  startsAt: Date;
-  endsAt?: Date;
+  createdBy: IUser;
+  startsAt: string;
+  endsAt?: string;
   ratings: number;
   isPublic: boolean;
   status: CHALLENGE_STATUS;
   banner?: string;
+  createdAt: string;
+  participantCount:number
 }

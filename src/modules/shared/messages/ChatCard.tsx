@@ -25,7 +25,7 @@ import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 
 import  TextareaAutosize from 'react-textarea-autosize'
 
-export default function ChatCard({ user: selectedUser }: any) {
+export default function ChatCard({ user: selectedUser, setChatData }: any) {
   const { data: userMe } = useUserInfoQuery(undefined) as any;
   const [images, setImage] = useState<(File | FileMetadata)[] | []>([]);
   const { data: messages } = useGetMessageQuery(
@@ -90,7 +90,7 @@ export default function ChatCard({ user: selectedUser }: any) {
         <div className="flex items-center gap-2 text-muted-foreground">
           <Phone className="w-4 h-4 cursor-pointer" />
           <Video className="w-4 h-4 cursor-pointer" />
-          <X className="w-4 h-4 cursor-pointer" />
+          <X className="w-4 h-4 cursor-pointer" onClick={() => setChatData(null)} />
         </div>
       </div>
 

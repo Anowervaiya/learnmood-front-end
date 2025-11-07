@@ -1,5 +1,8 @@
+import { IUser } from "./user.interface";
+
 export interface IMentor {
   _id: string;
+  userId: IUser;
   bio: string;
   subject: string[];
   experienceYears: number;

@@ -2,19 +2,15 @@ import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
-export default function ChallengeSearchBar({ search, setSearch, onSearch }: any) {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(search)
-  }
+export default function ChallengeSearchBar({  handleSubmit }: any) {
+
 
   return (
     <form onSubmit={handleSubmit} className="relative w-full max-w-md">
       <Input
         type="text"
+        name="search"
         placeholder="Search challenges..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
         className="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 bg-[#f8f8f8] hover:bg-white focus:border-gray-400 focus:ring-0 focus:outline-none shadow-sm transition-all"
       />
       <button
