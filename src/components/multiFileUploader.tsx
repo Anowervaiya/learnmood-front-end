@@ -28,32 +28,11 @@ const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
 
   if (
     fileType.includes("pdf") ||
-    fileName.endsWith(".pdf") ||
-    fileType.includes("word") ||
-    fileName.endsWith(".doc") ||
-    fileName.endsWith(".docx")
+    fileName.endsWith(".pdf") 
+   
   ) {
     return <FileTextIcon className="size-4 opacity-60" />
-  } else if (
-    fileType.includes("zip") ||
-    fileType.includes("archive") ||
-    fileName.endsWith(".zip") ||
-    fileName.endsWith(".rar")
-  ) {
-    return <FileArchiveIcon className="size-4 opacity-60" />
-  } else if (
-    fileType.includes("excel") ||
-    fileName.endsWith(".xls") ||
-    fileName.endsWith(".xlsx")
-  ) {
-    return <FileSpreadsheetIcon className="size-4 opacity-60" />
-  } else if (fileType.includes("video/")) {
-    return <VideoIcon className="size-4 opacity-60" />
-  } else if (fileType.includes("audio/")) {
-    return <HeadphonesIcon className="size-4 opacity-60" />
-  } else if (fileType.startsWith("image/")) {
-    return <ImageIcon className="size-4 opacity-60" />
-  }
+  } 
   return <FileIcon className="size-4 opacity-60" />
 }
 
@@ -75,6 +54,7 @@ export default function MultiFileUploader({setFiles , ref}: any) {
     },
   ] = useFileUpload({
     multiple: true,
+    accept:'.pdf',
     maxFiles,
     maxSize,
      })
@@ -132,7 +112,7 @@ export default function MultiFileUploader({setFiles , ref}: any) {
             Drag & drop or click to browse
           </p>
           <div className="flex flex-wrap justify-center gap-1 text-xs text-muted-foreground/70">
-            <span>All files</span>
+            <span>.pdf </span>
             <span>∙</span>
             <span>Max {maxFiles} files</span>
             <span>∙</span>
@@ -202,19 +182,6 @@ export default function MultiFileUploader({setFiles , ref}: any) {
         </div>
       )}
 
-      <p
-        aria-live="polite"
-        role="region"
-        className="mt-2 text-center text-xs text-muted-foreground"
-      >
-        Multiple files uploader w/ list ∙{" "}
-        <a
-          href="https://github.com/cosscom/coss/blob/main/apps/origin/docs/use-file-upload.md"
-          className="underline hover:text-foreground"
-        >
-          API
-        </a>
-      </p>
     </div>
   )
 }

@@ -16,7 +16,6 @@ const challengeSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(10),
   category: z.string().min(1),
-  status: z.string().min(1),
   isPublic: z.boolean(),
   startsAt: z.string().min(1),
   durationDays: z.number().min(1),
@@ -24,27 +23,33 @@ const challengeSchema = z.object({
 
 export type ChallengeFormValues = z.infer<typeof challengeSchema>;
 
-function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
+function CreateChallengeForm({ handleNext, setChallengeBanner, submitting }: any) {
   const form = useForm<ChallengeFormValues>({
     resolver: zodResolver(challengeSchema),
     defaultValues: {
       title: "",
       description: "",
       category: "",
-      status: '',
       startsAt: "",
-      durationDays: 0,
+      durationDays: undefined,
       isPublic: true,
     },
   });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleNext)} className="space-y-6 mt-4">
-        <h2 className="text-xl font-semibold">Create Your Challenge</h2>
+      <form
+        onSubmit={form.handleSubmit(handleNext)}
+        className="space-y-8  bg-gradient-to-b mb-8 p-8 rounded-2xl shadow-md border "
+      >
+        <h2 className="text-2xl font-bold   text-center mb-6">
+          🚀 Create Your Challenge
+        </h2>
+
         {/* Media Upload */}
         <div>
-          <FormLabel className={'mb-2'}>Challenge Banner / Media</FormLabel>
-          {/* <BannerImageUploader setImage={setChallengeBanner} /> */}
+          <FormLabel className="mb-2   font-semibold">
+            Challenge Banner / Media
+          </FormLabel>
           <BannerImageUploader setImage={setChallengeBanner} />
         </div>
 
@@ -54,9 +59,13 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel className="  font-medium">Title</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. 5-Day Fitness Challenge" {...field} />
+                <Input
+                  placeholder="e.g. 5-Day Fitness Challenge"
+                  {...field}
+                  className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -69,27 +78,30 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className="  font-medium">Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Write a short description about your challenge..." {...field} />
+                <Textarea
+                  placeholder="Write a short description about your challenge..."
+                  {...field}
+                  className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70 min-h-[100px]"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="flex  gap-4 items-center">
+        <div className="flex gap-6 justify-between items-center">
           {/* Category */}
-
           <FormField
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
+              <FormItem >
+                <FormLabel className="  font-medium">Category</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="  focus:ring-blue-400 focus:border-blue-500 bg-white/70">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
@@ -106,17 +118,16 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
             )}
           />
 
-          {/* Challenge Status */}
-
+          {/* Status
           <FormField
             control={form.control}
             name="status"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
+              <FormItem className="flex-1">
+                <FormLabel className="  font-medium">Status</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="  focus:ring-blue-400 focus:border-blue-500 bg-white/70">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
@@ -131,20 +142,21 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
                 <FormMessage />
               </FormItem>
             )}
-          />
-
-        </div>
-
-
+          /> */}
+      
         {/* Start Date */}
         <FormField
           control={form.control}
           name="startsAt"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Start Date</FormLabel>
+              <FormLabel className="  font-medium">Start Date</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input
+                  type="date"
+                  {...field}
+                  className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -157,31 +169,32 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
           name="durationDays"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Duration (days)</FormLabel>
+              <FormLabel className="  font-medium">Duration (days)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
-                  min={1}
+                 
                   {...field}
+                  placeholder="Duration days"
                   onChange={(e) => field.onChange(Number(e.target.value))}
+                  className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
-
-
-
+        </div>
 
         {/* Public / Private */}
         <FormField
           control={form.control}
           name="isPublic"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel>Make Public?</FormLabel>
+            <FormItem className="flex items-center justify-between bg-blue-50 px-4 py-2 rounded-lg border border-blue-100">
+              <FormLabel className="  font-semibold">
+                Make Public?
+              </FormLabel>
               <FormControl>
                 <Switch checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
@@ -189,12 +202,19 @@ function CreateChallengeForm({ handleNext, setChallengeBanner }: any) {
           )}
         />
 
-
+        {/* Submit Button */}
         <div className="flex justify-end">
-          <Button type="submit">Next</Button>
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md px-6 py-2 rounded-lg transition-all"
+          >
+            {submitting ? "Submitting..." : "Submit"}
+          </Button>
         </div>
       </form>
     </Form>
+
   )
 }
 

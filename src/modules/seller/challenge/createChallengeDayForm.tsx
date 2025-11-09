@@ -39,10 +39,11 @@ function CreateChallengeDayForm({ submitDay, durationDays, currentDay, setDayVid
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-6 mt-4"
+        className="space-y-6 mb-8 bg-white shadow-lg border border-gray-200 rounded-2xl p-6 transition-all duration-300"
       >
-        <h2 className="text-lg font-semibold">
-          Day {currentDay} of {durationDays}
+        {/* Header */}
+        <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">
+          Day { currentDay<=durationDays ? currentDay :( currentDay-1 )} of {durationDays}
         </h2>
 
         {/* Title */}
@@ -51,9 +52,13 @@ function CreateChallengeDayForm({ submitDay, durationDays, currentDay, setDayVid
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Title</FormLabel>
               <FormControl>
-                <Input placeholder={`Day ${currentDay} Title`} {...field} />
+                <Input
+                  placeholder={`Day ${currentDay} Title`}
+                  {...field}
+                  className="bg-white border-gray-300 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-lg"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,39 +71,49 @@ function CreateChallengeDayForm({ submitDay, durationDays, currentDay, setDayVid
           name="article"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Article / Notes</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Article</FormLabel>
               <FormControl>
-                <Textarea placeholder={`Day ${currentDay} article`} {...field} />
+                <Textarea
+                  placeholder={`Day ${currentDay} article`}
+                  {...field}
+                  className="bg-white border-gray-300 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-lg min-h-[120px]"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        
-        <MultiFileUploader setFiles={setDayNotes} ref={fileUploaderRef} />
-        <MultiVideoUploader
-          ref={videoUploaderRef} 
-          setVideos={setDayVideos}
-        />
 
+        {/* Notes */}
+        <div>
+          <FormLabel className="text-gray-700 font-medium">Notes</FormLabel>
+          <div className="border border-dashed border-gray-300 p-4 rounded-lg hover:border-blue-400 transition-all duration-300 bg-gray-50/50">
+            <MultiFileUploader setFiles={setDayNotes} ref={fileUploaderRef} />
+          </div>
+        </div>
 
+        {/* Videos */}
+        <div>
+          <FormLabel className="text-gray-700 font-medium">Videos</FormLabel>
+          <div className="border border-dashed border-gray-300 p-4 rounded-lg hover:border-blue-400 transition-all duration-300 bg-gray-50/50">
+            <MultiVideoUploader ref={videoUploaderRef} setVideos={setDayVideos} />
+          </div>
+        </div>
 
-        <div className="flex justify-between">
-          {currentDay > 1 && (
-            <Button
-              variant="outline"
-              type="button"
-              onClick={() => setCurrentDay(currentDay - 1)}
-            >
-              Previous Day
-            </Button>
-          )}
-          <Button type="submit" disabled={submitting}>
+        {/* Submit Button */}
+        <div className="flex justify-end mt-6">
+          <Button
+            type="submit"
+            disabled={submitting || currentDay>durationDays}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md transition-all duration-300"
+          >
             {submitting ? "Submitting..." : "Submit Day"}
           </Button>
         </div>
       </form>
     </Form>
+
+
   )
 }
 

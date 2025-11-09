@@ -25,7 +25,7 @@ export default function CreateChallenge() {
 
  
   const handleNext = async (data: ChallengeFormValues) => {
-   
+    setSubmitting(true);
     const payload = { 
       createdBy: pageId,
       ...data
@@ -38,7 +38,7 @@ export default function CreateChallenge() {
     }
     try {
       const res = await createChallenge({ payload: formData }).unwrap();
-      console.log(res)
+     
       if (res.success) {
 
         toast.success("Challenge created!");
@@ -49,6 +49,9 @@ export default function CreateChallenge() {
     } catch (err) {
       console.error(err);
       toast.error("Failed to create challenge");
+    }
+    finally {
+      setSubmitting(false);
     }
   };
 
@@ -79,11 +82,13 @@ export default function CreateChallenge() {
         toast.success(`Day ${currentDay} submitted!`);
         setDayVideos([]);
         setDayNotes([])
-        setCurrentDay(currentDay + 1);
-        if (currentDay > durationDays) {
-          router.push(`/page/${pageId}`)
+      
+         setCurrentDay(currentDay + 1);
+        
+        if (currentDay === durationDays) {
+          console.log('hello' , currentDay, durationDays)
+           window.location.href = `/challenge/${challengeId}`;
         }
-     
         
       }
 
@@ -104,6 +109,7 @@ export default function CreateChallenge() {
         <CreateChallengeForm
           handleNext={handleNext}
           setChallengeBanner={setChallengeBanner}
+          submitting={submitting}
         />
       )}
 

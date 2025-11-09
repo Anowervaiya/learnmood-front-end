@@ -31,8 +31,8 @@ export default function MultiVideoUploader({ setVideos ,ref }:any ) {
 
      useEffect(() => {
        if (files.length > 0) {
-         const imageList = files.map(item => item.file);
-         setVideos(imageList);
+         const videoList = files.map(item => item.file);
+         setVideos(videoList);
        } else {
          setVideos([]);
        }

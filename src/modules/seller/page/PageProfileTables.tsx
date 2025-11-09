@@ -76,9 +76,11 @@ const PageProfileTabs =  ({ pageData }: { pageData: IPage }) =>{
       {/* 🔹 CHALLENGE TAB */}
       <TabsContent value="challenge">
         <div>
-          <h2 className="font-bold text-lg mb-2">Challenge</h2>
-          <Link href={`/page/challenge?pageId=${pageData._id}`} className="flex items-center gap-2">
-            <PlusIcon size={16} className="opacity-60" />
+          <Link
+            href={`/page/challenge?pageId=${pageData._id}`}
+            className="inline-flex items-center w-full gap-2 px-4 py-2  hover:bg-blue-700 hover:text-white font-medium rounded-xl shadow-md transition-all duration-300 hover:shadow-lg active:scale-95"
+          >
+            <PlusIcon size={18} className="opacity-90" />
             <span>Create Challenge</span>
           </Link>
 
