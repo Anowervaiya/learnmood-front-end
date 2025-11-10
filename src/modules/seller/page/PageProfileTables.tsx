@@ -26,20 +26,20 @@ import { useUserInfoQuery } from "@/redux/api/auth/auth.api"
 import ProfileFeed from "@/modules/user/profile/ProfileFeed"
 import { IPage } from "@/interfaces/page.interface"
 import Link from "next/link"
-import ChallengeCard from "../challenge/challengeCard"
+import ChallengeCard from "../../user/challenge/challengeCard"
 import { useEffect, useState } from "react"
 import { useGetchallengesQuery } from "@/redux/api/challenge/challenge.api"
 import { IChallenge } from "@/interfaces/challenge.interface"
 
 
-const PageProfileTabs =  ({ pageData }: { pageData: IPage }) =>{
+const PageProfileTabs = ({ pageData }: { pageData: IPage }) => {
   const [activeTab, setActiveTab] = useState("posts");
 
-  const { data: challenges  , refetch: refetchChallenges, isLoading: loadingChallenge } = useGetchallengesQuery(
+  const { data: challenges, refetch: refetchChallenges, isLoading: loadingChallenge } = useGetchallengesQuery(
     { pageId: pageData._id },
     { skip: activeTab !== 'challenge' }
   )
- 
+
   return (
     <Tabs defaultValue="posts" onValueChange={setActiveTab} className="w-full">
       {/* Tabs List */}
@@ -69,7 +69,7 @@ const PageProfileTabs =  ({ pageData }: { pageData: IPage }) =>{
 
       {/* 🔹 ABOUT TAB */}
       <TabsContent value="about">
-       
+
         this is about tabs
       </TabsContent>
 
@@ -88,7 +88,7 @@ const PageProfileTabs =  ({ pageData }: { pageData: IPage }) =>{
             <p className="mt-6 text-muted-foreground text-sm">Loading challenges...</p>
           ) : challenges?.data?.length! > 0 ? (
             <div className="grid sm:grid-cols-2  gap-2 mt-6">
-              {challenges?.data?.map((item : IChallenge) => (
+              {challenges?.data?.map((item: IChallenge) => (
                 <ChallengeCard key={item._id} challenge={item} />
               ))}
             </div>
@@ -100,20 +100,20 @@ const PageProfileTabs =  ({ pageData }: { pageData: IPage }) =>{
 
       {/* 🔹 SERVICE TAB */}
       <TabsContent value="service">
-       
-          <p className="text-muted-foreground text-sm mt-3">
-            List of services will be displayed here.
-          </p>
-       
+
+        <p className="text-muted-foreground text-sm mt-3">
+          List of services will be displayed here.
+        </p>
+
       </TabsContent>
 
       {/* 🔹 COURSE TAB */}
       <TabsContent value="course">
-       
-          <p className="text-muted-foreground text-sm mt-3">
-            List of courses will be displayed here.
-          </p>
-    
+
+        <p className="text-muted-foreground text-sm mt-3">
+          List of courses will be displayed here.
+        </p>
+
       </TabsContent>
     </Tabs>
 

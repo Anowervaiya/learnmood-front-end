@@ -5,8 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { IChallenge } from "@/interfaces/challenge.interface"
 import { useGetAllChallengesQuery } from "@/redux/api/challenge/challenge.api"
 import PostLoading from "@/modules/shared/home/mainFeed/PostLoading"
-import ChallengeSearchBar from "@/modules/seller/challenge/challengeSearchBar"
-import ChallengeCard from "@/modules/seller/challenge/challengeCard"
+import ChallengeSearchBar from "@/modules/user/challenge/challengeSearchBar"
+import ChallengeCard from "@/modules/user/challenge/challengeCard"
 
 
 
@@ -64,31 +64,31 @@ export default function ChallengesPage() {
 
   return (
     <main className="px-6 py-4 w-full max-w-7xl mx-auto">
-      
-     
-  
-        <div className="flex items-center justify-center w-full mb-6">
-          {/* 🔍 YouTube-style searchbar */}
-          <ChallengeSearchBar search={search} setSearch={setSearch} handleSubmit={handleSubmit} />
 
-  
-        </div>
 
-        {/* 📦 Challenge Grid */}
-        <div className="grid gap-y-5 gap-x-3 sm:grid-cols-2 lg:grid-cols-3">
-          {AllChallenge.length > 0 ? (
-            AllChallenge.map((challenge: IChallenge) => (
-              <ChallengeCard key={challenge._id} challenge={challenge} />
-            ))
-          ) : (!isFetching &&
-            <p className="text-center col-span-full  text-gray-500 mt-8 w-full">
-              No challenges found.
-            </p>
-          )}
-          {isFetching && Array.from({ length: limit }).map((_, i) => <PostLoading key={i} />)}
 
-        </div>
-        <div ref={setLoadMoreRef} className="h-40" />
+      <div className="flex items-center justify-center w-full mb-6">
+        {/* 🔍 YouTube-style searchbar */}
+        <ChallengeSearchBar search={search} setSearch={setSearch} handleSubmit={handleSubmit} />
+
+
+      </div>
+
+      {/* 📦 Challenge Grid */}
+      <div className="grid gap-y-5 gap-x-3 sm:grid-cols-2 lg:grid-cols-3">
+        {AllChallenge.length > 0 ? (
+          AllChallenge.map((challenge: IChallenge) => (
+            <ChallengeCard key={challenge._id} challenge={challenge} />
+          ))
+        ) : (!isFetching &&
+          <p className="text-center col-span-full  text-gray-500 mt-8 w-full">
+            No challenges found.
+          </p>
+        )}
+        {isFetching && Array.from({ length: limit }).map((_, i) => <PostLoading key={i} />)}
+
+      </div>
+      <div ref={setLoadMoreRef} className="h-40" />
 
     </main>
   )

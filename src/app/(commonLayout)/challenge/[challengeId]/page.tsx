@@ -1,5 +1,11 @@
-import ChallengeContent from "@/modules/seller/challenge/ChallengeContent";
-import ChallengeDaysAccordion from "@/modules/seller/challenge/ChallengeDaysAccordion";
+
+import { ChallengeContent } from "@/modules/user/challenge/ChallengeContent";
+import { ChallengeDescription } from "@/modules/user/challenge/ChallengeDescription";
+import { PricingCard } from "@/modules/user/challenge/PriicingCard";
+import { ReviewsSection } from "@/modules/user/challenge/ReviewSection";
+import { SimilarChallenge } from "@/modules/user/challenge/SimilarChallenge";
+import { VideoMetadata } from "@/modules/user/challenge/VideoMetaData";
+import { VideoPlayer } from "@/modules/user/challenge/VideoPlayer";
 
 interface ChallengeDetailsPageProps {
   params: { challengeId: string };
@@ -12,22 +18,32 @@ const ChallengeDetailsPage = async ({ params }: ChallengeDetailsPageProps) => {
   const { data } = await res.json();
 
   return (
-    <div className="w-full p-6 space-y-8">
-      <div className="grid grid-cols-3 gap-8 ">
-        {/* Left side: Banner + Description + Dynamic content */}
-        <div className=" col-span-2 space-y-6">
-          <ChallengeContent challenge={data.challenge} days={data.days} />
-        </div>
+    <div className="min-h-screen bg-background">
+      
 
-        {/* Right side: Accordion */}
-        <div className="col-span-1">
-          <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
-            Challenge Days ({data?.days?.length})
-          </h2>
+      <div className="container px-4">
 
-          <ChallengeDaysAccordion days={data.days} />
+        
+
+      
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Left Column - Video & Content */}
+          <div className="lg:col-span-2 space-y-6">
+            <VideoPlayer />
+            <VideoMetadata/>
+            <ChallengeDescription />
+            <ChallengeContent />
+            <ReviewsSection />
+          </div>
+
+          {/* Right Column - Course Overview & Similar Courses */}
+          <div className="lg:col-span-1 space-y-6">
+            <PricingCard />
+            <SimilarChallenge />
+          </div>
         </div>
       </div>
+
     </div>
   );
 };
