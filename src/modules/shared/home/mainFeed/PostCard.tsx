@@ -28,7 +28,7 @@ import { Share } from 'lucide-react';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
 const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'POST' },
+  const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'Post' },
     // { skip: !showComment }
   )
   const handleComment = () => {
@@ -147,7 +147,7 @@ const [showReactions, setShowReactions] = useState(false);
             {/* Comment input  */}
             {showComment && (
               <div className='col-span-3'>
-                <CommentInitialInputButton entityId={post?._id as string} entityType={'POST'} />
+                <CommentInitialInputButton entityId={post?._id as string} entityType={'Post'} />
                 <div>
                   {AllComments?.data?.map((comment: IComment) => (<CommentCard key={comment?._id} comment={comment} />))}
                 </div>

@@ -1,8 +1,8 @@
-export const VideoPlayer = () => {
+export const VideoPlayer = ({video} : {video: string}) => {
   return (
     <div className="relative aspect-video bg-muted overflow-hidden rounded-lg">
       <img
-        src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&auto=format&fit=crop"
+        src={video}
         alt="Course preview"
         className="w-full h-full object-cover"
       />

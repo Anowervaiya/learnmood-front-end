@@ -32,10 +32,10 @@ export enum ReactType {
 }
 
 export enum EntityType {
-  POST = 'POST',
-  CHALLENGE = 'CHALLENGE',
-  STORY = 'STORY',
-  SERVICE = 'SERVICE',
+  Post = 'Post',
+  Challenge = 'Challenge',
+  Story = 'Story',
+  Service = 'Service',
 }
 export enum MEDIA_TYPE {
   image = 'image',

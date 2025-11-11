@@ -1,87 +1,126 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlayCircle, FileText, Clock } from "lucide-react";
+import { PlayCircle, FileText, LinkIcon, Clock, FileTextIcon, FileIcon } from "lucide-react";
+import { IChallengeDay } from "@/interfaces/challenge.interface";
+import Link from "next/link";
 
-const sections = [
-  {
-    title: "Introduction to Contract Law",
-    lectures: 5,
-    duration: "42min",
-    items: [
-      { title: "Welcome to the course", type: "video", duration: "2:45" },
-      { title: "Course overview", type: "video", duration: "5:30" },
-      { title: "What is a contract?", type: "video", duration: "12:15" },
-      { title: "Essential elements", type: "video", duration: "15:20" },
-      { title: "Section quiz", type: "quiz", duration: "6:10" }
-    ]
-  },
-  {
-    title: "Contract Formation",
-    lectures: 8,
-    duration: "1hr 15min",
-    items: [
-      { title: "Offer and acceptance", type: "video", duration: "18:30" },
-      { title: "Consideration", type: "video", duration: "14:25" }
-    ]
-  },
-  {
-    title: "Contract Terms and Interpretation",
-    lectures: 6,
-    duration: "58min",
-    items: []
-  }
-];
-
-export const ChallengeContent = () => {
+export const ChallengeContent = ({ days }: { days: IChallengeDay[] }) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-2xl">Course content</CardTitle>
+    <div>
+      {/* Header */}
+      <div className="mb-4">
+        <h1 className="text-xl font-bold">Course content</h1>
         <p className="text-sm text-muted-foreground">
-          19 sections • 127 lectures • 21h 2m total length
+          {days.length} days •{" "}
+          {days.reduce((acc, d) => acc + (d.video?.length || 0), 0)} videos •{" "}
+          {days.reduce((acc, d) => acc + (d.notes?.length || 0), 0)} notes
         </p>
-      </CardHeader>
-      <CardContent>
+      </div>
+
+      {/* Accordion */}
+      <div className="border px-4 bg-gray-50 py-1 rounded-lg">
         <Accordion type="single" collapsible className="w-full">
-          {sections.map((section, index) => (
-            <AccordionItem key={index} value={`section-${index}`}>
+          {days.map((day, index) => (
+            <AccordionItem key={day._id || index} value={`section-${index}`}>
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center justify-between w-full pr-4">
-                  <span className="font-semibold text-left">{section.title}</span>
+                  <span className="font-semibold text-left">
+                    {day.title}
+                  </span>
                   <span className="text-sm text-muted-foreground">
-                    {section.lectures} lectures • {section.duration}
+                    {(day.video?.length || 0) + (day.notes?.length || 0) + (day.article ? 1 : 0)} items
                   </span>
                 </div>
               </AccordionTrigger>
+
               <AccordionContent>
-                <div className="space-y-2 pl-4">
-                  {section.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center justify-between py-2 text-sm">
-                      <div className="flex items-center gap-2">
-                        {item.type === "video" ? (
-                          <PlayCircle className="h-4 w-4" />
-                        ) : (
-                          <FileText className="h-4 w-4" />
-                        )}
-                        <span>{item.title}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Clock className="h-3 w-3" />
-                        <span className="text-xs">{item.duration}</span>
-                      </div>
+                <div className="space-y-3 pl-4">
+                  {/* 📖 Article */}
+                  {day.article && (
+                
+                    <div className="flex items-start gap-2 text-sm  pt-2 border-t mt-2">
+                      <FileText className="h-4 w-4 mt-1" />
+                      <span>Article</span>
                     </div>
-                  ))}
+                  
+                  )}
+                  {/* 🎬 Videos */}
+                  {day.video && day.video.length > 0 && (
+                    <div className="space-y-1">
+                      {day.video.map((v, vIndex) => (
+                        <div
+                          key={vIndex}
+                          className="flex items-center justify-between py-1 text-sm"
+                        >
+                          <div className="flex items-center gap-2">
+                            <PlayCircle className="h-4 w-4 text-primary" />
+                            <span>{v.fileName}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <Clock className="h-3 w-3" />
+                            <span className="text-xs">Video</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 📝 Notes */}
+                  {day.notes && day.notes.length > 0 && (
+                    <div className="space-y-1">
+                      {day.notes.map((note, nIndex) => (
+                        <div
+                          key={nIndex}
+                          className="flex items-center gap-2 text-sm py-1"
+                        >
+                          <LinkIcon className="h-4 w-4 " />
+                          <a
+                            href={note}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=" "
+                          >
+                            Note {nIndex + 1}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* 📝 Notes */}
+                  {day.notes && day.notes.length > 0 && (
+                    <div className="space-y-1">
+                   
+                        <div
+                       
+                          className="flex items-center gap-2 text-sm py-1"
+                        >
+                          <FileIcon className="h-4 w-4 " />
+                          <a
+                            href={"#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=" "
+                          >
+                            Quiz
+                          </a>
+                        </div>
+                   
+                    </div>
+                  )}
+
+                
                 </div>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

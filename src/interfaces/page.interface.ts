@@ -9,6 +9,7 @@ export interface IPage {
   category: PAGE_CATEGORY;
   image?: IImage;
   isPublic: boolean;
+  followersCount: number;
 }
 
 export interface IPageMember {

@@ -20,6 +20,7 @@ export interface IArticle {
 }
 
 export interface IChallengeDay {
+  _id?: string;
   challengeId: string;
   dayNumber: number;
   title: string;
