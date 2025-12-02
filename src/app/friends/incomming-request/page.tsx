@@ -1,5 +1,5 @@
 'use client'
-import IncomingFriendCard from '@/modules/shared/friends/IncommingFriendCard';
+import IncomingFriendCard from '@/components/modules/shared/friends/IncommingFriendCard';
 
 import { useIncommingFriendRequestQuery } from '@/redux/api/user/user.api';
 import React from 'react';

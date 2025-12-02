@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { IMentor } from '@/interfaces/mentor.interface';
-import PostLoading from '@/modules/shared/home/mainFeed/PostLoading';
-import TutorCard from '@/modules/user/tutor/TutorCard';
+import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
+import TutorCard from '@/components/modules/user/tutor/TutorCard';
 import { useAllMentorQuery } from '@/redux/api/mentor/mentor.api';
 import { Zap, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
-import BecomeTutorForm from '@/modules/user/become-tutor-form/BecomeTutorForm';
+import BecomeTutorForm from '@/components/modules/user/become-tutor-form/BecomeTutorForm';
 import { toast } from 'sonner';
-import { IChat } from '@/modules/shared/layout/Navbar';
-import ChatCard from '@/modules/shared/messages/ChatCard';
+import { IChat } from '@/components/modules/shared/layout/Navbar';
+import ChatCard from '@/components/modules/shared/messages/ChatCard';
 
 
 const Mentors = () => {

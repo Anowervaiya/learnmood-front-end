@@ -1,7 +1,7 @@
-import AffiliateBoard from '@/modules/user/profile/AffiliateBoard';
-import Photos from '@/modules/user/profile/Photos';
-import ProfileCard from '@/modules/user/profile/ProfileCard';
-import { ProfileTabs } from '@/modules/user/profile/ProfileTabs';
+import AffiliateBoard from '@/components/modules/user/profile/AffiliateBoard';
+import Photos from '@/components/modules/user/profile/Photos';
+import ProfileCard from '@/components/modules/user/profile/ProfileCard';
+import { ProfileTabs } from '@/components/modules/user/profile/ProfileTabs';
 import Image from 'next/image';
 import React from 'react'
 

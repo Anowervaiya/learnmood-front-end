@@ -21,7 +21,7 @@ import {
   Twitter,
   Mail,
 } from "lucide-react"
-import CreatePostModal from "@/modules/shared/home/mainFeed/CreatePostModal"
+import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import { useUserInfoQuery } from "@/redux/api/auth/auth.api"
 import ProfileFeed from "./ProfileFeed"
 import { IUser } from "@/interfaces/user.interface"

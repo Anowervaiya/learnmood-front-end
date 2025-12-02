@@ -21,9 +21,9 @@ import {
   Mail,
   PlusIcon,
 } from "lucide-react"
-import CreatePostModal from "@/modules/shared/home/mainFeed/CreatePostModal"
+import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import { useUserInfoQuery } from "@/redux/api/auth/auth.api"
-import ProfileFeed from "@/modules/user/profile/ProfileFeed"
+import ProfileFeed from "@/components/modules/user/profile/ProfileFeed"
 import { IPage } from "@/interfaces/page.interface"
 import Link from "next/link"
 import ChallengeCard from "../../user/challenge/challengeCard"

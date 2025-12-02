@@ -1,20 +1,20 @@
 'use client'
 
 import {Search } from 'lucide-react';
-import BloodHeroBanner from '@/modules/user/blood/bloodHeroBanner';
+import BloodHeroBanner from '@/components/modules/user/blood/bloodHeroBanner';
 import { useGetbloodDonorQuery, useGetbloodRequestQuery } from '@/redux/api/blood/blood.api';
 import {  IBloodRequest } from '@/interfaces/blood.interface';
 import { BLOOD_GROUP } from '@/constants/blood.constant';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect, useRef, useState } from 'react';
-import { IChat } from '@/modules/shared/layout/Navbar';
-import ChatCard from '@/modules/shared/messages/ChatCard';
+import { IChat } from '@/components/modules/shared/layout/Navbar';
+import ChatCard from '@/components/modules/shared/messages/ChatCard';
 import { IUser } from '@/interfaces/user.interface';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import PostLoading from '@/modules/shared/home/mainFeed/PostLoading';
-import BloodReqCard from '@/modules/user/blood/bloodReqCard';
-import BloodDonorCard from '@/modules/user/blood/bloodDonorCard';
+import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
+import BloodReqCard from '@/components/modules/user/blood/bloodReqCard';
+import BloodDonorCard from '@/components/modules/user/blood/bloodDonorCard';
 
 const Blood = () => {
   const [chatData, setChatData] = useState<IChat | null>(null);

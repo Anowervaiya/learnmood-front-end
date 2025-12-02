@@ -1,5 +1,5 @@
 'use client';
-import SendFriendCard from '@/modules/shared/friends/SendFriendCard';
+import SendFriendCard from '@/components/modules/shared/friends/SendFriendCard';
 import { useRecommendedFriendsQuery } from '@/redux/api/user/user.api';
 import React from 'react';
 

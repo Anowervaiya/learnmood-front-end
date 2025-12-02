@@ -1,8 +1,8 @@
 
-import PageProfileTabs from '@/modules/seller/page/PageProfileTables';
-import AffiliateBoard from '@/modules/user/profile/AffiliateBoard';
-import Photos from '@/modules/user/profile/Photos';
-import ProfileCard from '@/modules/user/profile/ProfileCard';
+import PageProfileTabs from '@/components/modules/seller/page/PageProfileTables';
+import AffiliateBoard from '@/components/modules/user/profile/AffiliateBoard';
+import Photos from '@/components/modules/user/profile/Photos';
+import ProfileCard from '@/components/modules/user/profile/ProfileCard';
 
 
 const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) => {

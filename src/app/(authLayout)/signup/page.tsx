@@ -1,7 +1,7 @@
 
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import SignUpForm from '@/modules/public/SignUpForm';
+import SignUpForm from '@/components/modules/public/SignUpForm';
 
 const SignUp=() =>{
   return (

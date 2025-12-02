@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IChallenge } from "@/interfaces/challenge.interface"
 import { useGetAllChallengesQuery } from "@/redux/api/challenge/challenge.api"
-import PostLoading from "@/modules/shared/home/mainFeed/PostLoading"
-import ChallengeSearchBar from "@/modules/user/challenge/challengeSearchBar"
-import ChallengeCard from "@/modules/user/challenge/challengeCard"
+import PostLoading from "@/components/modules/shared/home/mainFeed/PostLoading"
+import ChallengeSearchBar from "@/components/modules/user/challenge/challengeSearchBar"
+import ChallengeCard from "@/components/modules/user/challenge/challengeCard"
 
 
 

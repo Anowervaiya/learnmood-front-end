@@ -1,4 +1,4 @@
-import BecomeTutorForm from "@/modules/user/become-tutor-form/BecomeTutorForm"
+import BecomeTutorForm from "@/components/modules/user/become-tutor-form/BecomeTutorForm"
 
 function BecomeTutor() {
   return (

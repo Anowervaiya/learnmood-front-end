@@ -7,9 +7,9 @@ import { UserInfoResponse } from '@/interfaces/global.interfaces';
 
 import { useAllPostQuery, useMypostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
-import PostLoading from '@/modules/shared/home/mainFeed/PostLoading';
-import CreatePostModal from '@/modules/shared/home/mainFeed/CreatePostModal';
-import PostCard from '@/modules/shared/home/mainFeed/PostCard';
+import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
+import CreatePostModal from '@/components/modules/shared/home/mainFeed/CreatePostModal';
+import PostCard from '@/components/modules/shared/home/mainFeed/PostCard';
 import { IUser } from '@/interfaces/user.interface';
 import { skip } from 'node:test';
 import { IPost } from '@/interfaces/post.interface';

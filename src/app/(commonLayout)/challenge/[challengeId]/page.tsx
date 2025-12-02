@@ -1,11 +1,11 @@
 
-import { ChallengeContent } from "@/modules/user/challenge/ChallengeContent";
-import { ChallengeDescription } from "@/modules/user/challenge/ChallengeDescription";
-import { PricingCard } from "@/modules/user/challenge/PriicingCard";
-import { ReviewsSection } from "@/modules/user/challenge/ReviewSection";
-import { SimilarChallenge } from "@/modules/user/challenge/SimilarChallenge";
-import { VideoMetadata } from "@/modules/user/challenge/VideoMetaData";
-import { VideoPlayer } from "@/modules/user/challenge/VideoPlayer";
+import { ChallengeContent } from "@/components/modules/user/challenge/ChallengeContent";
+import { ChallengeDescription } from "@/components/modules/user/challenge/ChallengeDescription";
+import { PricingCard } from "@/components/modules/user/challenge/PriicingCard";
+import { ReviewsSection } from "@/components/modules/user/challenge/ReviewSection";
+import { SimilarChallenge } from "@/components/modules/user/challenge/SimilarChallenge";
+import { VideoMetadata } from "@/components/modules/user/challenge/VideoMetaData";
+import { VideoPlayer } from "@/components/modules/user/challenge/VideoPlayer";
 
 
 

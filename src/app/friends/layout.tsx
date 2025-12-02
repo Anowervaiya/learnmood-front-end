@@ -5,7 +5,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import Navbar from '@/modules/shared/layout/Navbar';
+import Navbar from '@/components/modules/shared/layout/Navbar';
 import React from 'react';
 
 export default function FriendsLayout({
