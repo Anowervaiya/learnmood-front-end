@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { loginUser } from "@/server/auth/login.server";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 
 
@@ -20,6 +21,14 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
       return null;
     }
   };
+
+  useEffect(() => {
+   
+    if (state && !state.success && state.message) {
+      toast.error(state.message);
+    }
+
+  }, [state]);
   
   return (
     <form action={formAction}>

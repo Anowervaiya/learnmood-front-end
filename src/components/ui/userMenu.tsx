@@ -17,26 +17,32 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { IPage } from '@/interfaces/page.interface';
 import Image from 'next/image';
+import { getCookie } from '@/utils/tokenHandlers';
+import { logoutUser } from '@/server/auth/logout';
+import { baseApi } from '@/redux/baseApi';
+import { useRouter } from 'next/navigation';
 
 
-export default function UserMenu({ myPages, data, navigationLinks }: any) {
+export default  function UserMenu({ myPages, data, navigationLinks }: any) {
+
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const [logout] = useLogoutMutation();
+  const handleLogout = async () => {
+    try {
+      // 1. Clear all RTK Query cache
+      dispatch(baseApi.util.resetApiState());
+      
+      // 2. Server-side logout (delete cookies)
+      await logoutUser();
+      
+      // 3. Use replace instead of href (cleaner history)
+     window.location.replace('/login') 
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
- const handleLogout = async () => {
-   try {
-   
-     await logout(undefined).unwrap();
-   
-     dispatch(authApi.util.resetApiState());
-     
-     toast.success('logout successful')
-       } catch (error : unknown) {
-     toast.error('Logout failed:');
-
-   }
- };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

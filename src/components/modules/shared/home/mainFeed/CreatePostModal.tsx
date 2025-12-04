@@ -1,5 +1,5 @@
 'use client';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -37,16 +37,14 @@ import { useState } from 'react';
 import MultiImgUploader from '@/components/MultiImgUploader';
 import { FileMetadata } from '@/hooks/use-file-upload';
 import { useCreatePostMutation } from '@/redux/api/post/post.api';
+import { IUser } from '@/interfaces/user.interface';
+import { fi } from 'zod/v4/locales';
 
-const CreatePostModal = ({ data }: UserInfoResponse) => {
+const CreatePostModal = ({ data }: {data:IUser}) => {
+const [isSubmit, setIsSubmit] = useState(false);
     const [open, setOpen] = useState(false);
-  // adjust import path if needed
   const [createPost] = useCreatePostMutation();
-
-  const router = useRouter();
   const [images, setImage] = useState<(File | FileMetadata)[] | []>([]);
-
-
   const form = useForm({
     defaultValues: {
       visibility: '',
@@ -55,6 +53,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async inputData => {
+    setIsSubmit(true);
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(inputData));
@@ -70,11 +69,13 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
       if ((res as { success?: boolean }).success) {
         // router.push('/');
         toast.success('post created successfully');
+        setIsSubmit(false);
         setOpen(false)
       }
     } catch (err: any) {
       toast.error(err?.data?.message);
     }
+    finally { setIsSubmit(false); }
   };
 
   return (
@@ -82,7 +83,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
       <DialogTrigger asChild>
         <div className="w-full text-start border  rounded-full p-1.5  bg-gray-100 hover:cursor-pointer ">
           <span className="pl-2 ">
-            Hey! {data?.data?.name?.split(' ')[0]}, Share Something Productive
+            Hey! {data?.name?.split(' ')[0]}, Share Something Productive
           </span>
         </div>
       </DialogTrigger>
@@ -99,12 +100,17 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
               </DialogTitle>
               <hr />
               <div className="flex gap-3 pt-2 items-center">
-                <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-                  <AvatarImage src={data?.data?.image?.profile} alt="User" />
-                </Avatar>
+                {data?.image?.profile ? (
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage  src={data?.image?.profile} className="object-cover" />
+                    <AvatarFallback className="text-lg">{data?.name}</AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <UserRoundPen className="w-10 h-10 rounded-full" />
+                )}
                 <div>
                   <h1 className="text-[14px] pb-1 font-semibold">
-                    {data?.data?.name}
+                    {data?.name}
                   </h1>
 
                   <FormField
@@ -114,7 +120,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
                       <FormItem>
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          defaultValue={VISIBILITY.PUBLIC}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -154,7 +160,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
                       <FormControl>
                         <Textarea
                           placeholder={`Hey! ${
-                            data?.data?.name?.split(' ')[0]
+                            data?.name?.split(' ')[0]
                           }, Share Something Productive`}
                           className="h-32 border-0 shadow-none  resize-none"
                           {...field}
@@ -166,24 +172,7 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
                   )}
                 />
               </div>
-              <div className="flex  gap-5">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="hover:cursor-pointer"
-                >
-                  {' '}
-                  <ImagePlus />
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="hover:cursor-pointer"
-                >
-                  {' '}
-                  <UserRoundPen />
-                </Button>
-              </div>
+            
             </div>
           </form>
           <MultiImgUploader onChange={setImage} />
@@ -199,8 +188,9 @@ const CreatePostModal = ({ data }: UserInfoResponse) => {
             className="hover:cursor-pointer"
             type="submit"
             form="create-post"
+            disabled={isSubmit}
           >
-            Post
+            {isSubmit ? 'Posting...' : 'Post'}
           </Button>
         </DialogFooter>
       </DialogContent>

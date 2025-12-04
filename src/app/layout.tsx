@@ -3,6 +3,8 @@ import './globals.css';
 
 import { Toaster } from '@/components/ui/sonner';
 import { ReduxProvider } from '@/redux/provider/provider';
+import LoginSuccessToast from '@/components/shared/LoginSuccessToast';
+import LogoutSuccessToast from '@/components/shared/LogoutSuccessToast';
 
 export const metadata: Metadata = {
   title: 'Learnmood',
@@ -17,9 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ReduxProvider>
-               <Toaster richColors />
           {children}
-         
+        <Toaster richColors />
+         <LoginSuccessToast />
+        <LogoutSuccessToast />
         </ReduxProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 'use client';
 
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Bell,
   Droplets,
@@ -24,6 +24,9 @@ import Link from 'next/link';
 import { ChatDropDown } from '../messages/ChatDropDown';
 import ChatCard from '../messages/ChatCard';
 import { useGetMyPagesQuery } from "@/redux/api/page/page.api";
+import { getUserInfo } from "@/server/user/user.server";
+import { IUser } from "@/interfaces/user.interface";
+import { getCookie } from "@/utils/tokenHandlers";
 type UserInfoResponse = {
   data?: {
     data?: {
@@ -51,12 +54,12 @@ export type IChat = {
   isOpen?: boolean;
 };
 
-function Navbar() {
+function Navbar({data}:{data?:IUser}) {
   const [openChat, setOpenChat] = useState<IChat[]>([]);
   const [isDark, setIsDark] = useState(false);
-  const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
-  const { data: myPages } = useGetMyPagesQuery(undefined);
-  
+
+  const { data: myPages} = useGetMyPagesQuery(undefined );
+
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
@@ -177,13 +180,9 @@ function Navbar() {
             <div className="flex items-center gap-4">
               {/* User menu */}
 
-              {data?.data?.email ? (
-                <UserMenu myPages={myPages!?.data} navigationLinks={navigationLinks} data={data?.data} />
-              ) : (
-                <Button variant={'ghost'}>
-                  <Link href={'/login'}>Login</Link>
-                </Button>
-              )}
+            {data &&  (
+                <UserMenu myPages={myPages?.data} navigationLinks={navigationLinks} data={data} />
+            )}
             </div>
           </div>
         </div>

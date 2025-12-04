@@ -20,13 +20,16 @@ import {
   Linkedin,
   Twitter,
   Mail,
+  User,
 } from "lucide-react"
 import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import { useUserInfoQuery } from "@/redux/api/auth/auth.api"
 import ProfileFeed from "./ProfileFeed"
 import { IUser } from "@/interfaces/user.interface"
 export function ProfileTabs({ profileData } : {profileData: IUser}) {
-  const { data: UserMe } = useUserInfoQuery(undefined) as any;
+
+console.log(profileData)
+
   return (
     <Tabs defaultValue="posts" className="w-full ">
       {/* Tab Buttons */}
@@ -43,10 +46,12 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
 
           <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
             <div className="flex gap-3">
-              <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-                <AvatarImage src='/anower.jpg' className="object-cover" alt="User"  />
-              </Avatar>
-            <CreatePostModal data={UserMe} />
+              {profileData?.image?.profile ?
+                <Avatar className="w-10 h-10">
+                  <AvatarImage src={profileData?.image?.profile} className="object-cover" />
+                  <AvatarFallback className="text-lg">{profileData?.name}</AvatarFallback>
+                </Avatar> : <User className="w-10 h-10 rounded-full" />}
+            <CreatePostModal data={profileData} />
             </div>
 
             <div className="flex justify-between pt-3">

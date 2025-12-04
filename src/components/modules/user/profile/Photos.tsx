@@ -26,6 +26,9 @@ function Photos({profileData} : {profileData: IUser}) {
     }
   });
 
+  if(data?.data.length === 0){
+    return <></>
+  }
  
   return (
     <div className="">

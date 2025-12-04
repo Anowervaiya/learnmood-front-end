@@ -62,9 +62,7 @@ function ProfileFeed({ user }: { user: IUser }) {
   if (allPosts.length === 0) {
     return (
       <div>
-        {Array.from({ length: limit }).map((_, i) => (
-          <PostLoading key={i} />
-        ))}
+        No Post Available
       </div>
     );
   }

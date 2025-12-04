@@ -34,7 +34,7 @@ const [showReactions, setShowReactions] = useState(false);
   const handleComment = () => {
     setShowComment(!showComment)
   }
-  const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'POST' });
+  const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'Post' });
 
 
   return (
@@ -119,7 +119,7 @@ const [showReactions, setShowReactions] = useState(false);
               className=" flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 py-1 text-gray-600 dark:text-gray-300"
            
             >
-              <ReactInitialButton showReactions={showReactions} entityId={post?._id} entityType={'POST'} currentUserId={UserData?.data?._id} />
+              <ReactInitialButton showReactions={showReactions} entityId={post?._id} entityType={'Post'} currentUserId={UserData?.data?._id} />
               
             
             </div>

@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { IUser } from '@/interfaces/user.interface'
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react'
+import { Github, Linkedin, Mail, Twitter, User, User2 } from 'lucide-react'
 import React from 'react'
 
 function ProfileCard({ profileData }: { profileData: IUser }) {
@@ -17,10 +17,11 @@ function ProfileCard({ profileData }: { profileData: IUser }) {
         />
         {/* Profile Avatar overlapping */}
         <div className="absolute left-1/2 -bottom-12 transform -translate-x-1/2">
+        {profileData?.image?.profile ? 
           <Avatar className="w-24 h-24 ring-4 ring-white shadow-md">
             <AvatarImage src={profileData?.image?.profile} className="object-cover" />
             <AvatarFallback className="text-lg">{profileData?.name}</AvatarFallback>
-          </Avatar>
+          </Avatar> : <User2 className="w-24 rounded-full h-24 ring-4 ring-white shadow-md" />}
         </div>
       </div>
 
