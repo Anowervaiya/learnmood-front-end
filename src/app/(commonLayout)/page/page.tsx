@@ -14,11 +14,11 @@ import { Avatar } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
-import ProfileImageUpload from "@/components/profileImageUpload";
 import BannerImageUploader from "@/components/bannerImageUploader";
 import { useCreatePageMutation } from "@/redux/api/page/page.api";
 import { PAGE_CATEGORY } from "@/constants/page.constant";
 import { useRouter } from "next/navigation";
+import SingleImageUpload from "@/components/singleImageUpload";
 
 
 const pageSchema = z.object({
@@ -95,7 +95,7 @@ export default function PageCreationForm() {
         <Form {...form}>
           <h1>Profile image </h1>
           {/* Profile Image Upload */}
-          <ProfileImageUpload
+          <SingleImageUpload
             setImage={setprofileImage}
           />
 

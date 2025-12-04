@@ -40,6 +40,7 @@ export async function proxy(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url))
     }
 
+    
 // 2️⃣ Homepage protection
 if (pathname === '/') {
     if (!accessToken) {
@@ -49,6 +50,7 @@ if (pathname === '/') {
         return NextResponse.redirect(loginUrl);
     }
 }
+
     // Rule 2 : User is trying to access open public route
     if (routerOwner === null) {
         return NextResponse.next();

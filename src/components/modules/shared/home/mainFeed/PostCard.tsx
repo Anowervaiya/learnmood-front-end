@@ -12,7 +12,6 @@ import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import PostMedia from './PostMedia';
 import ReactInitialButton from '../../reacts/ReactInitialButton';
-import { useGetReactsQuery } from '@/redux/api/react/react.api';
 import CommentInitialButton from '../../comments/CommentInitialButton';
 import { useState } from 'react';
 import { useGetcommentsQuery } from '@/redux/api/comment/comment.api';
@@ -25,6 +24,8 @@ import { formateExactTime } from '@/utils/formateExactTime';
 import { PiShareFat } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa";
 import { Share } from 'lucide-react';
+import Link from 'next/link';
+import PostReactionsShow from './PostReactionsShow';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
 const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
@@ -34,7 +35,7 @@ const [showReactions, setShowReactions] = useState(false);
   const handleComment = () => {
     setShowComment(!showComment)
   }
-  const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'Post' });
+  // const { data } = useGetReactsQuery({ entityId: post._id!, entityType: 'Post' });
 
 
   return (
@@ -42,7 +43,7 @@ const [showReactions, setShowReactions] = useState(false);
       <Card className=" border-none shadow-sm bg-white dark:bg-gray-800 pt-3 pb-1 gap-0 ">
         <CardHeader className="px-3 ">
           <div className="flex justify-between items-start">
-            <div className="flex gap-3">
+            <Link href={`/profile/${post?.user?._id}`} className="flex gap-3">
               <Avatar className="border-2 border-blue-400 dark:border-teal-900 w-10 h-10">
                 <AvatarImage
                   src={post?.user?.image?.profile}
@@ -67,7 +68,7 @@ const [showReactions, setShowReactions] = useState(false);
                   </Badge>
                 </div>
               </div>
-            </div>
+            </Link>
             <Button
               variant="ghost"
               size="icon"
@@ -97,16 +98,9 @@ const [showReactions, setShowReactions] = useState(false);
         <PostMedia media={post?.media} />
         <CardFooter className="flex flex-col py-0 px-2 ">
           <div className="flex justify-between items-center w-full py-2 px-4">
-            <div className="flex items-center gap-1">
-              <div className="bg-teal-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                👍
-              </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {data?.meta?.total}
-              </span>
-            </div>
+            <PostReactionsShow reactions={post.reactions} />
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {AllComments?.meta?.total} comments • 36 share
+              {post.commentCount || 0} comments • {post.shareCount || 0} share
             </div>
           </div>
           <Separator />

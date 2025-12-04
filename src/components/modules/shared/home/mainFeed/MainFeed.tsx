@@ -54,16 +54,7 @@ function MainFeed() {
 
   
 
-  if (allPosts.length === 0) {
-    return (
-      <div className="max-w-xl lg:w-2xl xl:w-3xl 2xl:w-5xl mx-auto px-2 sm:px-4 md:px-6">
-        {Array.from({ length: limit }).map((_, i) => (
-          <PostLoading key={i} />
-        ))}
-      </div>
-    );
-  }
-
+ 
   return (
     <>
       <div className=" 
@@ -149,6 +140,12 @@ function MainFeed() {
             </Button>
           </div>
         </div>
+ {allPosts.length === 0 && (
+    <div className="max-w-xl lg:w-2xl xl:w-3xl 2xl:w-5xl mx-auto px-2 sm:px-4 md:px-6">
+      NO post data available
+    </div>
+  )}
+  
 
           {/* show Posts */}
         <div className='flex flex-col gap-4'>

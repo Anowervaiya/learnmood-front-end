@@ -5,7 +5,7 @@ import { CircleUserRoundIcon, XIcon } from "lucide-react"
 import { useFileUpload } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
 
-export default function ProfileImageUpload({ setImage }: any) {
+export default function SingleImageUpload({ setImage  }: any) {
   const maxSizeMB = 5
   const maxSize = maxSizeMB * 1024 * 1024 // 5MB default
   const [
@@ -25,7 +25,7 @@ export default function ProfileImageUpload({ setImage }: any) {
   })
 
 
-  const previewUrl = files[0]?.preview
+  const previewUrl = files[0]?.preview 
 
   useEffect(() => {
     if (files.length > 0) {
@@ -67,7 +67,7 @@ export default function ProfileImageUpload({ setImage }: any) {
           )}
         </button>
 
-        {previewUrl && (
+        {previewUrl &&  (
           <Button
             onClick={handleRemove}
             size="icon"

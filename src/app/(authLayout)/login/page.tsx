@@ -16,8 +16,7 @@ const LoginPage = async ({
           {/* Left Column: Image */}
           <div className="hidden md:block relative">
             <h1 className='text-6xl font-bold text-blue-600 dark:text-white'>Learnmood</h1>
-            <p>Facebook helps you connect and share <br /> with the people in your life.
-</p>
+            <p>A social space to learn, share, and <br /> inspire the world together.</p>
           </div>
 
           {/* Right Column: Login Form */}

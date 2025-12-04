@@ -12,7 +12,7 @@ export const baseApi = createApi({
     'REQUEST',
     'POST',
     'COMMENT',
-    'REACT',
+    'USER_REACT',
     'MESSAGE',
     'NOTIFICATION',
     'MENTOR',

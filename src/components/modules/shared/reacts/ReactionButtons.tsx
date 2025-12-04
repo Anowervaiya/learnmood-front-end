@@ -3,16 +3,15 @@
 
 import { ReactType } from "@/constants/constant";
 import { IReact } from "@/interfaces/react.interface";
-import { useAddReactMutation, useGetReactsQuery, useRemoveReactMutation, useUpdateReactMutation } from "@/redux/api/react/react.api";
-import { ThumbsUp, Heart, Laugh, Frown, Angry } from "lucide-react";
-import { toast } from "sonner";
+import { useAddReactMutation} from "@/redux/api/react/react.api";
+
 
 const reactionOptions = [
-  { type: ReactType.LIKE, icon: <span>👍</span>, label: "Like" },
-  { type: ReactType.LOVE, icon: <span>❤</span>, label: "Love" },
-  { type: ReactType.HAHA, icon: <span>😂</span>, label: "Haha" },
-  { type: ReactType.SAD, icon: <span>😢</span>, label: "Sad" },
-  { type: ReactType.ANGRY, icon: <span>😡</span>, label: "Angry" },
+  { type: ReactType.like, icon: <span>👍</span>, label: "Like" },
+  { type: ReactType.love, icon: <span>❤</span>, label: "Love" },
+  { type: ReactType.haha, icon: <span>😂</span>, label: "Haha" },
+  { type: ReactType.sad, icon: <span>😢</span>, label: "Sad" },
+  { type: ReactType.angry, icon: <span>😡</span>, label: "Angry" },
 ];
 
 interface ReactResponse {
@@ -22,47 +21,25 @@ interface ReactResponse {
 }
 
 export default function ReactionButtons({
-  reacts,
+
   entityId,
   entityType,
   currentUserId,
 }: {
-    reacts: ReactResponse,
   entityId: string;
   entityType: string;
   currentUserId: string;
 }) {
-  // const { data: reacts } = useGetReactsQuery({ entityId, entityType });
   const [addReact] = useAddReactMutation();
-  const [updateReact] = useUpdateReactMutation();
-  const [removeReact] = useRemoveReactMutation();
 
-  const userReact = reacts?.data?.find(
-    (react) => react.user === currentUserId
-  );
-
-  const handleReact = async (type: string) => {
-    
-
-    if (userReact) {
-      if (userReact.reactType === type) {
-        // remove if same reaction clicked again
-        await removeReact({id:userReact._id , entityId});
-      } else {
-      
-       await updateReact({ id: userReact?._id, reactType: type ,entityId});
-        
-      }
-    } else {
-      
-      await addReact({
-        entityId,
-        entityType,
-        reactType: type as ReactType,
-        user: currentUserId,
-      });
-    }
-  };
+const handleReact = async (type: ReactType) => {
+  await addReact({
+    entityId,
+    entityType,
+    reactType: type,
+    user: currentUserId,
+  });
+};
 
   return (
     <div className="  flex items-center gap-2 shadow-2xl  border rounded-full   dark:bg-gray-800 bg-white">

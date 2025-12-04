@@ -48,7 +48,7 @@ export default function BecomeDonorForm({setOpen} : any) {
         body: JSON.stringify(data),
       });
       const result = await res.json();
-      console.log(result);
+     
       alert("You are now a blood donor! ❤️");
     } catch (err) {
       console.error(err);

@@ -16,7 +16,16 @@ export const PostApi = baseApi.injectEndpoints({
         url: `/post?page=${page}&limit=${limit}`,
         method: 'GET',
       }),
-      providesTags: ['POST'],
+ providesTags: (result) =>
+    result?.data
+      ? [
+          ...result.data.map((post: any) => ({
+            type: "POST",
+            id: post._id,
+          })),
+          { type: "POST", id: "LIST" }, // list tag
+        ]
+      : [{ type: "POST", id: "LIST" }],
     }),
     mypost: builder.query({
       query: ({ page, limit, userId }) => ({

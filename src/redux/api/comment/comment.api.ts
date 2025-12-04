@@ -21,7 +21,7 @@ export const commentApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: (_result, _err, { entityId }) => [
-        { type: 'COMMENT', id: `LIST-${entityId}` },
+        { type: 'COMMENT', id: `${entityId}` },
       ],
     }),
 
@@ -35,7 +35,7 @@ export const commentApi = baseApi.injectEndpoints({
         method: 'POST',
         data : formData,
       }),
-      invalidatesTags: (_res, _err, { entityId }) => [{ type: 'COMMENT', id: `LIST-${entityId}` }]
+      invalidatesTags: (_res, _err, { entityId }) => [{ type: 'COMMENT', id: `${entityId}` }, { type: 'POST', id: `${entityId}` }]
     
     }),
 
@@ -50,7 +50,7 @@ export const commentApi = baseApi.injectEndpoints({
         data: { commentType },
       }),
       invalidatesTags: (_res, _err, { entityId }) => [
-        { type: 'COMMENT', id: `LIST-${entityId}` },
+        { type: 'COMMENT', id: `${entityId}` },
       ],
     }),
     removecomment: builder.mutation<
@@ -62,7 +62,7 @@ export const commentApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       invalidatesTags: (_res, _err, { entityId }) => [
-        { type: 'COMMENT', id: `LIST-${entityId}` },
+        { type: 'COMMENT', id: `${entityId}` },
       ],
     }),
   }),

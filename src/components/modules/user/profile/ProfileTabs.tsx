@@ -28,7 +28,7 @@ import ProfileFeed from "./ProfileFeed"
 import { IUser } from "@/interfaces/user.interface"
 export function ProfileTabs({ profileData } : {profileData: IUser}) {
 
-console.log(profileData)
+
 
   return (
     <Tabs defaultValue="posts" className="w-full ">

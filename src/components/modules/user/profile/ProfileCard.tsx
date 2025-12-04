@@ -1,27 +1,40 @@
+
+
+import ProfileBannerUploader from '@/components/profileBannerUploader'
+import ProfileImageUploader from '@/components/profileImageUploader'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { IUser } from '@/interfaces/user.interface'
+import { getUserInfo } from '@/server/user/user.server'
 import { Github, Linkedin, Mail, Twitter, User, User2 } from 'lucide-react'
-import React from 'react'
 
-function ProfileCard({ profileData }: { profileData: IUser }) {
+
+
+function ProfileCard({ entityType, profileData , loggedinUserInfo }: { entityType: string, profileData: any, loggedinUserInfo: IUser }) {
+
+   const isOwner = loggedinUserInfo?._id === (entityType === 'user' ? profileData?._id : profileData?.owner);
+ 
   return (
     <Card className="border-border overflow-hidden py-0">
       {/* Banner */}
       <div className="relative">
-        <img
+        {/* <img
           src={profileData?.image?.banner || "/banner.jpg"}
           alt="Banner"
           className="h-32 w-full object-cover"
-        />
+        /> */}
+        <ProfileBannerUploader entityType={entityType} profileOwnerId={profileData?._id}
+        
+        fetchedbannerUrl={profileData?.image?.banner}  disabled={!isOwner}  />
         {/* Profile Avatar overlapping */}
         <div className="absolute left-1/2 -bottom-12 transform -translate-x-1/2">
-        {profileData?.image?.profile ? 
+        {/* {profileData?.image?.profile ? 
           <Avatar className="w-24 h-24 ring-4 ring-white shadow-md">
             <AvatarImage src={profileData?.image?.profile} className="object-cover" />
             <AvatarFallback className="text-lg">{profileData?.name}</AvatarFallback>
-          </Avatar> : <User2 className="w-24 rounded-full h-24 ring-4 ring-white shadow-md" />}
+          </Avatar> : <User2 className="w-24 rounded-full h-24 ring-4 ring-white shadow-md" />} */}
+          <ProfileImageUploader   entityType={entityType}   fetchedImageUrl={profileData?.image?.profile} disabled={!isOwner} profileOwnerId={profileData?._id} />
         </div>
       </div>
 

@@ -6,24 +6,18 @@ import { AlertCircle, Calendar, Droplet, MapPin, Phone } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formateExactTime } from '@/utils/formateExactTime';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 function BloodReqCard({ request, handleChatData }: { request: IBloodRequest, handleChatData: any }) {
   return (
-    <Card key={request._id} className={` hover:bg-gradient-to-r 
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.critical && 'from-red-50/50 to-pink-50/50'}
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.medium && 'from-yellow-50/50 to-orange-50/50'}
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.normal && 'from-green-50/50 to-emerald-50/50'}
+    <Card key={request._id} className={` hover:bg-gray-50
                            transition-all rounded-3xl overflow-hidden pt-0`}>
-      <div className={`h-2 bg-gradient-to-r 
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.critical && 'from-red-500 to-pink-500'}
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.medium && 'from-yellow-500 to-orange-500'}
-                          ${request.urgencyLevel === BLOOD_URGENCY_LEVEL.normal && 'from-green-500 to-emerald-500'}
-                        `}></div>
-      <CardContent>
+
+      <CardContent className='pt-6'>
         <div className="flex items-start justify-between mb-1">
           <div className="flex items-center justify-between w-full space-x-4">
 
-            <div className="flex items-center justify-between gap-4">
+            <Link href={`/profile/${request?.requestedBy?._id}`} className="flex items-center justify-between gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-100">
                 <Image
                   src={request?.requestedBy?.image?.profile || '/logo.png'}
@@ -48,7 +42,7 @@ function BloodReqCard({ request, handleChatData }: { request: IBloodRequest, han
                   {request.urgencyLevel}
                 </Badge>
               </div>
-            </div>
+            </Link>
             <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center shadow-md">
               <span className="text-2xl font-black text-red-600">{request.bloodGroup}</span>
             </div>
@@ -83,7 +77,7 @@ function BloodReqCard({ request, handleChatData }: { request: IBloodRequest, han
 
         <Button
           onClick={() => handleChatData(request)}
-          className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-full shadow-md py-5 font-bold"
+          className="w-full rounded-full shadow-md py-5 font-bold"
         >
           <Droplet className="w-5 h-5 mr-2 fill-current" />
           I Can Donate

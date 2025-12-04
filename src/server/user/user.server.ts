@@ -63,3 +63,21 @@ export async function getUserInfo() {
     }
 }
 
+export async function updateProfile(entityType:string, userId: string, formData: FormData) {
+
+    try {
+
+       const response = await serverFetch.patch(`/${entityType}/${userId}`, {
+            body: formData,
+        })
+        const result = await response.json();
+        console.log(result)
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }   
+}   

@@ -26,10 +26,9 @@ const RegisterForm = () => {
   
   // Show toast for general errors
   useEffect(() => {
-      console.log(state)
-        if (state && state.success && state.message) {
+       if (state && state.success && state.message) {
       toast.success(state.message);
-      redirect('/'); // Redirect to login page after successful registration
+       
     }
       else if (state && !state.success && state.message) {
       toast.error(state.message);

@@ -14,7 +14,7 @@ const ChallengeDetailsPage = async ({ params }: { params: { challengeId: string 
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge/${challengeId}`);
   const { data } = await res.json();
-  console.log(data)
+
   return (
     <div className="min-h-screen w-full bg-background">
       <div className="grid lg:grid-cols-3 gap-6">
