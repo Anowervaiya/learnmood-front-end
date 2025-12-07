@@ -1,6 +1,7 @@
 
 import { IComment } from '@/interfaces/react.interface';
 import { baseApi } from '@/redux/baseApi';
+import { exportTraceState } from 'next/dist/trace';
 
 interface commentResponse {
   data: IComment[];
@@ -38,6 +39,7 @@ export const commentApi = baseApi.injectEndpoints({
       invalidatesTags: (_res, _err, { entityId }) => [{ type: 'COMMENT', id: `${entityId}` }, { type: 'POST', id: `${entityId}` }]
     
     }),
+  
 
     // ✅ Update comment
     updatecomment: builder.mutation<

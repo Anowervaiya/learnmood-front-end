@@ -49,19 +49,19 @@ export const getUserPost = async (page:string, limit:string, userId:string)=> {
     }
 }
 
-export async function getUserInfo() {
-    try {
-        const response = await serverFetch.get(`/user/me`);
-        const result = await response.json();
-        return result;
-    } catch (error: any) {
-        console.log(error);
-        return {
-            success: false,
-            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
-        };
+    export async function getUserInfo() {
+        try {
+            const response = await serverFetch.get(`/user/me`);
+            const result = await response.json();
+            return result;
+        } catch (error: any) {
+            console.log(error);
+            return {
+                success: false,
+                message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+            };
+        }
     }
-}
 
 export async function updateProfile(entityType:string, userId: string, formData: FormData) {
 

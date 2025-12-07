@@ -6,14 +6,24 @@ import { ReviewsSection } from "@/components/modules/user/challenge/ReviewSectio
 import { SimilarChallenge } from "@/components/modules/user/challenge/SimilarChallenge";
 import { VideoMetadata } from "@/components/modules/user/challenge/VideoMetaData";
 import { VideoPlayer } from "@/components/modules/user/challenge/VideoPlayer";
+import { getChallengeDetailsInfo } from "@/server/user/challenge.server";
+import { getFollowStatus } from "@/server/user/follow.server";
 
 
 
-const ChallengeDetailsPage = async ({ params }: { params: { challengeId: string } }) => {
-  const { challengeId } =  params;
+const ChallengeDetailsPage = async ({ params }: { params: Promise<{ challengeId: string }> }) => {
+  const { challengeId } = await params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge/${challengeId}`);
-  const { data } = await res.json();
+  const {data} = await getChallengeDetailsInfo(challengeId);
+
+  const followingId = data?.challenge?.createdBy?._id;
+
+  
+  const {data:followStatus} = await getFollowStatus(followingId);
+
+
+  
+
 
   return (
     <div className="min-h-screen w-full bg-background">
@@ -21,7 +31,7 @@ const ChallengeDetailsPage = async ({ params }: { params: { challengeId: string 
         {/* Left Column - Video & Content */}
         <div className="lg:col-span-2 space-y-6">
           <VideoPlayer video={data.challenge.banner} />
-          <VideoMetadata metaData={{createdBy: data.challenge.createdBy , title: data.challenge.title}} />
+          <VideoMetadata metaData={{createdBy: data.challenge.createdBy , title: data.challenge.title, followStatus: followStatus.isFollowing}} />
           <ChallengeDescription description={data.challenge.description} />
           <ChallengeContent days={data.days} />
           <ReviewsSection />
@@ -29,7 +39,7 @@ const ChallengeDetailsPage = async ({ params }: { params: { challengeId: string 
 
         {/* Right Column - Course Overview & Similar Courses */}
         <div className="lg:col-span-1 space-y-6">
-          <PricingCard />
+          <PricingCard challenge={data.challenge} />
           <SimilarChallenge />
         </div>
       </div>

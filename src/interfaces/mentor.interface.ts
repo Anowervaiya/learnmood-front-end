@@ -9,6 +9,7 @@ export interface IMentor {
   education: string;
   location: string;
   duration: string;
+  studentCount?:number;
   monthlyRate: number;
   createdAt: string;
 }

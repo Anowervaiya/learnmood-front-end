@@ -56,7 +56,7 @@ export const pageApi = baseApi.injectEndpoints({
         data: { pageType },
       }),
       invalidatesTags: (_res, _err, { entityId }) => [
-        { type: 'PAGE', id: `LIST-${entityId}` },
+        { type: 'PAGE', id: `${entityId}` },
       ],
     }),
     removePage: builder.mutation<
@@ -68,7 +68,7 @@ export const pageApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       invalidatesTags: (_res, _err, { entityId }) => [
-        { type: 'PAGE', id: `LIST-${entityId}` },
+        { type: 'PAGE', id: `${entityId}` },
       ],
     }),
   }),

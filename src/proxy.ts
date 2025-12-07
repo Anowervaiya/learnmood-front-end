@@ -42,14 +42,14 @@ export async function proxy(request: NextRequest) {
 
     
 // 2️⃣ Homepage protection
-if (pathname === '/') {
-    if (!accessToken) {
-        // Logged-out user → redirect to login
-        const loginUrl = new URL('/login', request.url);
-        loginUrl.searchParams.set('redirect', pathname);
-        return NextResponse.redirect(loginUrl);
-    }
-}
+
+    // if (!accessToken) {
+    //     // Logged-out user → redirect to login
+    //     const loginUrl = new URL('/login', request.url);
+    //     loginUrl.searchParams.set('redirect', pathname);
+    //     return NextResponse.redirect(loginUrl);
+    // }
+
 
     // Rule 2 : User is trying to access open public route
     if (routerOwner === null) {

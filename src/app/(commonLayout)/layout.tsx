@@ -14,9 +14,9 @@ export default async function CommonLayout({
 
 
   // If NOT logged in → don’t show Navbar or layout
-  if (!accessToken) {
-    return '' // only LoginPage will show
-  }
+  // if (!accessToken) {
+  //   return 'Loading..................' // only LoginPage will show
+  // }
 
   return (
     <div className="min-h-screen  dark:bg-gray-900 transition-colors duration-300">
