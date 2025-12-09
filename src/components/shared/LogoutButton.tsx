@@ -1,7 +1,7 @@
 "use client";
 
-import { logoutUser } from "@/server/auth/logout";
-import { Button } from "../ui/button";
+import { logoutUser } from "@/services/auth/logoutUser";
+import { Button } from "../../../../../ph-health-care/src/components/ui/button";
 
 const LogoutButton = () => {
   const handleLogout = async () => {

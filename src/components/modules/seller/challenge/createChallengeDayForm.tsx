@@ -93,12 +93,12 @@ function CreateChallengeDayForm({ submitDay, durationDays, currentDay, setDayVid
         </div>
 
         {/* Videos */}
-        <div>
+        {/* <div>
           <FormLabel className="text-gray-700 font-medium">Videos</FormLabel>
           <div className="border border-dashed border-gray-300 p-4 rounded-lg hover:border-blue-400 transition-all duration-300 bg-gray-50/50">
             <MultiVideoUploader ref={videoUploaderRef} setVideos={setDayVideos} />
           </div>
-        </div>
+        </div> */}
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">

@@ -19,6 +19,7 @@ const challengeSchema = z.object({
   isPublic: z.boolean(),
   startsAt: z.string().min(1),
   durationDays: z.number().min(1),
+  price: z.number().min(0).optional(),
 });
 
 export type ChallengeFormValues = z.infer<typeof challengeSchema>;
@@ -31,6 +32,8 @@ function CreateChallengeForm({ handleNext, setChallengeBanner, submitting }: any
       description: "",
       category: "",
       startsAt: "",
+
+      price: 0,
       durationDays: undefined,
       isPublic: true,
     },
@@ -176,6 +179,28 @@ function CreateChallengeForm({ handleNext, setChallengeBanner, submitting }: any
                  
                   {...field}
                   placeholder="Duration days"
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+          {/* Price */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="  font-medium">Price</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                 
+                  {...field}
+                  placeholder="Price"
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   className="  focus:border-blue-500 focus:ring-blue-400 bg-white/70"
                 />

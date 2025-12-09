@@ -15,12 +15,6 @@ export const getCommonNavItems = (role: Role): NavSection[] => {
                     icon: "LayoutDashboard",
                     roles: Object.values(Role),
                 },
-                {
-                    title: "My Profile",
-                    href: `/my-profile`,
-                    icon: "User",
-                    roles: Object.values(Role),
-                },
 
             ]
         },
@@ -67,10 +61,10 @@ export const moderatorNavItems: NavSection[] = [
 
 export const userNavItems: NavSection[] = [
     {
-        title: "Appointments",
+        title: "Challenge",
         items: [
             {
-                title: "My Appointments",
+                title: "My Challenge",
                 href: "/dashboard/my-appointments",
                 icon: "Calendar", // ✅ String
                 roles: Object.values(Role.USER) as Role[],
@@ -114,47 +108,25 @@ export const adminNavItems: NavSection[] = [
                 roles: Object.values(Role.ADMIN) as Role[],
             },
             {
-                title: "Doctors",
-                href: "/admin/dashboard/doctors-management",
+                title: "Users",
+                href: "/admin/dashboard/users-management",
                 icon: "Stethoscope", // ✅ String
                 roles: Object.values(Role.ADMIN) as Role[],
             },
             {
-                title: "Patients",
-                href: "/admin/dashboard/patients-management",
+                title: "Pages",
+                href: "/admin/dashboard/pages-management",
                 icon: "Users", // ✅ String
                 roles: Object.values(Role.ADMIN) as Role[],
             },
         ],
     },
-    {
-        title: "Hospital Management",
-        items: [
-            {
-                title: "Appointments",
-                href: "/admin/dashboard/appointments-management",
-                icon: "Calendar", // ✅ String
-                roles: Object.values(Role.ADMIN) as Role[],
-            },
-            {
-                title: "Schedules",
-                href: "/admin/dashboard/schedules-management",
-                icon: "Clock", // ✅ String
-                roles: Object.values(Role.ADMIN) as Role[],
-            },
-            {
-                title: "Specialities",
-                href: "/admin/dashboard/specialities-management",
-                icon: "Hospital", // ✅ String
-                roles: Object.values(Role.ADMIN) as Role[],
-            },
-        ],
-    }
+   
 ]
 
 export const getNavItemsByRole = (role: Role): NavSection[] => {
     const commonNavItems = getCommonNavItems(role);
-console.log(role)
+
     switch (role) {
         case "ADMIN":
             return [...commonNavItems, ...adminNavItems];

@@ -6,14 +6,7 @@ import { getCookie } from "@/utils/tokenHandlers";
 import LoginPage from "../(authLayout)/login/page";
 
 export default async function HomePage() {
-   const accessToken = await getCookie("accessToken");
-  
-  
-    // If NOT logged in → don’t show Navbar or layout
-    if (!accessToken) {
-      return null // only LoginPage will show
-    }
-  
+
    
   return (
     <>

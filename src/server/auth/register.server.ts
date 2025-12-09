@@ -5,25 +5,8 @@ import { GENDER } from "@/constants/user.constant";
 import z from "zod";
 import { loginUser } from "./login.server";
 import { redirect } from "next/navigation";
-
-const registerValidationZodSchema = z
-    .object({
-        name: z.string().min(1, { message: "Name is required" }),
-        address: z.string().optional(),
-        email: z.email({ message: "Valid email is required" }),
-        password: z
-            .string()
-            .min(6, { message: "Password must be at least 6 characters long" })
-            .max(100, { message: "Password must be at most 100 characters long" }),
-        dob: z.string().optional(),
-        phone: z.string().optional(),
-        bloodGroup: z.string().optional(),
-        gender: z.enum(GENDER).optional(),
-        profile: z.any().optional(), // file
-        banner: z.any().optional(),  // file
-    })
-
-
+import { registerValidationZodSchema } from "@/zod/user.validation";
+import { serverFetch } from "@/utils/serverFetch";
 
 
 
@@ -31,7 +14,7 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
     try {
       
         // Collect all fields from FormData
-        const signupData = {
+        const payload = {
             name: formData.get("name"),
             email: formData.get("email"),
             password: formData.get("password"),
@@ -39,11 +22,10 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
             phone: formData.get("phone"),
             bloodGroup: formData.get("bloodGroup"),
             gender: formData.get("gender"),
-          
         };
-      
+
         // Zod validation
-        const validatedFields = registerValidationZodSchema.safeParse(signupData);
+        const validatedFields = registerValidationZodSchema.safeParse(payload);
         if (!validatedFields.success) {
             return {
                 success: false,
@@ -55,9 +37,8 @@ export const registerUser = async (_currentState: any, formData: any): Promise<a
         }
     
 
-        const res = await fetch("http://localhost:5000/api/v1/user/register", {
-            method: "POST",
-            body: JSON.stringify(signupData),
+        const res = await serverFetch.post("/user/register", {
+            body: JSON.stringify(validatedFields.data),
             headers: {
                 "Content-Type": "application/json"
             }

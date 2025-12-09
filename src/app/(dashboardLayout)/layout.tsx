@@ -1,5 +1,5 @@
-import DashboardNavbar from "@/components/modules/Dashboard/DashboardNavbar";
-import DashboardSidebar from "@/components/modules/Dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/modules/dashboard/DashboardNavbar";
+import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
 import React from "react";
 
 const CommonDashboardLayout = async ({
@@ -8,12 +8,12 @@ const CommonDashboardLayout = async ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden">
       <DashboardSidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col w-full overflow-hidden">
         <DashboardNavbar />
         <main className="flex-1 overflow-y-auto bg-muted/10 p-4 md:p-6">
-          <div className="max-w-7xl">{children}</div>
+          <div className=" w-full">{children}</div>
         </main>
       </div>
     </div>

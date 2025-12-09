@@ -10,13 +10,11 @@ export default async function CommonLayout({
   children: React.ReactNode;
 }) {
   const {data} = await getUserInfo()
-   const accessToken = await getCookie("accessToken");
+ 
 
-
-  // If NOT logged in → don’t show Navbar or layout
-  // if (!accessToken) {
-  //   return 'Loading..................' // only LoginPage will show
-  // }
+  if(!data){
+    return null
+  }
 
   return (
     <div className="min-h-screen  dark:bg-gray-900 transition-colors duration-300">

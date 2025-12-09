@@ -21,10 +21,10 @@ import { getCookie } from '@/utils/tokenHandlers';
 import { logoutUser } from '@/server/auth/logout';
 import { baseApi } from '@/redux/baseApi';
 import { useRouter } from 'next/navigation';
+import { getDefaultDashboardRoute } from '@/utils/auth';
 
 
 export default  function UserMenu({ myPages, data, navigationLinks }: any) {
-
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -101,7 +101,7 @@ export default  function UserMenu({ myPages, data, navigationLinks }: any) {
                     className="opacity-60"
                     aria-hidden="true"
                   />
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={getDefaultDashboardRoute(data.role)}>{link.label}</Link>
                 </>
               )}
             </React.Fragment>

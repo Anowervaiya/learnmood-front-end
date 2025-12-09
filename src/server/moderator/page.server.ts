@@ -1,19 +1,17 @@
 'use server'
+
+import { serverFetch } from "@/utils/serverFetch";
+
 export const getPageInfo = async (pageId:string)=> {
     try {
      
-           const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/page?_id=${pageId}`, {
-            method: "GET",
+           const res = await serverFetch.get(`/page?_id=${pageId}`, {
             headers: {
                 "Content-Type": "application/json"
             }
         })
         const result = await res.json();
-    
         return result;
-
-
-
     } catch (error: any) {
       
         console.log(error);

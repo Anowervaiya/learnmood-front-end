@@ -16,7 +16,7 @@ export async function proxy(request: NextRequest) {
 
     let userRole: Role | null = null;
     if (accessToken) {
-        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
+        const verifiedToken: JwtPayload | string =  jwt.verify(accessToken, process.env.JWT_SECRET as string);
 
         if (typeof verifiedToken === "string") {
             cookieStore.delete("accessToken");
@@ -30,10 +30,17 @@ export async function proxy(request: NextRequest) {
     const routerOwner = getRouteOwner(pathname);
     
     //path = /page/manage => "MODERATOR"
-    //path = /my-profile => "COMMON"
     //path = /login => null
 
     const isAuth = isAuthRoute(pathname)
+
+     if (pathname === "/") {
+        if (!accessToken) {
+            const loginUrl = new URL("/login", request.url);
+            return NextResponse.redirect(loginUrl);
+        }
+        return NextResponse.next();
+    }
 
     // Rule 1 : User is logged in and trying to access auth route. Redirect to default dashboard
     if (accessToken && isAuth) {
@@ -43,22 +50,17 @@ export async function proxy(request: NextRequest) {
     
 // 2️⃣ Homepage protection
 
-    // if (!accessToken) {
-    //     // Logged-out user → redirect to login
-    //     const loginUrl = new URL('/login', request.url);
-    //     loginUrl.searchParams.set('redirect', pathname);
-    //     return NextResponse.redirect(loginUrl);
-    // }
-
-
     // Rule 2 : User is trying to access open public route
     if (routerOwner === null) {
         return NextResponse.next();
     }
 
+ 
+
     // Rule 1 & 2 for open public routes and auth routes
 
        
+   
     if (!accessToken) {
         const loginUrl = new URL ("/login", request.url);
         loginUrl.searchParams.set("redirect", pathname);

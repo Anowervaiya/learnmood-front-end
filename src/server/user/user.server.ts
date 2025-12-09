@@ -8,8 +8,7 @@ import { serverFetch } from "@/utils/serverFetch";
 export const getUserProfile = async (profileId:string)=> {
     try {
      
-           const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user?_id=${profileId}`, {
-            method: "GET",
+           const res = await serverFetch.get(`/user?_id=${profileId}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -49,9 +48,10 @@ export const getUserPost = async (page:string, limit:string, userId:string)=> {
     }
 }
 
-    export async function getUserInfo() {
+ export async function getUserInfo() {
         try {
             const response = await serverFetch.get(`/user/me`);
+         
             const result = await response.json();
             return result;
         } catch (error: any) {

@@ -30,7 +30,6 @@ export default function CreateChallenge() {
       createdBy: pageId,
       ...data
     }
-
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
     if (ChallengeBanner) {
@@ -38,9 +37,7 @@ export default function CreateChallenge() {
     }
     try {
       const res = await createChallenge({ payload: formData }).unwrap();
-     
       if (res.success) {
-
         toast.success("Challenge created!");
         setChallengeId(res.data._id);
         setDurationDays(data.durationDays);

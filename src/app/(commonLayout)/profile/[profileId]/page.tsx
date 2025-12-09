@@ -12,8 +12,10 @@ const ProfilePage = async ({
   params: Promise<{ profileId: string }>;
 }) => {
   const { profileId } = await params;
+ 
   const profileData = await getUserProfile(profileId);
-  const profile = profileData.data[0];
+
+  const profile = profileData?.data[0] || {};
   const { data: loggedinUserInfo } = await getUserInfo();
 
   return (

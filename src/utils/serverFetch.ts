@@ -14,6 +14,7 @@ const serverFetchHelper = async (endpoint: string, options: RequestInit): Promis
             ...headers,
             Cookie: accessToken ? `accessToken=${accessToken}` : "",
         },
+        
         ...restOptions,
     })
 

@@ -21,9 +21,7 @@ const ChallengeDetailsPage = async ({ params }: { params: Promise<{ challengeId:
   
   const {data:followStatus} = await getFollowStatus(followingId);
 
-
-  
-
+console.log(data)
 
   return (
     <div className="min-h-screen w-full bg-background">

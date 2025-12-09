@@ -57,9 +57,7 @@ export type IChat = {
 function Navbar({data}:{data?:IUser}) {
   const [openChat, setOpenChat] = useState<IChat[]>([]);
   const [isDark, setIsDark] = useState(false);
-
   const { data: myPages} = useGetMyPagesQuery(undefined );
-
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);

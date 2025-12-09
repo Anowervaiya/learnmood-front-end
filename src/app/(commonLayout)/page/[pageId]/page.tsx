@@ -9,9 +9,8 @@ import { getUserInfo } from '@/server/user/user.server';
 
 const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) => {
   const { pageId } = await params;
-
   const pageData = await getPageInfo(pageId);
-  const pageProfile = pageData.data[0];
+  const pageProfile = pageData?.data[0];
   const { data: loggedinUserInfo } = await getUserInfo();
 
   return (

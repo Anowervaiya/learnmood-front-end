@@ -1,3 +1,4 @@
+import { BLOOD_GROUP } from "@/constants/blood.constant";
 import { AUTHPROVIDER, GENDER, IsActive, LANGUAGE, PRONOUN, Role } from "@/constants/user.constant";
 
 export interface IAuthProvider {
@@ -12,12 +13,12 @@ export interface IUser {
   name: string;
   nickname?: string;
   email: string;
-  blood?: string;
+  bloodGroup?: BLOOD_GROUP;
   password?: string;
   phone?: string;
   image?: { profile: string; banner: string };
   address?: string;
-  isDeleted?: string;
+  isDeleted?: boolean;
   isVerified?: boolean;
   role?: Role;
   dob?: Date;
@@ -29,5 +30,6 @@ export interface IUser {
   languages?: LANGUAGE[];
   auths?: IAuthProvider[];
   friends?: string[];
-  createdAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
