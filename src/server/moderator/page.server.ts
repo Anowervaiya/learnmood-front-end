@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 export const getPageInfo = async (pageId: string) => {
   try {
 
-    const res = await serverFetch.get(`/page?_id=${pageId}`, {
+    const res = await serverFetch.get(`/page/${pageId}`, {
       headers: {
         "Content-Type": "application/json"
       }

@@ -27,6 +27,7 @@ import { Share } from 'lucide-react';
 import Link from 'next/link';
 import PostReactionsShow from './PostReactionsShow';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
+
  
 const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
@@ -100,9 +101,9 @@ const [showReactions, setShowReactions] = useState(false);
         <PostMedia media={post?.media} />
         <CardFooter className="flex flex-col py-0 px-2 ">
           <div className="flex justify-between items-center w-full py-2 px-4">
-            <PostReactionsShow reactions={post.reactions} />
+            <PostReactionsShow reactions={post?.reactions} />
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {post.commentCount || 0} comments • {post.shareCount || 0} share
+              {post?.commentCount || 0} comments • {post?.shareCount || 0} share
             </div>
           </div>
           <Separator />

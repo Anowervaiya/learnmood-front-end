@@ -57,7 +57,6 @@ export default function UserMenu({
 
   const handleSwitchPage = async (pageId: string) => {
     if (isSwitching) return; // Prevent multiple clicks
-
     try {
       setIsSwitching(true);
 
@@ -141,20 +140,23 @@ export default function UserMenu({
             </DropdownMenuItem>
           )}
 
+
+
+
           <DropdownMenuItem className="hover:cursor-pointer">
             {navigationLinks?.map((link: any, index: any) => (
               <React.Fragment key={index}>
                 {link.role === data?.role && (
-                  <>
+                  <Link href={getDefaultDashboardRoute(data.role)} className="flex items-center gap-2">
                     <LayoutDashboard
                       size={16}
                       className="opacity-60"
                       aria-hidden="true"
                     />
-                    <Link href={getDefaultDashboardRoute(data.role)}>
+                    <p>
                       {link.label}
-                    </Link>
-                  </>
+                    </p>
+                  </Link>
                 )}
               </React.Fragment>
             ))}

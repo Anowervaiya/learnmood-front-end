@@ -8,7 +8,7 @@ import { serverFetch } from "@/utils/serverFetch";
 export const getUserProfile = async (profileId:string)=> {
     try {
      
-           const res = await serverFetch.get(`/user?_id=${profileId}`, {
+           const res = await serverFetch.get(`/user/${profileId}`, {
             headers: {
                 "Content-Type": "application/json"
             }

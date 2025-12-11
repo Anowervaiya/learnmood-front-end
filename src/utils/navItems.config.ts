@@ -65,35 +65,19 @@ export const userNavItems: NavSection[] = [
         items: [
             {
                 title: "My Challenge",
-                href: "/dashboard/my-appointments",
+                href: "/dashboard/my-challenge",
                 icon: "Calendar", // ✅ String
                 roles: Object.values(Role.USER) as Role[],
             },
             {
-                title: "Book Appointment",
-                href: "/consultation",
+                title: "My Tutors",
+                href: "/dashboard/my-tutors",
                 icon: "ClipboardList", // ✅ String
                 roles: Object.values(Role.USER) as Role[],
             },
         ],
     },
-    {
-        title: "Medical Records",
-        items: [
-            {
-                title: "My Prescriptions",
-                href: "/dashboard/my-prescriptions",
-                icon: "FileText", // ✅ String
-                roles: Object.values(Role.USER) as Role[],
-            },
-            {
-                title: "Health Records",
-                href: "/dashboard/health-records",
-                icon: "Activity", // ✅ String
-                roles: Object.values(Role.USER) as Role[],
-            },
-        ],
-    },
+  
 
 ]
 

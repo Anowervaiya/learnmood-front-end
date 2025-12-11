@@ -8,7 +8,7 @@ export const PostApi = baseApi.injectEndpoints({
         method: 'POST',
         data: PostInfo,
       }),
-      invalidatesTags: ['POST'],
+      invalidatesTags: [{ type: "POST", id: "LIST" }],
     }),
 
     allPost: builder.query({
@@ -16,29 +16,40 @@ export const PostApi = baseApi.injectEndpoints({
         url: `/post?page=${page}&limit=${limit}`,
         method: 'GET',
       }),
- providesTags: (result) =>
-    result?.data
-      ? [
-          ...result.data.map((post: any) => ({
-            type: "POST",
-            id: post._id,
-          })),
-          { type: "POST", id: "LIST" }, // list tag
-        ]
-      : [{ type: "POST", id: "LIST" }],
+
+      providesTags: (result) =>
+        result?.data
+          ? [
+            ...result.data.map((post: any) => ({
+              type: "POST",
+              id: post._id,
+            })),
+            { type: "POST", id: "LIST" }, // list tag
+          ]
+          : [{ type: "POST", id: "LIST" }],
     }),
     mypost: builder.query({
       query: ({ page, limit, userId }) => ({
         url: `/post?page=${page}&limit=${limit}&user=${userId}`,
         method: 'GET',
       }),
-      providesTags: ['POST'],
+     providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map((post: any) => ({
+                type: "POST",
+                id: post._id,
+              })),
+              { type: "POST", id: "MY_LIST" },
+            ]
+          : [{ type: "POST", id: "MY_LIST" }],
+  
     }),
   }),
 });
 
 export const {
-useCreatePostMutation,
+  useCreatePostMutation,
   // useMyPostQuery,
   useAllPostQuery,
   useMypostQuery

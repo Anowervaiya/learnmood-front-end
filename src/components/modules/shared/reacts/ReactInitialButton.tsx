@@ -8,18 +8,13 @@ import { useGetUserAddedReactQuery } from "@/redux/api/react/react.api";
 
 export default function ReactInitialButton({ showReactions, entityId, entityType, currentUserId }: any) {
   
-   // ✅ এখানে কল করো
   const { data: userReactData } = useGetUserAddedReactQuery({ 
     entityId, 
     entityType, 
     accountId: currentUserId 
-  });
+  }, { skip: !currentUserId });
 
-  // console.log({ 
-  //   entityId, 
-  //   entityType, 
-  //   accountId: currentUserId 
-  // }, 'user reaction')
+
 const userReact = userReactData?.data?.reactType;
   return (
     <div

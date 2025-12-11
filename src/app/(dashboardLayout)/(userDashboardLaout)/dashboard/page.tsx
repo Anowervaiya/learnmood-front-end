@@ -1,5 +1,5 @@
-const PatientDashboardPage = () => {
-  return <div>PatientDashboardPage</div>;
+const UserDashboardPage = () => {
+  return <div>UserDashboardPage</div>;
 };
 
-export default PatientDashboardPage;
+export default UserDashboardPage;

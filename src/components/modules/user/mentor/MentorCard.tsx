@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card'
 import { IMentor } from '@/interfaces/mentor.interface'
-import { createBooking } from '@/server/user/mentor.server';
+import { createBooking } from '@/server/user/tutor.server';
 import { Star, Users, Clock, MessageCircle, Award, Zap, Search, Clock1, Map, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';

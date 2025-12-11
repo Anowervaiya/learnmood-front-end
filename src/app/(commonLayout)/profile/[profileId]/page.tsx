@@ -15,8 +15,7 @@ const ProfilePage = async ({
  
   const profileData = await getUserProfile(profileId);
 
-  const profile = profileData?.data[0] || {};
-  const { data: loggedinUserInfo } = await getUserInfo();
+  const profile = profileData?.data || {};
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
@@ -24,9 +23,8 @@ const ProfilePage = async ({
 
       <div className="lg:col-span-5 lg:sticky lg:top-20  lg:h-[calc(100vh-80px)] overflow-y-auto space-y-6 ">
         <ProfileCard
-        entityType="user"
+          entityType="user"
           profileData={profile}
-          loggedinUserInfo={loggedinUserInfo}
         />
         <Photos profileData={profile} />
       </div>

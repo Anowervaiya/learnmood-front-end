@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Share2, Clock, Trophy, Smartphone, Tv } from "lucide-react";
 import  { useState } from "react";
-import { createBooking } from "@/server/user/mentor.server";
+import { createBooking } from "@/server/user/tutor.server";
 import { redirect } from "next/navigation";
 import { IChallenge } from "@/interfaces/challenge.interface";
 import { toast } from "sonner";
