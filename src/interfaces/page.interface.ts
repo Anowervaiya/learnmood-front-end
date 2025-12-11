@@ -5,6 +5,8 @@ import { IUser } from "./user.interface";
 export interface IPage {
   _id: string;
   name: string;
+  phone:number;
+  email:string;
   description?: string;
   owner: IUser; // Who created this page
   category: PAGE_CATEGORY;

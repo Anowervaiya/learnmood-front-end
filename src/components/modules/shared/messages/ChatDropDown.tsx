@@ -20,7 +20,7 @@ import Image from 'next/image';
 
 export  function  ChatDropDown ( { handleSingleChatOpen }: any) {
   const { data: myFriends } = useMyFriendsQuery(undefined);
-  const {data: userMe} = useUserInfoQuery(undefined) as any
+  const {data: userMe} = useUserInfoQuery(undefined ) as any
   const { data: notificationsData } = useGetNotificationQuery({userId: userMe?.data?._id}, { skip: !userMe?.data?._id })
   const unreadCount =  notificationsData?.data
     ?.filter((notification: any) => !notification?.read) // only unread

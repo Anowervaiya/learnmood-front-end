@@ -15,7 +15,7 @@ export interface IComment {
   _id: string;
   entityId: string;
   entityType: string;
-  user: {
+  accountId: {
     name: string,
     image: {
       profile:string

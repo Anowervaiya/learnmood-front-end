@@ -28,3 +28,12 @@ export interface IImage {
   profile?: string;
   banner?: string;
 }
+
+export interface IDecodedPayload {
+  accountId: string;
+  accountType: string;
+  role: string;
+  userId: string;
+  email?: string;
+}
+

@@ -12,13 +12,13 @@ interface ReactResponse {
 export const reactApi = baseApi.injectEndpoints({
 
   endpoints: builder => ({
-   getUserAddedReact: builder.query<ReactResponse, { entityId: string; entityType: string; userId: string }>({
-  query: ({ entityId, entityType, userId }) => ({
-    url: `/react?entityId=${entityId}&entityType=${entityType}&userId=${userId}`,
+   getUserAddedReact: builder.query<ReactResponse, { entityId: string; entityType: string; accountId: string }>({
+  query: ({ entityId, entityType, accountId }) => ({
+    url: `/react?entityId=${entityId}&entityType=${entityType}&accountId=${accountId}`,
     method: 'GET',
   }),
-  providesTags: (result, error, { entityId, userId }) => [
-    { type: 'USER_REACT', id: `${entityId}-${userId}` },
+  providesTags: (result, error, { entityId, accountId }) => [
+    { type: 'USER_REACT', id: `${entityId}-${accountId}` },
   ],
 }),
 

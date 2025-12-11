@@ -22,7 +22,6 @@ import {
   PlusIcon,
 } from "lucide-react"
 import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
-import { useUserInfoQuery } from "@/redux/api/auth/auth.api"
 import ProfileFeed from "@/components/modules/user/profile/ProfileFeed"
 import { IPage } from "@/interfaces/page.interface"
 import Link from "next/link"

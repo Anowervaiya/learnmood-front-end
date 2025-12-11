@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { registerUser } from "@/server/auth/register.server";
+import { registerUser } from "@/server/auth/auth.server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
@@ -14,6 +14,7 @@ const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const RegisterForm = () => {
   const [state, formAction, isPending] = useActionState(registerUser, null);
+  
   const getFieldError = (fieldName: string) => {
     if (state?.errors) {
       const error = state.errors.find((err: any) => err.field === fieldName);

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { email, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,9 @@ import SingleImageUpload from "@/components/singleImageUpload";
 
 const pageSchema = z.object({
   name: z.string().min(3, "Page name must be at least 3 characters"),
+  email: z.email("Invalid email address"),
+  phone: z.string()
+    .regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   category: z.string().min(1, "Select a category"),
 });
@@ -45,6 +48,8 @@ export default function PageCreationForm() {
     resolver: zodResolver(pageSchema),
     defaultValues: {
       name: "",
+      email: "",
+      phone: '',
       description: "",
       category: "",
       profileImage: null,
@@ -57,9 +62,12 @@ export default function PageCreationForm() {
     const formData = new FormData();
     const jsonData = JSON.stringify({
       name: data?.name,
+      email: data?.email,
+      phone: Number(data?.phone),
       description: data?.description,
       category: data?.category,
     });
+
     formData.append("data", jsonData);
 
     if (profileImage) {
@@ -72,7 +80,6 @@ export default function PageCreationForm() {
     try {
 
       const res = await createPage({ formData }).unwrap();
-
       if (res.success) {
         toast.success("Page created successfully");
         router.push(`/page/${res.data._id}`)
@@ -102,18 +109,19 @@ export default function PageCreationForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            <div className=" gap-4 items-center">
 
 
 
               {/* Page Name + Category */}
-              <div className="md:col-span-2 grid grid-cols-1 gap-4">
+              <div className="flex justify-between items-center gap-4">
                 {/* Page Name */}
                 <FormField
+                
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                       <FormLabel>Page Name</FormLabel>
                       <FormControl>
                         <Input placeholder="e.g. LearnReact Community" {...field} />
@@ -122,8 +130,7 @@ export default function PageCreationForm() {
                     </FormItem>
                   )}
                 />
-
-                {/* Category */}
+                  {/* Category */}
                 <FormField
                   control={form.control}
                   name="category"
@@ -148,7 +155,42 @@ export default function PageCreationForm() {
                     </FormItem>
                   )}
                 />
+              
               </div>
+
+              <div className="flex pt-6 justify-between items-center gap-4">
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. learnreact@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 1234567890" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                </div>
+               
+
             </div>
 
             {/* Description */}

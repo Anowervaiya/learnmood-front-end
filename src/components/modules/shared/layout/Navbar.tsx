@@ -1,49 +1,37 @@
-'use client';
+"use client";
 
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from "react";
 import {
   Bell,
   Droplets,
   House,
-  MessageSquare,
   Moon,
   Search,
   SquarePlay,
   Sun,
   Trophy,
   Users,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import Image from 'next/image';
-import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
-import { ROLE } from '@/constants/constant';
-import UserMenu from '@/components/ui/userMenu';
-import Link from 'next/link';
-import { ChatDropDown } from '../messages/ChatDropDown';
-import ChatCard from '../messages/ChatCard';
-import { useGetMyPagesQuery } from "@/redux/api/page/page.api";
-import { getUserInfo } from "@/server/user/user.server";
-import { IUser } from "@/interfaces/user.interface";
-import { getCookie } from "@/utils/tokenHandlers";
-type UserInfoResponse = {
-  data?: {
-    data?: {
-      email?: string;
-    };
-
-    // add other user fields if needed
-  };
-  // add other response fields if needed
-};
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import { useUserInfoQuery } from "@/redux/api/auth/auth.api";
+import { ROLE } from "@/constants/constant";
+import UserMenu from "@/components/ui/userMenu";
+import Link from "next/link";
+import { ChatDropDown } from "../messages/ChatDropDown";
+import ChatCard from "../messages/ChatCard";
+import { useGetMyPagesQuery, useGetPageInfoQuery } from "@/redux/api/page/page.api";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 
 const navigationLinks = [
-  { href: '/', label: 'Home', role: 'PUBLIC' },
-  { href: '/admin', label: 'Dashboard', role: ROLE.ADMIN },
-  { href: '/seller', label: 'Dashboard', role: ROLE.SELLER },
-  { href: '/user', label: 'Dashboard', role: ROLE.USER },
+  { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/admin", label: "Dashboard", role: ROLE.ADMIN },
+  { href: "/seller", label: "Dashboard", role: ROLE.SELLER },
+  { href: "/user", label: "Dashboard", role: ROLE.USER },
 ];
+
 export type IChat = {
   _id: string;
   name?: string;
@@ -54,41 +42,66 @@ export type IChat = {
   isOpen?: boolean;
 };
 
-function Navbar({data}:{data?:IUser}) {
+function Navbar() {
   const [openChat, setOpenChat] = useState<IChat[]>([]);
   const [isDark, setIsDark] = useState(false);
-  const { data: myPages} = useGetMyPagesQuery(undefined );
+  
+  // Get current account from token
+  const { account, isPage, isUser, isLoading } = useCurrentAccount();
+
+  const { data: userData } = useUserInfoQuery(
+    isUser ? undefined : skipToken
+  ) as any
+  
+  const { data: pageData } = useGetPageInfoQuery(
+    isPage ? undefined: skipToken
+  );
+
+  const { data: myPages } = useGetMyPagesQuery(undefined);
+
+
+
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
 
     if (newTheme) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   };
 
-
   const handleSingleChatOpen = (user: IChat) => {
-    setOpenChat(prev => {
-      const exists = prev.find(chat => chat._id === user._id);
+    setOpenChat((prev) => {
+      const exists = prev.find((chat) => chat._id === user._id);
       if (exists) {
-        return prev.map(chat =>
+        return prev.map((chat) =>
           chat._id === user._id ? { ...chat, isOpen: true } : chat
         );
       }
-
       return [...prev, { ...user, isOpen: true }];
     });
   };
+
   const handleSingleChatClose = (userId: string) => {
-    setOpenChat(prev =>
-      prev.map(chat =>
+    setOpenChat((prev) =>
+      prev.map((chat) =>
         chat._id === userId ? { ...chat, isOpen: false } : chat
       )
     );
   };
+
+  // Determine which data to show
+  const currentData = isPage ? pageData?.data : userData?.data;
+  const filteredPages = myPages?.data?.filter(
+  (p: any) => p._id !== account?.accountId
+);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or your loading component
+  }
+
 
   return (
     <>
@@ -111,51 +124,47 @@ function Navbar({data}:{data?:IUser}) {
               </div>
             </div>
           </div>
+
           {/* middle */}
           <div className="flex items-center gap-3 md:gap-6 lg:gap-12">
             <Link
-              href={'/'}
+              href={"/"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {' '}
               <House />
             </Link>
             <Link
-              href={'/friends'}
+              href={"/friends/recommended"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {' '}
               <Users />
             </Link>
             <Link
-              href={'/tutors'}
+              href={"/tutors"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 "
             >
-              {' '}
-              <LiaChalkboardTeacherSolid className="w-7 h-7"/>
+              <LiaChalkboardTeacherSolid className="w-7 h-7" />
             </Link>
             <Link
-              href={'/course'}
+              href={"/course"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {' '}
               <SquarePlay />
             </Link>
             <Link
-              href={'/challenge'}
+              href={"/challenge"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {' '}
               <Trophy />
             </Link>
             <Link
-              href={'/blood'}
+              href={"/blood"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {' '}
               <Droplets />
             </Link>
           </div>
+
           {/* right side */}
           <div className="flex items-center gap-5">
             <span
@@ -164,23 +173,27 @@ function Navbar({data}:{data?:IUser}) {
             >
               {isDark ? <Sun /> : <Moon />}
             </span>
+
             {/* chat */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
               <ChatDropDown handleSingleChatOpen={handleSingleChatOpen} />
-            </span> 
-            
-         {/* notification */}
+            </span>
+
+            {/* notification */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
               <Bell />
             </span>
 
-            {/* avatar  */}
+            {/* avatar - Show based on current identity */}
             <div className="flex items-center gap-4">
-              {/* User menu */}
-
-            {data &&  (
-                <UserMenu myPages={myPages?.data} navigationLinks={navigationLinks} data={data} />
-            )}
+              {currentData && (
+                <UserMenu
+                  myPages={filteredPages}
+                  navigationLinks={navigationLinks}
+                  data={currentData}
+                  isPage={isPage}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -189,8 +202,8 @@ function Navbar({data}:{data?:IUser}) {
       {/* Bottom Single Chat  */}
       <div className="fixed bottom-4 right-4 z-50 flex gap-4">
         {openChat
-          .filter(chat => chat.isOpen)
-          .map(chat => (
+          .filter((chat) => chat.isOpen)
+          .map((chat) => (
             <div key={chat._id} className="relative">
               <ChatCard user={chat} />
               <button

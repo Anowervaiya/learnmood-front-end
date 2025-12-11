@@ -11,8 +11,8 @@ export default function CommentCard( {comment} : {comment:IComment}) {
       <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
       
           <img
-            src={comment?.user?.image?.profile || '/logo.png'}
-            alt={comment?.user?.name}
+            src={comment?.accountId?.image?.profile || '/logo.png'}
+            alt={comment?.accountId?.name}
             className="w-full h-full object-cover"
           />
        
@@ -23,7 +23,7 @@ export default function CommentCard( {comment} : {comment:IComment}) {
         {/* Name + Time */}
         <div className="flex items-center gap-2">
           <p className="font-medium text-sm text-gray-900 dark:text-gray-100">
-            {comment?.user?.name || "Unknown User"}
+            {comment?.accountId?.name || "Unknown User"}
           </p>
           <span className="text-xs text-gray-500">
             {formateExactTime(comment.createdAt)}

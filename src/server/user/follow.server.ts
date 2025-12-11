@@ -3,14 +3,14 @@
 import { serverFetch } from "@/utils/serverFetch";
 
 
-export const handleFollowing = async (followingId:string)=> {
+export const handleFollowing = async (followingId:string , followerType: 'User' | 'Page')=> {
     try {
            const res = await serverFetch.post(`/follow/create-follow`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ followingId , followerType:'User' })
+            body: JSON.stringify({ followingId , followerType})
         })
         const result = await res.json()
         return result;
@@ -23,14 +23,14 @@ export const handleFollowing = async (followingId:string)=> {
 }
 
 
-export const handleUnFollowing = async (followingId:string)=> {
+export const handleUnFollowing = async (followingId:string , followerType: 'User' | 'Page')=> {
     try {
            const res = await serverFetch.post(`/follow/create-unfollow`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ followingId , followerType: 'User' })
+            body: JSON.stringify({ followingId , followerType })
         })
         const result = await res.json()
         return result;
@@ -43,7 +43,7 @@ export const handleUnFollowing = async (followingId:string)=> {
 
 export const getFollowStatus = async (followingId:string)=> {
     try {
-           const res = await serverFetch.get(`/follow/status?followingId=${followingId}`)
+        const res = await serverFetch.get(`/follow/status?followingId=${followingId}`)
         const result = await res.json()
         return result;
     } catch (error: any) {

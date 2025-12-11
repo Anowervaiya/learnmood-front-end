@@ -18,7 +18,7 @@ import { IPost } from '@/interfaces/post.interface';
 
 
 function ProfileFeed({ user }: { user: IUser }) {
-  const { data: UserMe } = useUserInfoQuery(undefined) as UserInfoResponse;
+  const { data: UserMe } = useUserInfoQuery(undefined) as any;
   const limit = 4;
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);

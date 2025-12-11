@@ -12,20 +12,22 @@ import { IPage } from "@/interfaces/page.interface";
 import { useState } from "react";
 import { handleFollowing, handleUnFollowing } from "@/server/user/follow.server";
 import { FaHeart } from "react-icons/fa";
+import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 
 export const VideoMetadata = ({
   metaData,
 }: {
-  metaData: { createdBy: Partial<IPage>; title: string ; followStatus:boolean };
+  metaData: {   createdBy: Partial<IPage>; title: string ; followStatus:boolean };
 }) => {
-  const [isFollowing, setIsFollowing] = useState(metaData.followStatus);
+  const [isFollowing, setIsFollowing] = useState(metaData?.followStatus);
 
   const [submitting, setSubmitting] = useState(false);
+  const { account, isPage, isUser, isLoading } = useCurrentAccount();
 
-  const handleFollow = async (followingId: string) => {
+  const handleFollow = async (followingId: string , followerType: 'User' | 'Page') => {
     setSubmitting(true);
     try {
-      const result = await handleFollowing(followingId);
+      const result = await handleFollowing(followingId, followerType);
         if (result.success) setIsFollowing(true);
     } catch (error) {
       console.log(error);
@@ -34,10 +36,10 @@ export const VideoMetadata = ({
     }
   };
 
-  const handleUnFollow = async (followingId: string) => {
+  const handleUnFollow = async (followingId: string , followerType: 'User' | 'Page') => {
     setSubmitting(true);
     try {
-      const result = await handleUnFollowing(followingId);
+      const result = await handleUnFollowing(followingId , followerType);
        if (result.success) setIsFollowing(false);
     } catch (error) {
       console.log(error);
@@ -79,7 +81,7 @@ export const VideoMetadata = ({
             {
               isFollowing ? ( <Button
               disabled={submitting}
-              onClick={() => handleUnFollow(metaData?.createdBy?._id as string)}
+              onClick={() => handleUnFollow(metaData?.createdBy?._id as string , isPage ? 'Page' : 'User')}
               variant="outline"
               size="sm"
               className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
@@ -88,7 +90,7 @@ export const VideoMetadata = ({
               Following
             </Button>) : ( <Button
               disabled={submitting}
-              onClick={() => handleFollow(metaData?.createdBy?._id as string)}
+              onClick={() => handleFollow(metaData?.createdBy?._id as string , isPage ? 'Page' : 'User')}
               variant="outline"
               size="sm"
               className="bg-secondary rounded-full hover:bg-secondary/90 text-black"

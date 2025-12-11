@@ -5,7 +5,7 @@ import { baseApi } from '@/redux/baseApi';
 
 interface getpageResponse {
   data: IPage[];
-  meta?: { total: number };
+  meta?: { total: number; page: number; limit: number; totalPage: number };
   message: string;
   success: boolean;
 }
@@ -34,6 +34,35 @@ export const pageApi = baseApi.injectEndpoints({
       }),
       providesTags: ['PAGE'],
     }),
+
+    getPageInfo: builder.query({
+      query: () => ({
+        url: `/page/me`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, id) => [{ type: 'PAGE', id }],
+    }),
+
+     getAllPage: builder.query<
+      getpageResponse,
+      { page: number; limit: number; searchTerm?: string }
+    >({
+      query: ({ page, limit, searchTerm }) => ({
+        url: `/page?page=${page}&limit=${limit}&searchTerm=${searchTerm}`,
+        method: 'GET',
+      }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: 'PAGE' as const,
+                id: _id,
+              })), // individual items
+              { type: 'PAGE' as const, id: 'PAGE_LIST' }, // full list tag
+            ]
+          : [{ type: 'PAGE' as const, id: 'PAGE_LIST' }],
+    }),
+   
 
     // Create Page
     createPage: builder.mutation<createpageResponse, { formData: FormData }>({
@@ -79,4 +108,6 @@ export const {
   useCreatePageMutation,
   useRemovePageMutation,
   useUpdatepageMutation,
+  useGetPageInfoQuery,
+  useGetAllPageQuery
 } = pageApi;

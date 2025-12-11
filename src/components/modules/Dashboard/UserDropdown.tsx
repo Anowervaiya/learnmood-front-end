@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IUser } from "@/interfaces/user.interface";
-import { logoutUser } from "@/server/auth/logout";
+import { logoutUser } from "@/server/auth/auth.server";
 import { Settings, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

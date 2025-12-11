@@ -27,11 +27,13 @@ import { Share } from 'lucide-react';
 import Link from 'next/link';
 import PostReactionsShow from './PostReactionsShow';
 function PostCard({ post, UserData }: { post: IPost, UserData: any }) {
+ 
 const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const { data: AllComments } = useGetcommentsQuery({ entityId: post?._id as string, entityType: 'Post' },
     // { skip: !showComment }
   )
+
   const handleComment = () => {
     setShowComment(!showComment)
   }

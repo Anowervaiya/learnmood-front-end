@@ -26,7 +26,7 @@ import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import  TextareaAutosize from 'react-textarea-autosize'
 
 export default function ChatCard({ user: selectedUser, setChatData }: any) {
-  const { data: userMe } = useUserInfoQuery(undefined) as any;
+  const { data: userMe } = useUserInfoQuery(undefined ) as any;
   const [images, setImage] = useState<(File | FileMetadata)[] | []>([]);
   const { data: messages } = useGetMessageQuery(
     {

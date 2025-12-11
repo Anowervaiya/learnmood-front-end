@@ -10,15 +10,26 @@ import { useAllPostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
 import { PostLoading } from './PostLoading';
 import { IPost } from '@/interfaces/post.interface';
+import { useGetPageInfoQuery } from '@/redux/api/page/page.api';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useCurrentAccount } from '@/hooks/useCurrentAccount';
 
 
 function MainFeed() {
-  const { data: UserData } = useUserInfoQuery(undefined) as any;
+  const { account, isPage, isUser, isLoading } = useCurrentAccount();
+
+  const { data: userData } = useUserInfoQuery(
+    isUser ? undefined : skipToken
+  ) as any
+  
+  const { data: pageData } = useGetPageInfoQuery(
+    isPage ? undefined: skipToken
+  );
+
   const limit = 10;
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
   const { data: PostData, isFetching } = useAllPostQuery({ page, limit });
-
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   // attach sentinel div
@@ -52,7 +63,6 @@ function MainFeed() {
     () => observerRef.current?.disconnect(),
     []);
 
-  
 
  
   return (
@@ -68,9 +78,9 @@ function MainFeed() {
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">
             <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-              <AvatarImage src={UserData?.data?.image?.profile} alt="User" className='object-cover' />
+              <AvatarImage src={isPage ? pageData?.data?.image?.profile : userData?.data?.image?.profile} alt="User" className='object-cover' />
             </Avatar>
-            <CreatePostModal data={UserData} />
+            <CreatePostModal data={isPage ? pageData : userData} />
           </div>
 
           <div className="flex justify-between pt-3">
@@ -150,7 +160,7 @@ function MainFeed() {
           {/* show Posts */}
         <div className='flex flex-col gap-4'>
           {allPosts.map((post, idx) => (
-            <PostCard key={post._id || idx} post={post} UserData={UserData} />
+            <PostCard key={post._id || idx} post={post} UserData={isPage ? pageData : userData} />
           ))}
         </div>
 

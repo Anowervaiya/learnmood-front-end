@@ -6,7 +6,6 @@ import { useCreateChallengeDayMutation, useCreateChallengeMutation } from "@/red
 import CreateChallengeDayForm, { DayFormValues } from "@/components/modules/seller/challenge/createChallengeDayForm";
 import CreateChallengeForm, { ChallengeFormValues } from "@/components/modules/seller/challenge/createChallengeForm";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useUserInfoQuery } from "@/redux/api/auth/auth.api";
 
 export default function CreateChallenge() {
   const searchParams = useSearchParams()

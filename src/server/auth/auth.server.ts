@@ -3,6 +3,9 @@
 
 import { Role } from "@/constants/user.constant";
 import { getDefaultDashboardRoute, isValidRedirectForRole } from "@/utils/auth";
+import { serverFetch } from "@/utils/serverFetch";
+import { deleteCookie } from "@/utils/tokenHandlers";
+import { registerValidationZodSchema } from "@/zod/user.validation";
 import { parse } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -44,8 +47,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             }
         }
 
-        const res = await fetch("http://localhost:5000/api/v1/auth/login", {
-            method: "POST",
+        const res = await serverFetch.post("/auth/login", {
             body: JSON.stringify(loginData),
             headers: {
                 "Content-Type": "application/json",
@@ -129,4 +131,67 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         console.log(error);
         return { error: "Login failed" };
     }
+}
+
+
+
+
+export const registerUser = async (_currentState: any, formData: any): Promise<any> => {
+    try {
+      
+        // Collect all fields from FormData
+        const payload = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            password: formData.get("password"),
+            dob: formData.get("dob"),
+            phone: formData.get("phone"),
+            bloodGroup: formData.get("bloodGroup"),
+            gender: formData.get("gender"),
+        };
+
+        // Zod validation
+        const validatedFields = registerValidationZodSchema.safeParse(payload);
+        if (!validatedFields.success) {
+            return {
+                success: false,
+                errors: validatedFields.error.issues.map((issue) => ({
+                    field: issue.path[0],
+                    message: issue.message,
+                })),
+            };
+        }
+    
+
+        const res = await serverFetch.post("/user/register", {
+            body: JSON.stringify(validatedFields.data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const result = await res.json();
+      if (result.success) {
+            await loginUser(_currentState, formData);
+            redirect(`/profile/${result.data._id}`);
+        }
+
+        return result;
+
+
+
+    } catch (error: any) {
+        if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+            throw error;
+        }
+        console.log(error);
+        return { error: "Registration failed" };
+    }
+}
+
+
+
+
+export const logoutUser = async () => {
+    await deleteCookie("accessToken");
+    await deleteCookie("refreshToken");
 }

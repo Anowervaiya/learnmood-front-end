@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { loginUser } from "@/server/auth/login.server";
+import { loginUser } from "@/server/auth/auth.server";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 

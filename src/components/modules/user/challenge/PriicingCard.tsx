@@ -6,18 +6,19 @@ import  { useState } from "react";
 import { createBooking } from "@/server/user/mentor.server";
 import { redirect } from "next/navigation";
 import { IChallenge } from "@/interfaces/challenge.interface";
+import { toast } from "sonner";
 
 export const PricingCard = ({challenge} : {challenge: IChallenge}) => {
    const [submitting, setSubmitting] =  useState(false);
     const handlePurchase= async (challengeId: string) => {
       setSubmitting(true);
       const result = await createBooking(challengeId, 'Challenge');
+      
       if (result.success) {
         setSubmitting(false);
         redirect(result?.data?.paymentUrl);
-  
       } else  {
-        console.log(result.error);
+        toast.error(result?.message || 'Failed to create booking');
         setSubmitting(false);
       }
     }

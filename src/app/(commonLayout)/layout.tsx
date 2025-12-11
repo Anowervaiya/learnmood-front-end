@@ -9,17 +9,13 @@ export default async function CommonLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const {data} = await getUserInfo()
+
+
  
-
-  if(!data){
-    return null
-  }
-
   return (
     <div className="min-h-screen  dark:bg-gray-900 transition-colors duration-300">
       {/* Navbar সব page এর উপরে থাকবে */}
-      <Navbar data ={data} />
+      <Navbar  />
 
       {/* Main container */}
       <main className="flex mx-auto max-w-7xl w-full px-4 mt-6 gap-6">

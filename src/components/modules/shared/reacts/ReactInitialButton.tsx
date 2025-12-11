@@ -12,8 +12,14 @@ export default function ReactInitialButton({ showReactions, entityId, entityType
   const { data: userReactData } = useGetUserAddedReactQuery({ 
     entityId, 
     entityType, 
-    userId: currentUserId 
+    accountId: currentUserId 
   });
+
+  // console.log({ 
+  //   entityId, 
+  //   entityType, 
+  //   accountId: currentUserId 
+  // }, 'user reaction')
 const userReact = userReactData?.data?.reactType;
   return (
     <div
