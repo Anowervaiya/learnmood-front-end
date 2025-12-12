@@ -34,8 +34,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useDeletePostMutation } from "@/redux/api/post/post.api";
 import { toast } from "sonner";
+import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 
-function PostCard({ post, UserData }: { post: IPost; UserData: any }) {
+function PostCard({ post, accountData }: { post: IPost; accountData: any }) {
+  const {isUser} = useCurrentAccount()
   const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const { data: AllComments } = useGetcommentsQuery(
@@ -57,15 +59,13 @@ const handleDeletePost = async (postId:string) => {
   }
 }
 
-
-  const isOwner = UserData?.data?._id === post?.accountId?._id;
-
+  const isOwner = accountData?.data?._id === post?.accountId?._id;
   return (
     <>
       <Card className=" border-none shadow-sm bg-white dark:bg-gray-800 pt-3 pb-1 gap-0 ">
         <CardHeader className="px-3 ">
           <div className="flex justify-between items-start">
-            <Link href={`/profile/${post?.accountId?._id}`} className="flex gap-3">
+            <Link href={`${isUser ? '/profile' : '/page'}/${post?.accountId?._id}`} className="flex gap-3">
               <Avatar className="border-2 border-blue-400 dark:border-teal-900 w-10 h-10">
                 <AvatarImage
                   src={post?.accountId?.image?.profile}
@@ -152,7 +152,6 @@ const handleDeletePost = async (postId:string) => {
                 showReactions={showReactions}
                 entityId={post?._id}
                 entityType={"Post"}
-                currentUserId={UserData?.data?._id}
               />
             </div>
 

@@ -160,7 +160,7 @@ function MainFeed() {
           {/* show Posts */}
         <div className='flex flex-col gap-4'>
           {allPosts.map((post, idx) => (
-            <PostCard key={post._id || idx} post={post} UserData={isPage ? pageData : userData} />
+            <PostCard key={post._id || idx} post={post} accountData={isPage ? pageData : userData} />
           ))}
         </div>
 

@@ -24,11 +24,9 @@ export default function ReactionButtons({
 
   entityId,
   entityType,
-  currentUserId,
 }: {
   entityId: string;
   entityType: string;
-  currentUserId: string;
 }) {
   const [addReact] = useAddReactMutation();
 
@@ -37,7 +35,6 @@ const handleReact = async (type: ReactType) => {
     entityId,
     entityType,
     reactType: type,
-    user: currentUserId,
   });
 };
 

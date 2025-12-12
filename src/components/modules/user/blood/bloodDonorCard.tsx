@@ -29,7 +29,7 @@ function BloodDonorCard({ donor, setChatData }: { donor: IUser, setChatData: any
            </Link>
 
             <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center shadow-md">
-              <span className="text-2xl font-black text-red-600">{donor?.blood ?? 'N/A'}</span>
+              <span className="text-2xl font-black text-red-600">{donor?.bloodGroup ?? 'N/A'}</span>
             </div>
           </div>
         </div>

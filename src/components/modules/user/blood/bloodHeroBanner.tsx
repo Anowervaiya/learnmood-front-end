@@ -43,7 +43,7 @@ export default function BloodHeroBanner() {
                   <DialogTrigger asChild>
                     <Button
                       size="lg"
-                      className=" text-red-600 hover:bg-red-50 rounded-full px-8 shadow-lg font-bold"
+                      className=" text-white-600 hover:bg-red-50 rounded-full px-8 shadow-lg font-bold"
                     >
                       <Droplet className="w-5 h-5 mr-2" />
                       Request Blood
@@ -62,7 +62,7 @@ export default function BloodHeroBanner() {
                 </Dialog>
 
                 {/* ✅ Become Donor Dialog */}
-                <Dialog>
+                {/* <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       size="lg"
@@ -81,10 +81,10 @@ export default function BloodHeroBanner() {
                     </DialogHeader>
                     <div className="mt-4">
                       {/* 👇 Insert your awesome donor form here */}
-                      <BecomeDonorForm setOpen={setOpen} />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                      {/* <BecomeDonorForm setOpen={setOpen} />
+                    </div> */}
+                  {/* </DialogContent>
+                </Dialog> */} 
               </div>
             </div>
           </div>

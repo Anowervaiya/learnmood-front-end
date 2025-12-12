@@ -8,7 +8,7 @@ export const PostApi = baseApi.injectEndpoints({
         method: 'POST',
         data: PostInfo,
       }),
-      invalidatesTags: [{ type: "POST", id: "LIST" }],
+      invalidatesTags: [{ type: "POST", id: "LIST" } , { type: "POST", id: "MY_LIST" }],
     }),
 
     allPost: builder.query({

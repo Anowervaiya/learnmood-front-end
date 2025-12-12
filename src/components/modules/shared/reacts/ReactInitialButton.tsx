@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Angry, Frown, Heart, Laugh, ThumbsUp } from "lucide-react";
 import { useGetUserAddedReactQuery } from "@/redux/api/react/react.api";
 
-export default function ReactInitialButton({ showReactions, entityId, entityType, currentUserId }: any) {
+export default function ReactInitialButton({ showReactions, entityId, entityType }: any) {
   
   const { data: userReactData } = useGetUserAddedReactQuery({ 
     entityId, 
-    entityType, 
-    accountId: currentUserId 
-  }, { skip: !currentUserId });
-
+    entityType
+  }, {skip: !entityId});
 
 const userReact = userReactData?.data?.reactType;
   return (
@@ -49,7 +47,6 @@ const userReact = userReactData?.data?.reactType;
           <ReactionButtons
             entityId={entityId}
             entityType={entityType}
-            currentUserId={currentUserId}
           />
         </div>
       )}

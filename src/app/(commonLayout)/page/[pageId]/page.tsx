@@ -10,8 +10,8 @@ import { getUserInfo } from '@/server/user/user.server';
 const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) => {
   const { pageId } = await params;
   const pageData = await getPageInfo(pageId);
-
   const pageProfile = pageData?.data;
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">

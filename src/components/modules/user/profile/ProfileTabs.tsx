@@ -24,8 +24,8 @@ import {
 } from "lucide-react"
 import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import ProfileFeed from "./ProfileFeed"
-export function ProfileTabs({ accountId } : {accountId: string}) {
-
+import { IUser } from "@/interfaces/user.interface"
+export function ProfileTabs({ profileData } : {profileData: IUser}) {
 
 
   return (
@@ -121,7 +121,7 @@ export function ProfileTabs({ accountId } : {accountId: string}) {
           </div>
 
           {/* My Posts */}
-        <ProfileFeed accountId={accountId as string} />
+        <ProfileFeed accountId={profileData._id as string} />
 
       </TabsContent>
 

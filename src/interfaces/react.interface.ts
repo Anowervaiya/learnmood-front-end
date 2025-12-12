@@ -1,11 +1,18 @@
 
-import { ReactType } from "@/constants/constant";
+import { ACCOUNT_TYPE, ReactType } from "@/constants/constant";
 
 export interface IReact {
   _id: string;
   entityId: string;
   entityType: string;
-  user: string;
+  accountId:{
+    name: string,
+    image: {
+      profile:string
+    },
+    _id:string
+  };
+  accountType: ACCOUNT_TYPE;
   reactType:  ReactType; // match your ReactType enum
   createdAt: string;
   updatedAt: string;
@@ -22,6 +29,7 @@ export interface IComment {
     },
     _id:string
   };
+  accountType: ACCOUNT_TYPE;
   content: string;// match your ReactType enum
   createdAt: string;
   updatedAt: string;

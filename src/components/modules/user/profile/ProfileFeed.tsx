@@ -6,11 +6,24 @@ import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
 import PostCard from '@/components/modules/shared/home/mainFeed/PostCard';
 import { IUser } from '@/interfaces/user.interface';
 import { IPost } from '@/interfaces/post.interface';
+import { useCurrentAccount } from '@/hooks/useCurrentAccount';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useGetPageInfoQuery } from '@/redux/api/page/page.api';
 
 
 
 function ProfileFeed({ accountId }: { accountId: string }) {
-  const { data: UserMe } = useUserInfoQuery(undefined) as any;
+   const { account, isPage, isUser, isLoading } = useCurrentAccount();
+  
+    const { data: userData } = useUserInfoQuery(
+      isUser ? undefined : skipToken
+    ) as any
+    
+    const { data: pageData } = useGetPageInfoQuery(
+      isPage ? undefined: skipToken
+    );
+  
+
   const limit = 4;
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
@@ -59,12 +72,14 @@ function ProfileFeed({ accountId }: { accountId: string }) {
     );
   }
 
+  const accountData = isUser ? userData : pageData;
+
   return (
     <>
       {/* show Posts */}
         <div className='flex flex-col gap-4'>
           {allPosts.map((post, idx) => (
-            <PostCard key={post._id || idx} post={post} UserData={UserMe} />
+            <PostCard key={post._id || idx} post={post} accountData={accountData} />
           ))}
         </div>
 

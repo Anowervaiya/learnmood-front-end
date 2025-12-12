@@ -9,8 +9,7 @@ import React from 'react'
 function Photos({profileData} : {profileData: IUser}) {
   const page = 1
   const limit = 20
-  const { data, isFetching } = useMypostQuery({ page, limit, userId: profileData?._id }, { skip: !profileData?._id });
-
+  const { data, isFetching } = useMypostQuery({ page, limit, accountId: profileData?._id }, { skip: !profileData?._id });
   const imageUrls  = [] as string[];
   // Loop through each post in the data
   data?.data.forEach((post: IPost) => {

@@ -12,11 +12,8 @@ const ProfilePage = async ({
   params: Promise<{ profileId: string }>;
 }) => {
   const { profileId } = await params;
- 
-  const profileData = await getUserProfile(profileId);
-
-  const profile = profileData?.data || {};
-
+  const profileRes = await getUserProfile(profileId);
+  const profileData = profileRes?.data;
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
       {/* Left Side */}
@@ -24,16 +21,16 @@ const ProfilePage = async ({
       <div className="lg:col-span-5 lg:sticky lg:top-20  lg:h-[calc(100vh-80px)] overflow-y-auto space-y-6 ">
         <ProfileCard
           entityType="user"
-          profileData={profile}
+          profileData={profileData}
         />
-        <Photos profileData={profile} />
+        <Photos profileData={profileData} />
       </div>
 
       {/* Right Side */}
       <div className="lg:col-span-7 space-y-6 lg:space-y-8">
         {/* Affiliate Board */}
         <AffiliateBoard />
-        <ProfileTabs profileData={profile} />
+        <ProfileTabs profileData={profileData} />
       </div>
     </div>
   );

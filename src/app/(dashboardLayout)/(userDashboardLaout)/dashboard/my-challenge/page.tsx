@@ -6,7 +6,6 @@ export default async function MyChallengePage() {
   const response = await getMyChallenge();
   const challenge: IChallenge[] = response?.data || [];
 
-  console.log(challenge, "my challenge");
 
   return (
     <div className="space-y-6">

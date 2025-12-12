@@ -12,15 +12,15 @@ interface ReactResponse {
 export const reactApi = baseApi.injectEndpoints({
 
   endpoints: builder => ({
-   getUserAddedReact: builder.query<ReactResponse, { entityId: string; entityType: string; accountId: string }>({
-  query: ({ entityId, entityType, accountId }) => ({
-    url: `/react?entityId=${entityId}&entityType=${entityType}&accountId=${accountId}`,
-    method: 'GET',
-  }),
-  providesTags: (result, error, { entityId, accountId }) => [
-    { type: 'USER_REACT', id: `${entityId}-${accountId}` },
-  ],
-}),
+    getUserAddedReact: builder.query<ReactResponse, { entityId: string; entityType: string }>({
+      query: ({ entityId, entityType }) => ({
+        url: `/react?entityId=${entityId}&entityType=${entityType}`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, { entityId }) => [
+        { type: 'REACT', id: `${entityId}` },
+      ],
+    }),
 
     // Add react
     addReact: builder.mutation<IReact, Partial<IReact>>({
@@ -29,14 +29,14 @@ export const reactApi = baseApi.injectEndpoints({
         method: 'POST',
         data,
       }),
-       invalidatesTags: (_res, _err, { entityId, user }) => [
-    { type: "POST", id: entityId }, // Post count refresh
-    { type: "USER_REACT", id: `${entityId}-${user}` }, // initial button refresh
-  ],
+      invalidatesTags: (_res, _err, { entityId }) => [
+        { type: "POST", id: entityId }, // Post count refresh
+        { type: "REACT", id: `${entityId}` }, // initial button refresh
+      ],
 
     }),
 
-  
+
   }),
 });
 

@@ -133,12 +133,12 @@ function Navbar() {
             >
               <House />
             </Link>
-            <Link
+            {isUser &&<Link
               href={"/friends/recommended"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               <Users />
-            </Link>
+            </Link>}
             <Link
               href={"/tutors"}
               className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 "

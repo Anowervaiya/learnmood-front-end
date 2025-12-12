@@ -43,11 +43,10 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
     { skip: activeTab !== 'challenge' }
   )
 
-  const { data: pageInfo } = useGetPageInfoQuery(undefined) as any
+  const { data: pageInfo } = useGetPageInfoQuery(undefined) as any //self created page
  
 
  const isOwner = pageInfo?.data?._id === pageData?._id;
-
 
  
   return (
@@ -65,14 +64,14 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
      <TabsContent value="posts">
           {/* Create Post */}
 
-          <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
+          {isOwner && <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
             <div className="flex gap-3">
-              {pageData?.image?.profile ?
+              { pageData?.image?.profile ?
                 <Avatar className="w-10 h-10">
                   <AvatarImage src={pageData?.image?.profile} className="object-cover" />
                   <AvatarFallback className="text-lg">{pageData?.name}</AvatarFallback>
                 </Avatar> : <User className="w-10 h-10 rounded-full" />}
-               {isOwner &&<CreatePostModal data={ pageData} />}
+               <CreatePostModal data={ pageData} />
             </div>
 
             <div className="flex justify-between pt-3">
@@ -141,10 +140,10 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
                 Achievement
               </Button>
             </div>
-          </div>
+          </div>}
 
           {/* My Posts */}
-        {/* <ProfileFeed user={profileData} /> */}
+        <ProfileFeed accountId={pageData._id} />
         
       </TabsContent>
 
