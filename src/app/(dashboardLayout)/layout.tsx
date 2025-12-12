@@ -1,6 +1,6 @@
 
-import DashboardNavbar from "@/components/modules/dashboard/DashboardNavbar";
-import DashboardSidebar from "@/components/modules/dashboard/DashboardSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import React from "react";
 export const dynamic = 'force-dynamic'
 const CommonDashboardLayout = async ({
