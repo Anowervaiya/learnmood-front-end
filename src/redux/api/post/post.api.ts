@@ -29,22 +29,49 @@ export const PostApi = baseApi.injectEndpoints({
           : [{ type: "POST", id: "LIST" }],
     }),
     mypost: builder.query({
-      query: ({ page, limit, userId }) => ({
-        url: `/post?page=${page}&limit=${limit}&user=${userId}`,
+      query: ({ page, limit, accountId }) => ({
+        url: `/post?page=${page}&limit=${limit}&accountId=${accountId}`,
         method: 'GET',
       }),
-     providesTags: (result) =>
+      providesTags: (result) =>
         result?.data
           ? [
-              ...result.data.map((post: any) => ({
-                type: "POST",
-                id: post._id,
-              })),
-              { type: "POST", id: "MY_LIST" },
-            ]
+            ...result.data.map((post: any) => ({
+              type: "POST",
+              id: post._id,
+            })),
+            { type: "POST", id: "MY_LIST" },
+          ]
           : [{ type: "POST", id: "MY_LIST" }],
-  
+
     }),
+
+    updatePost: builder.mutation({
+      query: ({ postId, payload }) => ({
+        url: `/post/${postId}`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: (result, error, { postId }) => [
+        { type: "POST", id: postId },
+        { type: "POST", id: "LIST" },
+        { type: "POST", id: "MY_LIST" },
+      ],
+    }),
+
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `/post/${postId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, postId) => [
+        { type: "POST", id: postId },
+        { type: "POST", id: "LIST" },
+        { type: "POST", id: "MY_LIST" },
+      ],
+    }),
+
+
   }),
 });
 
@@ -52,7 +79,9 @@ export const {
   useCreatePostMutation,
   // useMyPostQuery,
   useAllPostQuery,
-  useMypostQuery
-  // useDeletePostMutation,
+  useMypostQuery,
+  useUpdatePostMutation,
+  useDeletePostMutation
+
   // useFilterByStatusPostQuery,
 } = PostApi;

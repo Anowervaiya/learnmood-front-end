@@ -1,9 +1,10 @@
-import { ReactType } from "@/constants/constant";
+import { ACCOUNT_TYPE, ReactType } from "@/constants/constant";
 import { IUser } from "./user.interface";
 
 export interface IPost {
   _id?: string;
-  user: IUser;
+  accountId: IUser;
+  accountType: ACCOUNT_TYPE;
   content: string;
   media?: { url: string; type: string }[];
   tag?: string[];

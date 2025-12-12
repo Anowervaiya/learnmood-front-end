@@ -25,7 +25,7 @@ const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) 
       <div className="lg:col-span-7 space-y-6 lg:space-y-8">
         {/* Affiliate Board */}
         <AffiliateBoard />
-        <PageProfileTabs pageData={pageProfile} />
+        <PageProfileTabs  pageData={pageProfile} />
       </div>
     </div>
   )

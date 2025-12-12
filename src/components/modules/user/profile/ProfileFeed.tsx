@@ -1,28 +1,20 @@
 'use client'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
-import Image from 'next/image';
-import { UserInfoResponse } from '@/interfaces/global.interfaces';
-
-import { useAllPostQuery, useMypostQuery } from '@/redux/api/post/post.api';
+import {  useMypostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
 import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
-import CreatePostModal from '@/components/modules/shared/home/mainFeed/CreatePostModal';
 import PostCard from '@/components/modules/shared/home/mainFeed/PostCard';
 import { IUser } from '@/interfaces/user.interface';
-import { skip } from 'node:test';
 import { IPost } from '@/interfaces/post.interface';
 
 
 
-
-function ProfileFeed({ user }: { user: IUser }) {
+function ProfileFeed({ accountId }: { accountId: string }) {
   const { data: UserMe } = useUserInfoQuery(undefined) as any;
   const limit = 4;
   const [page, setPage] = useState(1);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
-  const { data: PostData, isFetching } = useMypostQuery({ page, limit, userId : user?._id  } , {skip: !user?._id});
+  const { data: PostData, isFetching } = useMypostQuery({ page, limit, accountId }, { skip: !accountId });
 
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -69,10 +61,7 @@ function ProfileFeed({ user }: { user: IUser }) {
 
   return (
     <>
-   
-   
-
-          {/* show Posts */}
+      {/* show Posts */}
         <div className='flex flex-col gap-4'>
           {allPosts.map((post, idx) => (
             <PostCard key={post._id || idx} post={post} UserData={UserMe} />
@@ -83,8 +72,6 @@ function ProfileFeed({ user }: { user: IUser }) {
         
           {/* sentinel div for infinite scroll */}
           <div ref={setLoadMoreRef} className="h-40" />
-      
-      
     </>
   );
 }

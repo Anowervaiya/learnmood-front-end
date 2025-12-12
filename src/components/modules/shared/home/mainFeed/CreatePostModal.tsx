@@ -40,7 +40,7 @@ import { useCreatePostMutation } from '@/redux/api/post/post.api';
 import { IUser } from '@/interfaces/user.interface';
 import { fi } from 'zod/v4/locales';
 
-const CreatePostModal = ({ data }: {data:IUser}) => {
+const CreatePostModal = ({ data }: {data:any}) => {
 const [isSubmit, setIsSubmit] = useState(false);
     const [open, setOpen] = useState(false);
   const [createPost] = useCreatePostMutation();

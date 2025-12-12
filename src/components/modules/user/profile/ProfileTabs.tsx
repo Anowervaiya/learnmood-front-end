@@ -24,8 +24,7 @@ import {
 } from "lucide-react"
 import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import ProfileFeed from "./ProfileFeed"
-import { IUser } from "@/interfaces/user.interface"
-export function ProfileTabs({ profileData } : {profileData: IUser}) {
+export function ProfileTabs({ accountId } : {accountId: string}) {
 
 
 
@@ -50,7 +49,7 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
                   <AvatarImage src={profileData?.image?.profile} className="object-cover" />
                   <AvatarFallback className="text-lg">{profileData?.name}</AvatarFallback>
                 </Avatar> : <User className="w-10 h-10 rounded-full" />}
-            <CreatePostModal data={profileData} />
+               <CreatePostModal data={profileData} />
             </div>
 
             <div className="flex justify-between pt-3">
@@ -122,7 +121,8 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
           </div>
 
           {/* My Posts */}
-        <ProfileFeed user={profileData} />
+        <ProfileFeed accountId={accountId as string} />
+
       </TabsContent>
 
       <TabsContent value="about">
