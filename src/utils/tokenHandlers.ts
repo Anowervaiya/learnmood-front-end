@@ -2,7 +2,8 @@
 
 import { cookies } from "next/headers";
 
-export const setCookie = async (key: string, value: string, options: Partial<ResponseCookie>) => {
+
+export const setCookie = async (key: string, value: string, options: any) => {
     const cookieStore = await cookies();
     cookieStore.set(key, value, options);
 }

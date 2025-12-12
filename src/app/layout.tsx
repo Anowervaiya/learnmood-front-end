@@ -1,13 +1,14 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
-import { Toaster } from '@/components/ui/sonner';
-import { ReduxProvider } from '@/redux/provider/provider';
-import LoginSuccessToast from '@/components/shared/LoginSuccessToast';
-import LogoutSuccessToast from '@/components/shared/LogoutSuccessToast';
+import { Toaster } from "@/components/ui/sonner";
+import { ReduxProvider } from "@/redux/provider/provider";
+import LoginSuccessToast from "@/components/shared/LoginSuccessToast";
+import LogoutSuccessToast from "@/components/shared/LogoutSuccessToast";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: 'Learnmood',
+  title: "Learnmood",
 };
 
 export default function RootLayout({
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
           {children}
-        <Toaster richColors />
-         <LoginSuccessToast />
-        <LogoutSuccessToast />
+          <Toaster richColors />
+         <Suspense fallback={null}>
+           <LoginSuccessToast />
+          <LogoutSuccessToast />
+         </Suspense>
         </ReduxProvider>
       </body>
     </html>

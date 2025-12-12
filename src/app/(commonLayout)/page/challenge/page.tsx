@@ -1,14 +1,21 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { handleVideoUpload } from "@/utils/VideoUpload";
-import { useCreateChallengeDayMutation, useCreateChallengeMutation } from "@/redux/api/challenge/challenge.api";
-import CreateChallengeDayForm, { DayFormValues } from "@/components/modules/seller/challenge/createChallengeDayForm";
-import CreateChallengeForm, { ChallengeFormValues } from "@/components/modules/seller/challenge/createChallengeForm";
+import {
+  useCreateChallengeDayMutation,
+  useCreateChallengeMutation,
+} from "@/redux/api/challenge/challenge.api";
+import CreateChallengeDayForm, {
+  DayFormValues,
+} from "@/components/modules/seller/challenge/createChallengeDayForm";
+import CreateChallengeForm, {
+  ChallengeFormValues,
+} from "@/components/modules/seller/challenge/createChallengeForm";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function CreateChallenge() {
-  const searchParams = useSearchParams()
+function CreateChallenge() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [challengeId, setChallengeId] = useState<string | null>(null);
@@ -18,17 +25,16 @@ export default function CreateChallenge() {
   const [dayNotes, setDayNotes] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [ChallengeBanner, setChallengeBanner] = useState<File | null>(null);
-  const [createChallenge] = useCreateChallengeMutation()
-  const [createChallengeDay] = useCreateChallengeDayMutation()
-  const pageId = searchParams.get('pageId')
+  const [createChallenge] = useCreateChallengeMutation();
+  const [createChallengeDay] = useCreateChallengeDayMutation();
+  const pageId = searchParams.get("pageId");
 
- 
   const handleNext = async (data: ChallengeFormValues) => {
     setSubmitting(true);
-    const payload = { 
+    const payload = {
       createdBy: pageId,
-      ...data
-    }
+      ...data,
+    };
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
     if (ChallengeBanner) {
@@ -45,31 +51,28 @@ export default function CreateChallenge() {
     } catch (err) {
       console.error(err);
       toast.error("Failed to create challenge");
-    }
-    finally {
+    } finally {
       setSubmitting(false);
     }
   };
 
   const submitDay = async (data: DayFormValues) => {
- 
-   
     try {
       setSubmitting(true);
       const UploadedVideosInfo = await Promise.all(
         dayVideos.map((file) => handleVideoUpload(file))
       );
-     
+
       const payload = {
         title: data.title,
-        article:data.article,
+        article: data.article,
         challengeId: challengeId,
-        dayNumber:currentDay,
-        video: UploadedVideosInfo
-      }
-      const formData = new FormData()
+        dayNumber: currentDay,
+        video: UploadedVideosInfo,
+      };
+      const formData = new FormData();
       formData.append("data", JSON.stringify(payload));
-      if (dayNotes){
+      if (dayNotes) {
         dayNotes.forEach((file) => formData.append("files", file));
       }
 
@@ -77,20 +80,15 @@ export default function CreateChallenge() {
       if (res.success) {
         toast.success(`Day ${currentDay} submitted!`);
         setDayVideos([]);
-        setDayNotes([])
-      
-         setCurrentDay(currentDay + 1);
-        
+        setDayNotes([]);
+
+        setCurrentDay(currentDay + 1);
+
         if (currentDay === durationDays) {
-          console.log('hello' , currentDay, durationDays)
-           window.location.href = `/challenge/${challengeId}`;
+          console.log("hello", currentDay, durationDays);
+          window.location.href = `/challenge/${challengeId}`;
         }
-        
       }
-
-
-
-      
     } catch (err) {
       console.error(err);
       toast.error("Failed to submit day");
@@ -111,15 +109,21 @@ export default function CreateChallenge() {
 
       {step === 2 && (
         <CreateChallengeDayForm
-        currentDay={currentDay}
-        setCurrentDay={setCurrentDay}
-        durationDays={durationDays}
-        setDayVideos={setDayVideos}
-        setDayNotes={setDayNotes}
-        submitting={submitting}
-        submitDay={submitDay}
+          currentDay={currentDay}
+          setCurrentDay={setCurrentDay}
+          durationDays={durationDays}
+          setDayVideos={setDayVideos}
+          setDayNotes={setDayNotes}
+          submitting={submitting}
+          submitDay={submitDay}
         />
       )}
     </div>
   );
+}
+
+export default function CreateChallengePage() {
+  <Suspense fallback={<div>Loading Create Chalenge...</div>}>
+    <CreateChallenge />
+  </Suspense>;
 }
