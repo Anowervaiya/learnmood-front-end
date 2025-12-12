@@ -6,9 +6,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Bell, Menu, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import DashboardMobileSidebar from "./DashboardMobileSidebar";
-import UserDropdown from "./UserDropdown";
 import { IUser } from "@/interfaces/user.interface";
 import { NavSection } from "@/interfaces/dashboard.interface";
+import UserDropdown from "./UserDropdown";
 
 interface DashboardNavbarContentProps {
   userInfo: IUser;
