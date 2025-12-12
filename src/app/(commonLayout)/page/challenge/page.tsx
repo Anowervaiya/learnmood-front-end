@@ -123,7 +123,9 @@ function CreateChallenge() {
 }
 
 export default function CreateChallengePage() {
-  <Suspense fallback={<div>Loading Create Chalenge...</div>}>
-    <CreateChallenge />
-  </Suspense>;
+  return (
+    <Suspense fallback={<div>Loading Create Challenge...</div>}>
+      <CreateChallenge />
+    </Suspense>
+  );
 }
