@@ -23,7 +23,7 @@ import {
   User,
   CircleUser,
 } from "lucide-react"
-import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
+import CreatePostModal from "@/components/modules/shared/posts/CreatePostModal"
 import ProfileFeed from "./ProfileFeed"
 import { IUser } from "@/interfaces/user.interface"
 export function ProfileTabs({ profileData } : {profileData: IUser}) {

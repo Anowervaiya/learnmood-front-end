@@ -10,22 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import PostMedia from "./PostMedia";
-import ReactInitialButton from "../../reacts/ReactInitialButton";
-import CommentInitialButton from "../../comments/CommentInitialButton";
 import { useState } from "react";
 import { useGetcommentsQuery } from "@/redux/api/comment/comment.api";
-import CommentCard from "../../comments/CommentCard";
 import { skip } from "node:test";
 import { IComment } from "@/interfaces/react.interface";
-import CommentInitialInputButton from "../../comments/CommentInitialButton";
 import { IPost } from "@/interfaces/post.interface";
 import { formateExactTime } from "@/utils/formateExactTime";
 import { PiShareFat } from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa";
 import { Share } from "lucide-react";
 import Link from "next/link";
-import PostReactionsShow from "./PostReactionsShow";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,29 +29,35 @@ import {
 import { useDeletePostMutation } from "@/redux/api/post/post.api";
 import { toast } from "sonner";
 import { useCurrentAccount } from "@/hooks/useCurrentAccount";
+import PostMedia from "./PostMedia";
+import PostReactionsShow from "./PostReactionsShow";
+import ReactInitialButton from "../reacts/ReactInitialButton";
+import ShareModal from "../share/ShareModal";
+import CommentInitialInputButton from "../comments/CommentInitialButton";
+import CommentCard from "../comments/CommentCard";
 
-function PostCard({ post, accountData }: { post: IPost; accountData: any }) {
-  const {isUser} = useCurrentAccount()
+function PostCard({ post, accountData }: { post: IPost; accountData?: any }) {
+  const [openShare, setOpenShare] = useState(false);
+  const { isUser } = useCurrentAccount();
   const [showReactions, setShowReactions] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const { data: AllComments } = useGetcommentsQuery(
     { entityId: post?._id as string, entityType: "Post" }
     // { skip: !showComment }
   );
-  const [deletePost]=useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const handleComment = () => {
     setShowComment(!showComment);
   };
-  
-const handleDeletePost = async (postId:string) => {
-  try {
-    const res = await deletePost(postId).unwrap();
 
-  } catch (error) {
-    toast.error("Failed to delete the post.");    
-  }
-}
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const res = await deletePost(postId).unwrap();
+    } catch (error) {
+      toast.error("Failed to delete the post.");
+    }
+  };
 
   const isOwner = accountData?.data?._id === post?.accountId?._id;
   return (
@@ -65,7 +65,10 @@ const handleDeletePost = async (postId:string) => {
       <Card className=" border-none shadow-sm bg-white dark:bg-gray-800 pt-3 pb-1 gap-0 ">
         <CardHeader className="px-3 ">
           <div className="flex justify-between items-start">
-            <Link href={`${isUser ? '/profile' : '/page'}/${post?.accountId?._id}`} className="flex gap-3">
+            <Link
+              href={`${isUser ? "/profile" : "/page"}/${post?.accountId?._id}`}
+              className="flex gap-3"
+            >
               <Avatar className="border-2 border-blue-400 dark:border-teal-900 w-10 h-10">
                 <AvatarImage
                   src={post?.accountId?.image?.profile}
@@ -79,9 +82,7 @@ const handleDeletePost = async (postId:string) => {
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {formateExactTime(post.createdAt as unknown as string)}
                   </p>
-                  <Badge className="text-[10px] py-0 h-4 bg-teal-100 text-teal-700 dark:bg-teal-800 dark:text-teal-300">
-                    Expert
-                  </Badge>
+                 
                 </div>
               </div>
             </Link>
@@ -117,12 +118,14 @@ const handleDeletePost = async (postId:string) => {
                     Edit Post
                   </DropdownMenuItem>
                 )}
-                {isOwner && <DropdownMenuItem
-                  onClick={() => handleDeletePost(post?._id as string)}
-                  className="text-red-500"
-                >
-                  Delete Post
-                </DropdownMenuItem>}
+                {isOwner && (
+                  <DropdownMenuItem
+                    onClick={() => handleDeletePost(post?._id as string)}
+                    className="text-red-500"
+                  >
+                    Delete Post
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem onClick={() => console.log("Report clicked")}>
                   Report
                 </DropdownMenuItem>
@@ -137,16 +140,27 @@ const handleDeletePost = async (postId:string) => {
           <div className="flex justify-between items-center w-full py-2 px-4">
             <PostReactionsShow reactions={post?.reactions} />
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {post?.commentCount || 0} comments • {post?.shareCount || 0} share
+              {post?.commentCount! > 0 && (
+                <span>{post?.commentCount} comments</span>
+              )}{" "}
+              {post?.shareCount! > 0 && <span>{post?.shareCount} • share</span>}
             </div>
           </div>
           <Separator />
           <div className="grid grid-cols-3 w-full relative">
-            {/* React button  */}
+            {/* React Button */}
             <div
               onMouseEnter={() => setShowReactions(true)}
               onMouseLeave={() => setShowReactions(false)}
-              className=" flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 py-1 text-gray-600 dark:text-gray-300"
+              className="
+    flex justify-center items-center
+    rounded-lg mt-1 py-1
+    text-gray-600 dark:text-gray-300
+    hover:bg-gray-100 dark:hover:bg-neutral-800
+    transition-colors
+    cursor-pointer
+    px-2
+  "
             >
               <ReactInitialButton
                 showReactions={showReactions}
@@ -154,24 +168,43 @@ const handleDeletePost = async (postId:string) => {
                 entityType={"Post"}
               />
             </div>
-
             {/* Comment Button */}
             <div
-              className="flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 gap-2 py-1 text-gray-600 dark:text-gray-300"
               onClick={handleComment}
+              className="
+    flex justify-center items-center gap-2
+    rounded-lg mt-1 py-1 px-2
+    text-gray-600 dark:text-gray-300
+    hover:bg-gray-100 dark:hover:bg-neutral-800
+    transition-colors
+    cursor-pointer
+  "
             >
-              <FaRegComment size={20} /> {/* Icon size 50px */}
+              <FaRegComment size={20} />
               <span>Comment</span>
             </div>
-
             {/* Share Button */}
             <div
-              // variant="ghost"
-              className="flex justify-center items-center hover:bg-gray-100 hover:cursor-pointer rounded-lg mt-1 gap-2 py-1 text-gray-600 dark:text-gray-300"
+              onClick={() => setOpenShare(true)}
+              className="
+    flex justify-center items-center gap-2
+    rounded-lg mt-1 py-1 px-2
+    text-gray-600 dark:text-gray-300
+    hover:bg-gray-100 dark:hover:bg-neutral-800
+    transition-colors
+    cursor-pointer
+  "
             >
               <PiShareFat size={23} />
               <span>Share</span>
             </div>
+
+            <ShareModal
+              entityType={"post"}
+              entityId={post?._id}
+              open={openShare}
+              onClose={() => setOpenShare(false)}
+            />
             {/* Comment input  */}
             {showComment && (
               <div className="col-span-3">

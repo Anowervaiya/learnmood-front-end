@@ -34,16 +34,27 @@ function LeftSiderbar() {
 
   return (
     <>
-      <aside className="hidden lg:block w-3/12  sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
+      <aside
+        className="
+  hidden lg:block   col-span-3
+
+
+  sticky top-20
+  h-[calc(100vh-80px)]
+  overflow-y-auto
+  scrollbar-hover
+"
+      >
+        {" "}
         {/* profile (top)  */}
-        <div className="p-4 bg-white dark:bg-gray-800  rounded-t-lg  shadow-sm">
+        <div className=" bg-white dark:bg-gray-800   mx-4 border p-2 rounded-full">
           <Link
             href={`/${isUser ? "profile" : "page"}/${
               isUser ? userData?.data?._id : pageData?.data?._id
             }`}
           >
             <div className="flex items-center gap-3">
-              <Avatar className="w-10 h-10  border-2 border-blue-500">
+              <Avatar className="w-10 h-10   border-blue-500">
                 <AvatarImage
                   className="object-cover"
                   src={
@@ -62,7 +73,6 @@ function LeftSiderbar() {
             </div>
           </Link>
         </div>
-
         {/* my learning path
         <div className="p-4 bg-white dark:bg-gray-800 rounded-b-lg   shadow-sm">
           <h3 className="font-semibold mb-3">My Learning Paths</h3>
@@ -94,7 +104,6 @@ function LeftSiderbar() {
             </div>
           </div>
         </div> */}
-
         {/* features  */}
         <div className="  p-4   ">
           <h3 className="font-semibold pb-4">Recommended</h3>

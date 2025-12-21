@@ -120,3 +120,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbar by default */
+.scrollbar-hover {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Chrome, Edge, Safari */
+.scrollbar-hover::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+}
+
+/* Show scrollbar on hover */
+.scrollbar-hover:hover {
+  scrollbar-width: thin;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5);
+}
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  transition: background-color 0.25s ease;
+}

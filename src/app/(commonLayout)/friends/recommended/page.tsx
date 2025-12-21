@@ -3,9 +3,9 @@ import React from 'react'
 
 function RecommendedFriendPage() {
   return (
-    <div>
+    <>
       <RecommendedFriend/>
-    </div>
+    </>
   )
 }
 

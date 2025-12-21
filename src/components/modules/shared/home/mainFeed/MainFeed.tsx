@@ -3,16 +3,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import Image from 'next/image';
-import CreatePostModal from './CreatePostModal';
+import CreatePostModal from '../../posts/CreatePostModal';
 import { UserInfoResponse } from '@/interfaces/global.interfaces';
-import PostCard from './PostCard';
 import { useAllPostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
-import { PostLoading } from './PostLoading';
 import { IPost } from '@/interfaces/post.interface';
 import { useGetPageInfoQuery } from '@/redux/api/page/page.api';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useCurrentAccount } from '@/hooks/useCurrentAccount';
+import PostCard from '../../posts/PostCard';
+import PostLoading from '../../posts/PostLoading';
 
 
 function MainFeed() {
@@ -67,8 +67,9 @@ function MainFeed() {
  
   return (
     <>
-      <div className=" w-5/12
-    px-2 sm:px-4 md:px-6 ">
+      <div className="   col-span-12 lg:col-span-6
+  px-2 sm:px-6
+     ">
         {/* Create Post */}
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">

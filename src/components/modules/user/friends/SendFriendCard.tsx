@@ -23,39 +23,66 @@ export default function SendFriendCard({ item }: any) {
   };
 
   return (
-    <div className="max-w-2xl  sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm   bg-white shadow-md  rounded-lg text-gray-900 relative">
-      <div className="rounded-t-lg w-full h-24 overflow-hidden">
-        <img
-          className="object-cover object-top w-[200px]"
-          src={item?.image?.banner || "/banner.jpg"}
-          alt="Mountain"
-        />
-      </div>
-      <div className="mx-auto w-24 h-24 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-        <img
-          className="object-cover object-center w-full h-32"
-          referrerPolicy="no-referrer"
-          src={item?.image?.profile || "/anower.jpg"}
-          alt="Woman looking front"
-        />
-      </div>
-      <div className="text-center mt-2 pb-2">
-        <h2 className="font-semibold">{item?.name}</h2>
-      </div>
-      <div className="p-3">
-        <button
-          disabled={reqSubmit}
-          onClick={() => handleSendFriendRequest(item?._id)}
-          className="flex items-center hover:cursor-pointer disabled:cursor-not-allowed   bg-blue-500 px-4 py-2 w-full justify-center rounded-lg text-white  "
-        >
-          <span>{reqSubmit ? "Sending Request..." : "Send Request"}</span>
-        </button>
-      </div>
+    <div className="max-w-2xl sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm 
+                bg-white dark:bg-neutral-900 
+                shadow-md dark:shadow-neutral-800/40
+                rounded-lg 
+                text-gray-900 dark:text-gray-100 
+                relative">
 
-      <span className=" hover:bg-red-600 hover:text-white hover:cursor-pointer absolute  top-2 right-2 bg-gray-200 rounded-full p-1">
-        {" "}
-        <X />
-      </span>
-    </div>
+  {/* Banner */}
+  <div className="rounded-t-lg w-full h-24 overflow-hidden">
+    <img
+      className="object-cover object-top w-full h-full"
+      src={item?.image?.banner || "/banner.jpg"}
+      alt="Banner"
+    />
+  </div>
+
+  {/* Profile Image */}
+  <div className="mx-auto w-24 h-24 relative -mt-16 
+                  border-4 border-white dark:border-neutral-900 
+                  rounded-full overflow-hidden bg-white dark:bg-neutral-900">
+    <img
+      className="object-cover object-center w-full h-full"
+      referrerPolicy="no-referrer"
+      src={item?.image?.profile || "/anower.jpg"}
+      alt={item?.name}
+    />
+  </div>
+
+  {/* Name */}
+  <div className="text-center mt-2 pb-2">
+    <h2 className="font-semibold text-gray-900 dark:text-gray-100">
+      {item?.name}
+    </h2>
+  </div>
+
+  {/* Action Button */}
+  <div className="p-3">
+    <button
+      disabled={reqSubmit}
+      onClick={() => handleSendFriendRequest(item?._id)}
+      className="flex items-center justify-center w-full px-4 py-2 rounded-lg
+                 bg-blue-600 hover:bg-blue-700
+                 disabled:bg-blue-400 disabled:cursor-not-allowed
+                 text-white hover:cursor-pointer font-medium transition"
+    >
+      {reqSubmit ? "Sending Request..." : "Send Request"}
+    </button>
+  </div>
+
+  {/* Close Button */}
+  {/* <span
+    className="absolute top-2 right-2 p-1 rounded-full 
+               bg-gray-200 dark:bg-neutral-700
+               text-gray-700 dark:text-gray-200
+               hover:bg-red-600 hover:text-white
+               transition cursor-pointer"
+  >
+    <X />
+  </span> */}
+</div>
+
   );
 }

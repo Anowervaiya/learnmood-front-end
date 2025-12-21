@@ -74,7 +74,7 @@ export default function BecomeTutorForm({ setOpen }: any) {
   return (
 
     <motion.div
-      className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-white p-4"
+      className="flex justify-center items-center  bg-gradient-to-br  p-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}

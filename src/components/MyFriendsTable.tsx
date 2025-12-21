@@ -27,7 +27,6 @@ import { useMyFriendsQuery } from "@/redux/api/user/user.api";
 
 export default function MyFriendsTable() {
     const { data:myfriends } = useMyFriendsQuery(undefined);
-
     const data = myfriends?.data?.friends;
     if(data?.length===0) return 'You have no friens still now'
   return (
@@ -56,9 +55,7 @@ export default function MyFriendsTable() {
                   </div>
                   <div>
                     <div className="font-medium">{item.name}</div>
-                    <span className="text-muted-foreground mt-0.5 text-xs">
-                      {item.username || 'Software Engineer '}
-                    </span>
+                    
                   </div>
                 </div>
               </TableCell>

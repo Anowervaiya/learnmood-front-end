@@ -13,14 +13,15 @@ export default async function CommonLayout({
 
  
   return (
-    <div className="min-h-screen  dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen w-full  dark:bg-gray-900 transition-colors duration-300">
       {/* Navbar সব page এর উপরে থাকবে */}
       <Navbar  />
 
       {/* Main container */}
-      <main className="flex mx-auto max-w-[1400px] w-full px-4 mt-6 gap-6">
+      <main className="max-w-7xl mx-auto grid grid-cols-12  w-full mt-4  gap-6">
         {children}
       </main>
+
     </div>
   );
 }

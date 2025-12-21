@@ -7,7 +7,6 @@ function RecommendedFriend() {
   const { data } = useRecommendedFriendsQuery(undefined);
 
 
-
   return (
     <div>
       <div

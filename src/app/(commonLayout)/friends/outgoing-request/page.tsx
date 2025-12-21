@@ -3,9 +3,9 @@ import React from 'react'
 
 function OutgoingRequestPage() {
   return (
-    <div>
+    <>
       <OutgoingRequest/>
-    </div>
+    </>
   )
 }
 

@@ -2,13 +2,13 @@
 import { useUserInfoQuery } from '@/redux/api/auth/auth.api';
 import {  useMypostQuery } from '@/redux/api/post/post.api';
 import { useEffect, useRef, useState } from 'react';
-import PostLoading from '@/components/modules/shared/home/mainFeed/PostLoading';
-import PostCard from '@/components/modules/shared/home/mainFeed/PostCard';
+import PostLoading from '@/components/modules/shared/posts/PostLoading';
 import { IUser } from '@/interfaces/user.interface';
 import { IPost } from '@/interfaces/post.interface';
 import { useCurrentAccount } from '@/hooks/useCurrentAccount';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useGetPageInfoQuery } from '@/redux/api/page/page.api';
+import PostCard from '../../shared/posts/PostCard';
 
 
 

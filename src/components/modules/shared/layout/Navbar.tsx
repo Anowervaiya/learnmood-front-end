@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation"; // <-- import this
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import React, { useState } from "react";
 import {
@@ -16,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useUserInfoQuery } from "@/redux/api/auth/auth.api";
-import { ROLE } from "@/constants/constant";
+import { ACCOUNT_TYPE, ROLE } from "@/constants/constant";
 import UserMenu from "@/components/ui/userMenu";
 import Link from "next/link";
 import { ChatDropDown } from "../messages/ChatDropDown";
@@ -32,6 +33,14 @@ const navigationLinks = [
   { href: "/user", label: "Dashboard", role: ROLE.USER },
 ];
 
+const middlePageIcon =[
+  {href:'/' , Icon : <House/> , allowFor: 'All'},
+  {href:'/friends/recommended' , Icon : <Users />, allowFor: ACCOUNT_TYPE.User},
+  {href:'/tutors' , Icon :     <LiaChalkboardTeacherSolid className="w-7 h-7" /> , allowFor: 'All'},
+  {href:'/course' , Icon :   <SquarePlay />,  allowFor: 'All'},
+  {href:'/challenge' , Icon :    <Trophy />, allowFor: 'All' },
+  {href:'/blood' , Icon :   <Droplets /> , allowFor: 'All'}
+]
 export type IChat = {
   _id: string;
   name?: string;
@@ -46,20 +55,13 @@ function Navbar() {
   const [openChat, setOpenChat] = useState<IChat[]>([]);
   const [isDark, setIsDark] = useState(false);
   
-  // Get current account from token
+  const pathname = usePathname(); // <-- get current path
+
   const { account, isPage, isUser, isLoading } = useCurrentAccount();
 
-  const { data: userData } = useUserInfoQuery(
-    isUser ? undefined : skipToken
-  ) as any
-  
-  const { data: pageData } = useGetPageInfoQuery(
-    isPage ? undefined: skipToken
-  );
-
+  const { data: userData } = useUserInfoQuery(isUser ? undefined : skipToken) as any;
+  const { data: pageData } = useGetPageInfoQuery(isPage ? undefined : skipToken);
   const { data: myPages } = useGetMyPagesQuery(undefined);
-
-
 
   const toggleTheme = () => {
     const newTheme = !isDark;
@@ -92,21 +94,20 @@ function Navbar() {
     );
   };
 
-  // Determine which data to show
   const currentData = isPage ? pageData?.data : userData?.data;
   const filteredPages = myPages?.data?.filter(
-  (p: any) => p._id !== account?.accountId
-);
+    (p: any) => p._id !== account?.accountId
+  );
 
-
-
+  // Utility function to check if link is active
+  const isActive = (href: string) => pathname === href;
 
   return (
     <>
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
-        <div className="flex items-center justify-between px-4 py-2 mx-auto max-w-7xl">
+        <div className="max-w-7xl mx-auto grid grid-cols-12 items-center px-4 py-2 ">
           {/* left side  */}
-          <div className="flex items-center gap-2">
+          <div className="col-span-3 pr-8 flex items-center gap-2">
             <Link href="/" className="flex items-center">
               <div className="w-10 h-10 flex items-center justify-center">
                 <Image src="/logo.png" alt="Logo" width={40} height={40} />
@@ -123,59 +124,105 @@ function Navbar() {
             </div>
           </div>
 
-          {/* middle */}
-          <div className="flex items-center gap-3 md:gap-6 lg:gap-12">
-            <Link
-              href={"/"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <House />
-            </Link>
-            {isUser &&<Link
-              href={"/friends/recommended"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <Users />
-            </Link>}
-            <Link
-              href={"/tutors"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 "
-            >
-              <LiaChalkboardTeacherSolid className="w-7 h-7" />
-            </Link>
-            <Link
-              href={"/course"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <SquarePlay />
-            </Link>
-            <Link
-              href={"/challenge"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <Trophy />
-            </Link>
-            <Link
-              href={"/blood"}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <Droplets />
-            </Link>
-          </div>
+        {/* middle */}
+{/* <div className="col-span-6 flex justify-between px-4 gap-6">
+  <Link
+    href={"/"}
+    className={`flex flex-col items-center rounded-full p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+      isActive("/") ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+    }`}
+  >
+    <House />
+  </Link>
+
+  {isUser && (
+    <Link
+      href={"/friends/recommended"}
+      className={`flex flex-col items-center rounded-full p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+        isActive("/friends/recommended")
+          ? "text-blue-500 border-b-2 border-blue-500"
+          : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+      }`}
+    >
+      <Users />
+    </Link>
+  )}
+
+  <Link
+    href={"/tutors"}
+    className={`flex flex-col items-center  p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+      isActive("/tutors") ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+    }`}
+  >
+    <LiaChalkboardTeacherSolid className="w-7 h-7" />
+  </Link>
+
+  <Link
+    href={"/course"}
+    className={`flex flex-col items-center  p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+      isActive("/course") ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+    }`}
+  >
+    <SquarePlay />
+  </Link>
+
+  <Link
+    href={"/challenge"}
+    className={`flex flex-col items-center  p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+      isActive("/challenge") ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+    }`}
+  >
+    <Trophy />
+  </Link>
+
+  <Link
+    href={"/blood"}
+    className={`flex flex-col items-center  p-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+      isActive("/blood") ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-600 dark:text-gray-300 border-b-2 border-transparent"
+    }`}
+  >
+    <Droplets />
+  </Link>
+</div> */}
+{/* middle */}
+<div className="col-span-6 flex justify-between px-4 gap-1">
+  {middlePageIcon.map((item) => {
+    // Check if the current user is allowed to see this icon
+    if (item.allowFor === 'All' || (isUser && item.allowFor === ACCOUNT_TYPE.User)) {
+      return (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={`flex flex-col w-full items-center p-2   hover:cursor-pointer  dark:hover:bg-gray-700 ${
+            isActive(item.href)
+              ? "text-blue-700 border-b-4  border-blue-500 hover:bg-none"
+              : "text-gray-600 dark:text-gray-300 rounded-xl border-b-2 border-transparent hover:bg-gray-200"
+          }`}
+        >
+          {item.Icon}
+        </Link>
+      );
+    }
+    return null;
+  })}
+</div>
+
 
           {/* right side */}
-          <div className="flex items-center gap-5">
+          <div className="col-span-3 flex justify-end items-center gap-5">
             <span
               onClick={toggleTheme}
-              className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              className=" rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               {isDark ? <Sun /> : <Moon />}
             </span>
 
             {/* chat */}
-            {isUser && <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-              <ChatDropDown handleSingleChatOpen={handleSingleChatOpen} />
-            </span>}
+            {isUser && (
+              <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                <ChatDropDown handleSingleChatOpen={handleSingleChatOpen} />
+              </span>
+            )}
 
             {/* notification */}
             <span className="rounded-full p-2 hover:cursor-pointer text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">

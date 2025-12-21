@@ -3,9 +3,9 @@ import React from 'react'
 
 function ChallengePage() {
   return (
-    <div>
+    <>
       <Challenges/>
-    </div>
+    </>
   )
 }
 

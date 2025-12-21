@@ -49,70 +49,90 @@ function getChallengeStatus(startsAt: string, endsAt: string) {
 
 export default function ChallengeCard({ challenge }: { challenge: IChallenge }) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      // transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="cursor-pointer"
-    >
-      <Link href={`/challenge/${challenge._id}`}>
-        <Card className="overflow-hidden rounded-xl hover:shadow-md  transition-all duration-200 border-0 shadow-none p-0 gap-3 ">
-          {/* Thumbnail Section */}
-          <div className="relative">
+   <motion.div
+  whileHover={{ scale: 1.02 }}
+  className="cursor-pointer"
+>
+  <Link href={`/challenge/${challenge._id}`}>
+    <Card className="
+      overflow-hidden 
+      rounded-xl 
+      transition-all 
+      duration-200 
+      border 
+      p-0 
+      gap-3
+      bg-white 
+      border-gray-200 
+      hover:shadow-md
+      dark:bg-neutral-900 
+      dark:border-neutral-800 
+      dark:hover:shadow-neutral-800/50
+    ">
+      {/* Thumbnail Section */}
+      <div className="relative">
+        <img
+          src={challenge.banner}
+          alt={challenge.title}
+          className="w-full aspect-video object-cover"
+        />
+      </div>
+
+      {/* Content Section */}
+      <CardContent className="px-3 pb-4">
+        <div className="flex gap-3">
+          {/* Creator Avatar */}
+          <div className="flex-shrink-0">
             <img
-              src={challenge.banner}
-              alt={challenge.title}
-              className="w-full aspect-video object-cover"
+              src={challenge.createdBy?.image?.profile || '/logo.png'}
+              alt={challenge.createdBy?.name}
+              className="w-9 h-9 rounded-full object-cover border border-gray-200 dark:border-neutral-700"
             />
-           
-            
           </div>
 
-          {/* Content Section - YouTube Style */}
-          <CardContent className="px-3 pb-4">
-            <div className="flex gap-3">
-              {/* Creator Avatar */}
-              <div className="flex-shrink-0">
-                <img
-                  src={challenge.createdBy?.image?.profile || '/logo.png'}
-                  alt={challenge.createdBy?.name}
-                  className="w-9 h-9 rounded-full object-cover"
-                />
-              </div>
+          {/* Title and Metadata */}
+          <div className="flex-1 min-w-0">
+            {/* Title */}
+            <h3
+              className="
+                font-semibold 
+                text-sm 
+                leading-snug 
+                line-clamp-2
+                text-gray-900 
+                dark:text-gray-100
+              "
+              title={challenge.title}
+            >
+              {challenge.title}
+            </h3>
 
-              {/* Title and Metadata */}
-              <div className="flex-1 min-w-0">
-                {/* Title */}
-                <h3 className="font-semibold text-sm text-gray-900 line-clamp-2 leading-snug" title={challenge.title}>
-                  {challenge.title}
-                </h3>
+            {/* Creator Name */}
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-0.5">
+              {challenge.createdBy?.name}
+            </p>
 
-
-                {/* Creator Name */}
-                <p className="text-xs text-gray-600 mb-0.5">
-                  {challenge.createdBy?.name}
-                </p>
-
-                {/* Metadata Row */}
-                <div className="flex items-center gap-2 mt-1 text-xs text-gray-600">
-                  
-                  
-                    <span>
-                    {challenge.participantCount} 
-                   {' '}
-                     participant
-                    </span>
-               
-                  <span>•</span>
-                  <span>{challenge.durationDays} days</span>
-                  <span>•</span>
-                  <span>{getChallengeStatus(challenge.startsAt, challenge.endsAt as string)}</span>
-
-                </div>
-              </div>
+            {/* Metadata Row */}
+            <div className="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-400">
+              <span>
+                {challenge.participantCount} participant
+              </span>
+              <span>•</span>
+              <span>{challenge.durationDays} days</span>
+              <span>•</span>
+              <span>
+                {getChallengeStatus(
+                  challenge.startsAt,
+                  challenge.endsAt as string
+                )}
+              </span>
             </div>
-          </CardContent>
-        </Card>
-      </Link>
-    </motion.div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
+</motion.div>
+
   );
 }

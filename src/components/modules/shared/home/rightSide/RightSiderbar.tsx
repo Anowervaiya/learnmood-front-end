@@ -18,13 +18,19 @@ const upcommingChallenge = await getUpcommingChallenge()
 
   return (
     <>
-      <aside className="hidden lg:block w-4/12 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto">
-        <Card className="border-none shadow-sm bg-white dark:bg-gray-800">
+<aside className="
+  hidden lg:block col-span-3
+  sticky top-20
+  h-[calc(100vh-80px)]
+  overflow-y-auto
+  scrollbar-hover
+  
+">       
           
-          <CardContent>
+        
            <SimilarChallenge/>
-          </CardContent>
-        </Card>
+        
+       
 
        
       </aside>
