@@ -7,9 +7,12 @@ import { FRIEND_REQUEST_STATUS } from '@/constants/constant';
 import { useFilterByStatusRequestMutation } from '@/redux/api/user/user.api';
 
 export default function OutgoingFriendCard({ item }: any) {
+    const [cancelReq, setCancelReqSubmit] = useState(false);
+  
   const [changeStatusRequest] = useFilterByStatusRequestMutation();
 
   const handleCancelRequest = async (id: string) => {
+    setCancelReqSubmit(true)
     try {
       const payload = {
         status: FRIEND_REQUEST_STATUS.CANCELLED,
@@ -17,10 +20,11 @@ export default function OutgoingFriendCard({ item }: any) {
       };
       const res = await changeStatusRequest(payload).unwrap();
       if (res.success) {
-        toast.success(res.message);
+        setCancelReqSubmit(false)
       }
     } catch (error: any) {
-      toast.error(error);
+             setCancelReqSubmit(false)
+
     }
   };
 
@@ -37,20 +41,20 @@ export default function OutgoingFriendCard({ item }: any) {
         <img
           className="object-cover object-center w-full h-32"
           referrerPolicy="no-referrer"
-          src={item?.recipient?.image?.profile || '/anower.jpg'}
+          src={item?.recipient?.image?.profile || '/logo.png'}
           alt="Woman looking front"
         />
       </div>
       <div className="text-center mt-2 pb-2">
         <h2 className="font-semibold">{item?.recipient?.name}</h2>
-        <p className="text-gray-500"> Student || Dhaka University</p>
       </div>
       <div className="p-3">
         <button
+          disabled={cancelReq}
           onClick={() => handleCancelRequest(item?._id)}
-          className="flex items-center hover:cursor-pointer   bg-red-500 px-4 py-2 w-full justify-center rounded-lg text-white  "
+          className="flex items-center hover:cursor-pointer disabled:cursor-not-allowed  bg-red-500 px-4 py-2 w-full justify-center rounded-lg text-white  "
         >
-          <span>Cancel Request</span>
+          <span>{cancelReq ? 'cancelling..' : 'Cancel Request'}</span>
         </button>
       </div>
 

@@ -1,5 +1,6 @@
 import { CHALLENGE_CATEGORY, CHALLENGE_STATUS } from "@/constants/challenge.constant";
 import { IUser } from "./user.interface";
+import { IPage } from "./page.interface";
 
 export interface IChallengeVideo {
   fileName: string;
@@ -37,7 +38,7 @@ export interface IChallenge {
   category: CHALLENGE_CATEGORY;
   durationDays: number;
   price:number;
-  createdBy: IUser;
+  createdBy: IPage;
   startsAt: string;
   endsAt?: string;
   ratings: number;

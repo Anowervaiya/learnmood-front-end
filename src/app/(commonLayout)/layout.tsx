@@ -18,7 +18,7 @@ export default async function CommonLayout({
       <Navbar  />
 
       {/* Main container */}
-      <main className="flex mx-auto max-w-7xl w-full px-4 mt-6 gap-6">
+      <main className="flex mx-auto max-w-[1400px] w-full px-4 mt-6 gap-6">
         {children}
       </main>
     </div>

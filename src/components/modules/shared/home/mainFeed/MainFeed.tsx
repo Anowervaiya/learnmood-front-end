@@ -67,18 +67,13 @@ function MainFeed() {
  
   return (
     <>
-      <div className=" 
-    max-w-xl   
-    lg:w-2xl 
-    xl:w-3xl 
-    2xl:w-5xl 
-    mx-auto
+      <div className=" w-5/12
     px-2 sm:px-4 md:px-6 ">
         {/* Create Post */}
         <div className="overflow-hidden border-none shadow-sm py-3 px-4 mb-4 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex gap-3">
             <Avatar className="border-2 border-blue-200 dark:border-blue-900">
-              <AvatarImage src={isPage ? pageData?.data?.image?.profile : userData?.data?.image?.profile} alt="User" className='object-cover' />
+              <AvatarImage src={isPage ? pageData?.data?.image?.profile || 'logo.png' : userData?.data?.image?.profile || 'logo.png'} alt="User" className='object-cover' />
             </Avatar>
             <CreatePostModal data={isPage ? pageData : userData} />
           </div>
@@ -150,16 +145,12 @@ function MainFeed() {
             </Button>
           </div>
         </div>
- {allPosts.length === 0 && (
-    <div className="max-w-xl lg:w-2xl xl:w-3xl 2xl:w-5xl mx-auto px-2 sm:px-4 md:px-6">
-      NO post data available
-    </div>
-  )}
+
   
 
           {/* show Posts */}
         <div className='flex flex-col gap-4'>
-          {allPosts.map((post, idx) => (
+          {allPosts?.map((post, idx) => (
             <PostCard key={post._id || idx} post={post} accountData={isPage ? pageData : userData} />
           ))}
         </div>

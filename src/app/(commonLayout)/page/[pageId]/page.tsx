@@ -4,8 +4,6 @@ import AffiliateBoard from '@/components/modules/user/profile/AffiliateBoard';
 import Photos from '@/components/modules/user/profile/Photos';
 import ProfileCard from '@/components/modules/user/profile/ProfileCard';
 import { getPageInfo } from '@/server/moderator/page.server';
-import { getUserInfo } from '@/server/user/user.server';
-
 
 const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) => {
   const { pageId } = await params;

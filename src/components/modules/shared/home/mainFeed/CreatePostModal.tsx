@@ -21,7 +21,7 @@ import {
 import { UserInfoResponse } from '@/interfaces/global.interfaces';
 import { VISIBILITY } from '@/constants/constant';
 import { Textarea } from '@/components/ui/textarea';
-import { ImagePlus, UserRoundPen } from 'lucide-react';
+import { ImagePlus, UserCircle, UserRoundPen } from 'lucide-react';
 import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -102,11 +102,11 @@ const [isSubmit, setIsSubmit] = useState(false);
               <div className="flex gap-3 pt-2 items-center">
                 {data?.image?.profile ? (
                   <Avatar className="w-10 h-10">
-                    <AvatarImage  src={data?.image?.profile} className="object-cover" />
+                    <AvatarImage  src={data?.image?.profile } className="object-cover" />
                     <AvatarFallback className="text-lg">{data?.name}</AvatarFallback>
                   </Avatar>
                 ) : (
-                  <UserRoundPen className="w-10 h-10 rounded-full" />
+                  <UserCircle className="w-10 h-10 rounded-full" />
                 )}
                 <div>
                   <h1 className="text-[14px] pb-1 font-semibold">

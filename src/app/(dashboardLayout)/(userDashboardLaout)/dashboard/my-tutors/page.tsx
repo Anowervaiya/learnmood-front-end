@@ -1,9 +1,6 @@
-import ChallengeCard from "@/components/modules/user/challenge/challengeCard";
+
 import MyTutorTable from "@/components/modules/user/mentor/MyTutorTable";
-import MyFriendsTable from "@/components/MyFriendsTable";
-import { IChallenge } from "@/interfaces/challenge.interface";
 import { IMentor } from "@/interfaces/mentor.interface";
-import { getMyChallenge } from "@/server/user/challenge.server";
 import { getMyTutors } from "@/server/user/tutor.server";
 
 export default async function MyTutorsPage() {

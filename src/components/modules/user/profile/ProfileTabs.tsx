@@ -21,6 +21,7 @@ import {
   Twitter,
   Mail,
   User,
+  CircleUser,
 } from "lucide-react"
 import CreatePostModal from "@/components/modules/shared/home/mainFeed/CreatePostModal"
 import ProfileFeed from "./ProfileFeed"
@@ -48,7 +49,7 @@ export function ProfileTabs({ profileData } : {profileData: IUser}) {
                 <Avatar className="w-10 h-10">
                   <AvatarImage src={profileData?.image?.profile} className="object-cover" />
                   <AvatarFallback className="text-lg">{profileData?.name}</AvatarFallback>
-                </Avatar> : <User className="w-10 h-10 rounded-full" />}
+                </Avatar> : <CircleUser className="w-10 h-10 rounded-full" />}
                <CreatePostModal data={profileData} />
             </div>
 

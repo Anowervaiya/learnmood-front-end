@@ -2,9 +2,8 @@ import AffiliateBoard from "@/components/modules/user/profile/AffiliateBoard";
 import Photos from "@/components/modules/user/profile/Photos";
 import ProfileCard from "@/components/modules/user/profile/ProfileCard";
 import { ProfileTabs } from "@/components/modules/user/profile/ProfileTabs";
-import { getUserInfo, getUserProfile } from "@/server/user/user.server";
-import Image from "next/image";
-import React from "react";
+import {  getUserProfile } from "@/server/user/user.server";
+
 
 const ProfilePage = async ({
   params,

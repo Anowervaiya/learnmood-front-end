@@ -98,9 +98,7 @@ function Navbar() {
   (p: any) => p._id !== account?.accountId
 );
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Or your loading component
-  }
+
 
 
   return (

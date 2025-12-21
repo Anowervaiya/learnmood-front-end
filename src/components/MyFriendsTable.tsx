@@ -1,3 +1,4 @@
+'use client'
 import {
   Table,
   TableBody,
@@ -22,8 +23,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {  Ellipsis, MessageSquare, ShieldBan, UserRoundX } from "lucide-react";
+import { useMyFriendsQuery } from "@/redux/api/user/user.api";
 
-export default function MyFriendsTable({data}: any) {
+export default function MyFriendsTable() {
+    const { data:myfriends } = useMyFriendsQuery(undefined);
+
+    const data = myfriends?.data?.friends;
+    if(data?.length===0) return 'You have no friens still now'
   return (
     <>
       <Table>
@@ -35,8 +41,8 @@ export default function MyFriendsTable({data}: any) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((item: any) => (
-            <TableRow key={item.id}>
+          { data?.map((item: any) => (
+            <TableRow key={item._id}>
               <TableCell>
                 <div className="flex items-center gap-3">
                   <div>
