@@ -26,12 +26,7 @@ import { useGetMyPagesQuery, useGetPageInfoQuery } from "@/redux/api/page/page.a
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 
-const navigationLinks = [
-  { href: "/", label: "Home", role: "PUBLIC" },
-  { href: "/admin", label: "Dashboard", role: ROLE.ADMIN },
-  { href: "/seller", label: "Dashboard", role: ROLE.SELLER },
-  { href: "/user", label: "Dashboard", role: ROLE.USER },
-];
+
 
 const middlePageIcon =[
   {href:'/' , Icon : <House/> , allowFor: 'All'},
@@ -96,6 +91,7 @@ function Navbar() {
   };
 
   const currentData = isPage ? pageData?.data : userData?.data;
+  console.log(currentData, 'current data')
   const filteredPages = myPages?.data?.filter(
     (p: any) => p._id !== account?.accountId
   );
@@ -235,7 +231,6 @@ function Navbar() {
               {currentData && (
                 <UserMenu
                   myPages={filteredPages}
-                  navigationLinks={navigationLinks}
                   data={currentData}
                   isPage={isPage}
                 />

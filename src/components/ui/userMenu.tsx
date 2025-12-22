@@ -29,12 +29,12 @@ import { useRouter } from "next/navigation";
 import { getDefaultDashboardRoute } from "@/utils/auth";
 import { logoutUser } from "@/server/auth/auth.server";
 import { switchPage } from "@/server/moderator/page.server";
+import { ROLE } from "@/constants/constant";
 
 export default function UserMenu({
   isPage,
   myPages,
   data,
-  navigationLinks,
 }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -79,6 +79,7 @@ export default function UserMenu({
     }
   };
 
+  console.log(data.role)
   return (
     <>
       {isSwitching && (
@@ -141,25 +142,21 @@ export default function UserMenu({
           )}
 
 
-
-
           <DropdownMenuItem className="hover:cursor-pointer">
-            {navigationLinks?.map((link: any, index: any) => (
-              <React.Fragment key={index}>
-                {link.role === data?.role && (
-                  <Link href={getDefaultDashboardRoute(data.role)} className="flex items-center gap-2">
+       
+              <React.Fragment >
+               
+                  <Link href={getDefaultDashboardRoute(data?.role || ROLE.MODERATOR)} className="flex items-center gap-2">
                     <LayoutDashboard
                       size={16}
                       className="opacity-60"
                       aria-hidden="true"
                     />
-                    <p>
-                      {link.label}
-                    </p>
+                    Dashboard
                   </Link>
-                )}
+               
               </React.Fragment>
-            ))}
+          
           </DropdownMenuItem>
 
    

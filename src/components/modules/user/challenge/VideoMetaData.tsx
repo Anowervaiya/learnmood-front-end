@@ -13,6 +13,7 @@ import { FaHeart } from "react-icons/fa";
 import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 import ShareModal from "../../shared/share/ShareModal";
 import { PiShareFat } from "react-icons/pi";
+import Link from "next/link";
 
 export const VideoMetadata = ({
   metaData,
@@ -73,13 +74,13 @@ export const VideoMetadata = ({
       <div className="flex items-center justify-between gap-5 pt-2 ">
         {/* Instructor Info */}
         <div className="flex items-center gap-4">
-          <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+          <Link href={`/page/${metaData?.createdBy?._id}`}><Avatar className="h-12 w-12 ring-2 ring-primary/20">
             <AvatarImage
               src={metaData?.createdBy?.image?.profile}
               alt="Hablu Programmer"
             />
             <AvatarFallback>HP</AvatarFallback>
-          </Avatar>
+          </Avatar></Link>
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-foreground">

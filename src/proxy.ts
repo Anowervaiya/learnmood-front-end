@@ -16,7 +16,7 @@ export async function proxy(request: NextRequest) {
 
     let userRole: Role | null = null;
     if (accessToken) {
-        const verifiedToken: JwtPayload | string =  jwt.verify(accessToken, process.env.JWT_SECRET as string);
+        const verifiedToken: JwtPayload | string =  jwt?.verify(accessToken, process.env.JWT_SECRET as string);
 
         if (typeof verifiedToken === "string") {
             cookieStore.delete("accessToken");
@@ -71,7 +71,7 @@ export async function proxy(request: NextRequest) {
     if (routerOwner === "COMMON") {
         return NextResponse.next();
     }
-
+console.log(userRole)
     // Rule 4 : User is trying to access role based protected route
     if (routerOwner === "ADMIN" || routerOwner === "MODERATOR" || routerOwner === "USER") {
         if (userRole !== routerOwner) {

@@ -92,12 +92,12 @@ export const adminNavItems: NavSection[] = [
     {
         title: "User Management",
         items: [
-            {
-                title: "Admins",
-                href: "/admin/dashboard/admins-management",
-                icon: "Shield", // ✅ String
-                roles: Object.values(Role.ADMIN) as Role[],
-            },
+            // {
+            //     title: "Admins",
+            //     href: "/admin/dashboard/admins-management",
+            //     icon: "Shield", // ✅ String
+            //     roles: Object.values(Role.ADMIN) as Role[],
+            // },
             {
                 title: "Users",
                 href: "/admin/dashboard/users-management",

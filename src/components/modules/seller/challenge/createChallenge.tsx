@@ -98,7 +98,7 @@ export default function CreateChallenge() {
   };
 
   return (
-    <div className="max-w-3xl w-full mx-auto mt-8">
+    <div className="max-w-3xl col-span-full w-full mx-auto mt-8">
       {step === 1 && (
         <CreateChallengeForm
           handleNext={handleNext}

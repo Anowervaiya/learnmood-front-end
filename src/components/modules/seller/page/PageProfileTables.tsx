@@ -48,16 +48,39 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
  const isOwner = pageInfo?.data?._id === pageData?._id;
 
   return (
-    <Tabs defaultValue="posts" onValueChange={setActiveTab} className="w-full">
+    <Tabs defaultValue="challenge" onValueChange={setActiveTab} className="w-full">
       {/* Tabs List */}
       <TabsList className="grid grid-cols-5 w-full">
+        <TabsTrigger value="challenge">Challenge</TabsTrigger>
         <TabsTrigger value="posts">Posts</TabsTrigger>
         <TabsTrigger value="about">About</TabsTrigger>
-        <TabsTrigger value="challenge">Challenge</TabsTrigger>
         <TabsTrigger value="service">Service</TabsTrigger>
         <TabsTrigger value="course">Course</TabsTrigger>
       </TabsList>
+   {/* 🔹 CHALLENGE TAB */}
+      <TabsContent value="challenge">
+        <div>
+          {isOwner && <Link
+            href={`/page/challenge?pageId=${pageData._id}`}
+            className="inline-flex items-center w-full gap-2 px-4 py-2  hover:bg-blue-700 hover:text-white font-medium rounded-xl shadow-md transition-all duration-300 hover:shadow-lg active:scale-95"
+          >
+            <PlusIcon size={18} className="opacity-90" />
+            <span>Create Challenge</span>
+          </Link>}
 
+          {loadingChallenge ? (
+            <p className="mt-6 text-muted-foreground text-sm">Loading challenges...</p>
+          ) : challenges?.data?.length! > 0 ? (
+            <div className="grid sm:grid-cols-2  gap-2 mt-6">
+              {challenges?.data?.map((item: IChallenge) => (
+                <ChallengeCard key={item._id} challenge={item} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-6 text-muted-foreground text-sm">No challenges found.</p>
+          )}
+        </div>
+      </TabsContent>
       {/* 🔹 POSTS TAB */}
      <TabsContent value="posts">
           {/* Create Post */}
@@ -151,30 +174,7 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
         this is about tabs
       </TabsContent>
 
-      {/* 🔹 CHALLENGE TAB */}
-      <TabsContent value="challenge">
-        <div>
-          {isOwner && <Link
-            href={`/page/challenge?pageId=${pageData._id}`}
-            className="inline-flex items-center w-full gap-2 px-4 py-2  hover:bg-blue-700 hover:text-white font-medium rounded-xl shadow-md transition-all duration-300 hover:shadow-lg active:scale-95"
-          >
-            <PlusIcon size={18} className="opacity-90" />
-            <span>Create Challenge</span>
-          </Link>}
-
-          {loadingChallenge ? (
-            <p className="mt-6 text-muted-foreground text-sm">Loading challenges...</p>
-          ) : challenges?.data?.length! > 0 ? (
-            <div className="grid sm:grid-cols-2  gap-2 mt-6">
-              {challenges?.data?.map((item: IChallenge) => (
-                <ChallengeCard key={item._id} challenge={item} />
-              ))}
-            </div>
-          ) : (
-            <p className="mt-6 text-muted-foreground text-sm">No challenges found.</p>
-          )}
-        </div>
-      </TabsContent>
+   
 
       {/* 🔹 SERVICE TAB */}
       <TabsContent value="service">

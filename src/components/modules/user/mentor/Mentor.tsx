@@ -25,7 +25,7 @@ const Mentor = () => {
   const [AllTutors, setAllTutors] = useState<IMentor[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const limit = 3;
+  const limit = 6;
   const [open, setOpen] = useState(false);
   const { data: AllMentorData, isFetching: TutorLoading } = useAllMentorQuery({
     page,
