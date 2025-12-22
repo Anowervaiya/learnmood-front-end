@@ -23,7 +23,7 @@ const ChallengeDetailsPage = async ({ params }: { params: Promise<{ challengeId:
 
 
   return (
-    <div className="min-h-screen mx-4 w-full col-span-full bg-background">
+    <div className="min-h-screen px-4 w-full col-span-full bg-background">
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Video & Content */}
         <div className="lg:col-span-2 space-y-6">
