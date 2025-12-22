@@ -41,7 +41,7 @@ const Blood = () => {
 
   // ✅ Queries
   const { data: BloodRequestData, isFetching: BloodRequestLoading } =
-    useGetbloodRequestQuery({
+  useGetbloodRequestQuery({
       page: bloodRequestPage,
       limit,
       location: searchLocation,
