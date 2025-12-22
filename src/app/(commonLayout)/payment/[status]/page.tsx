@@ -49,7 +49,7 @@ export default async function PaymentStatusPage({
 
   return (
 
-    <div className="flex justify-center items-center w-full min-h-screen px-4">
+    <div className="flex col-span-full justify-center items-center w-full min-h-screen px-4">
       <div className="bg-white shadow-lg rounded-2xl w-full max-w-xl  p-8 text-center space-y-6">
         {statusUI}
 
