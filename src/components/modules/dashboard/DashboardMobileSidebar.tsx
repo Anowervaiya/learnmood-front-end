@@ -79,7 +79,7 @@ const DashboardMobileSidebar = ({
       </ScrollArea>
 
       {/* User Info at Bottom */}
-      <div className="border-t p-4">
+      {/* <div className="border-t p-4">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
             <span className="text-sm font-semibold text-primary">
@@ -93,7 +93,7 @@ const DashboardMobileSidebar = ({
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
