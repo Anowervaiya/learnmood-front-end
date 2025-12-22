@@ -76,7 +76,7 @@ function MainFeed() {
             <Avatar className="border-2 border-blue-200 dark:border-blue-900">
               <AvatarImage src={isPage ? pageData?.data?.image?.profile || 'logo.png' : userData?.data?.image?.profile || 'logo.png'} alt="User" className='object-cover' />
             </Avatar>
-            <CreatePostModal data={isPage ? pageData : userData} />
+            <CreatePostModal data={isPage ? pageData?.data : userData?.data} />
           </div>
 
           <div className="flex justify-between pt-3">

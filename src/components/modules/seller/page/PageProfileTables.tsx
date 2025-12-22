@@ -37,9 +37,8 @@ import { is } from "zod/v4/locales"
 
 const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
   const [activeTab, setActiveTab] = useState("posts");
- 
   const { data: challenges, refetch: refetchChallenges, isLoading: loadingChallenge } = useGetchallengesQuery(
-    { pageId: pageData._id },
+    { pageId: pageData?._id },
     { skip: activeTab !== 'challenge' }
   )
 
@@ -48,7 +47,6 @@ const PageProfileTabs = ({ pageData  }: { pageData: IPage  }) => {
 
  const isOwner = pageInfo?.data?._id === pageData?._id;
 
- 
   return (
     <Tabs defaultValue="posts" onValueChange={setActiveTab} className="w-full">
       {/* Tabs List */}

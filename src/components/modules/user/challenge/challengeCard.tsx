@@ -114,18 +114,18 @@ export default function ChallengeCard({ challenge }: { challenge: IChallenge }) 
 
             {/* Metadata Row */}
             <div className="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-400">
-              <span>
+              {/* <span>
                 {challenge.participantCount} participant
-              </span>
-              <span>•</span>
+              </span> */}
+              {/* <span>•</span> */}
               <span>{challenge.durationDays} days</span>
-              <span>•</span>
+              {/* <span>•</span>
               <span>
                 {getChallengeStatus(
                   challenge.startsAt,
                   challenge.endsAt as string
                 )}
-              </span>
+              </span> */}
             </div>
           </div>
         </div>

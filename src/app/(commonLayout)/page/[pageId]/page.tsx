@@ -10,9 +10,9 @@ const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) 
   const pageData = await getPageInfo(pageId);
   const pageProfile = pageData?.data;
 
-
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
+    <div className='col-span-full'>
+      <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
       {/* Left Side */}
 
       <div className="lg:col-span-5 lg:sticky lg:top-20  lg:h-[calc(100vh-80px)] overflow-y-auto space-y-6 ">
@@ -25,6 +25,7 @@ const PageDetails = async ({ params }: { params: Promise<{ pageId: string }> }) 
         <AffiliateBoard />
         <PageProfileTabs  pageData={pageProfile} />
       </div>
+    </div>
     </div>
   )
 }

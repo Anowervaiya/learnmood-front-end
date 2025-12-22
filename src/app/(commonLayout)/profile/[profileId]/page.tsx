@@ -13,6 +13,7 @@ const ProfilePage = async ({
   const { profileId } = await params;
   const profileRes = await getUserProfile(profileId);
   const profileData = profileRes?.data;
+ 
   return (
    <div className="col-span-full">
      <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">

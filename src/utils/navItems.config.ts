@@ -18,17 +18,17 @@ export const getCommonNavItems = (role: Role): NavSection[] => {
 
             ]
         },
-        {
-            title: "Settings",
-            items: [
-                {
-                    title: "Change Password",
-                    href: "/change-password",
-                    icon: "Settings", // ✅ String
-                    roles: Object.values(Role.USER) as Role[],
-                },
-            ],
-        },
+        // {
+        //     title: "Settings",
+        //     items: [
+        //         {
+        //             title: "Change Password",
+        //             href: "/change-password",
+        //             icon: "Settings", // ✅ String
+        //             roles: Object.values(Role.USER) as Role[],
+        //         },
+        //     ],
+        // },
     ]
 }
 
@@ -69,6 +69,13 @@ export const userNavItems: NavSection[] = [
                 icon: "Calendar", // ✅ String
                 roles: Object.values(Role.USER) as Role[],
             },
+          
+        ],
+    },
+    {
+        title: "Tutors",
+        items: [
+           
             {
                 title: "My Tutors",
                 href: "/dashboard/my-tutors",

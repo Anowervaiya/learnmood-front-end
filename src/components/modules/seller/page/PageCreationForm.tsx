@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,22 +8,42 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { toast } from "sonner";
 import BannerImageUploader from "@/components/bannerImageUploader";
 import { useCreatePageMutation } from "@/redux/api/page/page.api";
 import { PAGE_CATEGORY } from "@/constants/page.constant";
 import { useRouter } from "next/navigation";
 import SingleImageUpload from "@/components/singleImageUpload";
-
+import { switchPage } from "@/server/moderator/page.server";
+import { useAppDispatch } from "@/redux/hooks";
+import { baseApi } from "@/redux/baseApi";
 
 const pageSchema = z.object({
   name: z.string().min(3, "Page name must be at least 3 characters"),
   email: z.email("Invalid email address"),
-  phone: z.string()
-    .regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
+  phone: z.string().regex(/^\d{11}$/, "Phone number must be exactly 11 digits"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   category: z.string().min(1, "Select a category"),
 });
@@ -33,21 +53,47 @@ type PageFormValues = z.infer<typeof pageSchema> & {
   bannerImage?: File | null;
 };
 
-const categories = Object.values(PAGE_CATEGORY)
+const categories = Object.values(PAGE_CATEGORY);
 
 export default function PageCreationForm() {
   const [submitting, setSubmitting] = useState(false);
   const [profileImage, setprofileImage] = useState<File | null>(null);
   const [bannerImage, setbannerImage] = useState<File | null>(null);
-  const [createPage] = useCreatePageMutation()
-  const router = useRouter()
+  const [createPage] = useCreatePageMutation();
+  const router = useRouter();
+  const [isSwitching, setIsSwitching] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const handleSwitchPage = async (pageId: string) => {
+    if (isSwitching) return; // Prevent multiple clicks
+    try {
+      setIsSwitching(true);
+
+      // 1. Call backend to switch page (this updates the cookie)
+      const result = await switchPage(pageId);
+      if (result.success) {
+        // 2. Clear RTK Query cache so new queries use new token
+        dispatch(baseApi.util.resetApiState());
+
+        // 3. Refresh the page to reload with new token
+        // This ensures all components get the new identity
+        window.location.reload();
+        window.location.replace("/");
+      }
+    } catch (error) {
+      console.error("Switch page error:", error);
+      toast.error("Failed to switch page");
+    } finally {
+      setIsSwitching(false);
+    }
+  };
 
   const form = useForm<PageFormValues>({
     resolver: zodResolver(pageSchema),
     defaultValues: {
       name: "",
       email: "",
-      phone: '',
+      phone: "",
       description: "",
       category: "",
       profileImage: null,
@@ -76,145 +122,152 @@ export default function PageCreationForm() {
     }
 
     try {
-
       const res = await createPage({ formData }).unwrap();
       if (res.success) {
-        toast.success("Page created successfully");
-        router.push(`/page/${res.data._id}`)
+        toast.success("Page created successfully.. wait..");
+        // router.push(`/page/${res.data._id}`);
+        handleSwitchPage(res?.data?._id)
       }
-    } catch (err : any) {
+    } catch (err: any) {
       toast.error(err.data?.message);
     } finally {
       setSubmitting(false);
-      
     }
   };
 
   return (
-    <Card className="max-w-3xl w-full mx-auto mt-8 shadow-lg">
-      <CardHeader>
-        <BannerImageUploader setImage={setbannerImage} />
-      </CardHeader>
+    <>
+      {isSwitching && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+        </div>
+      )}
 
-      <CardContent>
-        <Form {...form}>
-          <h1>Profile image </h1>
-          {/* Profile Image Upload */}
-          <SingleImageUpload
-            setImage={setprofileImage}
-          />
+      <Card className="max-w-3xl w-full mx-auto mt-8 shadow-lg">
+        <CardHeader>
+          <BannerImageUploader setImage={setbannerImage} />
+        </CardHeader>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <CardContent>
+          <Form {...form}>
+            <h1>Profile image </h1>
+            {/* Profile Image Upload */}
+            <SingleImageUpload setImage={setprofileImage} />
 
-
-            <div className=" gap-4 items-center">
-
-
-
-              {/* Page Name + Category */}
-              <div className="flex justify-between items-center gap-4">
-                {/* Page Name */}
-                <FormField
-                
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Page Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. LearnReact Community" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className=" gap-4 items-center">
+                {/* Page Name + Category */}
+                <div className="flex justify-between items-center gap-4">
+                  {/* Page Name */}
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Page Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. LearnReact Community"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   {/* Category */}
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {categories.map((c) => (
-                              <SelectItem key={c} value={c}>
-                                {c}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {categories.map((c) => (
+                                <SelectItem key={c} value={c}>
+                                  {c}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="flex pt-6 justify-between items-center gap-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. learnreact@example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g. 1234567890" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="flex pt-6 justify-between items-center gap-4">
+              {/* Description */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Briefly describe the page..."
+                        className="min-h-[120px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. learnreact@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Phone</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. 1234567890" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                </div>
-               
-
-            </div>
-
-            {/* Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Briefly describe the page..." className="min-h-[120px]" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Submit */}
-            <div className="flex items-center justify-end gap-3">
-              <Button type="submit" disabled={submitting}>
-                {submitting ? "Creating..." : "Create Page"}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              {/* Submit */}
+              <div className="flex items-center justify-end gap-3">
+                <Button type="submit" disabled={submitting}>
+                  {submitting ? "Creating..." : "Create Page"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </>
   );
 }

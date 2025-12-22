@@ -14,7 +14,6 @@ import { getUpcommingChallenge } from '@/server/user/challenge.server';
 import { SimilarChallenge } from '@/components/modules/user/challenge/SimilarChallenge';
 // import { recommendedfriends } from '../leftSide/LeftSiderbar';
 async function RightSiderbar () {
-const upcommingChallenge = await getUpcommingChallenge()
 
   return (
     <>

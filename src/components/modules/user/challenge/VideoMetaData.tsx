@@ -1,34 +1,44 @@
 "use client";
 
-import {
-  ThumbsUp,
-  Heart,
-  Share2,
-  ThumbsDown,
-} from "lucide-react";
+import { ThumbsUp, Heart, Share2, ThumbsDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { IPage } from "@/interfaces/page.interface";
 import { useState } from "react";
-import { handleFollowing, handleUnFollowing } from "@/server/user/follow.server";
+import {
+  handleFollowing,
+  handleUnFollowing,
+} from "@/server/user/follow.server";
 import { FaHeart } from "react-icons/fa";
 import { useCurrentAccount } from "@/hooks/useCurrentAccount";
+import ShareModal from "../../shared/share/ShareModal";
+import { PiShareFat } from "react-icons/pi";
 
 export const VideoMetadata = ({
   metaData,
 }: {
-  metaData: {   createdBy: Partial<IPage>; title: string ; followStatus:boolean };
+  metaData: {
+    challengId: string;
+    createdBy: Partial<IPage>;
+    title: string;
+    followStatus: boolean;
+  };
 }) => {
+  const [openShare, setOpenShare] = useState(false);
+
   const [isFollowing, setIsFollowing] = useState(metaData?.followStatus);
 
   const [submitting, setSubmitting] = useState(false);
   const { account, isPage, isUser, isLoading } = useCurrentAccount();
 
-  const handleFollow = async (followingId: string , followerType: 'User' | 'Page') => {
+  const handleFollow = async (
+    followingId: string,
+    followerType: "User" | "Page"
+  ) => {
     setSubmitting(true);
     try {
       const result = await handleFollowing(followingId, followerType);
-        if (result.success) setIsFollowing(true);
+      if (result.success) setIsFollowing(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -36,11 +46,14 @@ export const VideoMetadata = ({
     }
   };
 
-  const handleUnFollow = async (followingId: string , followerType: 'User' | 'Page') => {
+  const handleUnFollow = async (
+    followingId: string,
+    followerType: "User" | "Page"
+  ) => {
     setSubmitting(true);
     try {
-      const result = await handleUnFollowing(followingId , followerType);
-       if (result.success) setIsFollowing(false);
+      const result = await handleUnFollowing(followingId, followerType);
+      if (result.success) setIsFollowing(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -78,29 +91,39 @@ export const VideoMetadata = ({
             </p>
           </div>
           <div>
-            {
-              isFollowing ? ( <Button
-              disabled={submitting}
-              onClick={() => handleUnFollow(metaData?.createdBy?._id as string , isPage ? 'Page' : 'User')}
-              variant="outline"
-              size="sm"
-              className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
-            >
-              <FaHeart  className="h-4 w-4" />
-              Following
-            </Button>) : ( <Button
-              disabled={submitting}
-              onClick={() => handleFollow(metaData?.createdBy?._id as string , isPage ? 'Page' : 'User')}
-              variant="outline"
-              size="sm"
-              className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
-            >
-              <Heart className="h-4 w-4" />
-              Follow
-            </Button>)
-            }
-           
-           
+            {isFollowing ? (
+              <Button
+                disabled={submitting}
+                onClick={() =>
+                  handleUnFollow(
+                    metaData?.createdBy?._id as string,
+                    isPage ? "Page" : "User"
+                  )
+                }
+                variant="outline"
+                size="sm"
+                className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
+              >
+                <FaHeart className="h-4 w-4" />
+                Following
+              </Button>
+            ) : (
+              <Button
+                disabled={submitting}
+                onClick={() =>
+                  handleFollow(
+                    metaData?.createdBy?._id as string,
+                    isPage ? "Page" : "User"
+                  )
+                }
+                variant="outline"
+                size="sm"
+                className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
+              >
+                <Heart className="h-4 w-4" />
+                Follow
+              </Button>
+            )}
           </div>
         </div>
 
@@ -127,6 +150,7 @@ export const VideoMetadata = ({
             </span>
           </Button>
           <Button
+            onClick={() => setOpenShare(true)}
             variant="outline"
             size="sm"
             className="bg-secondary rounded-full hover:bg-secondary/90 text-black"
@@ -134,6 +158,13 @@ export const VideoMetadata = ({
             <Share2 className="h-4 w-4" />
             Share
           </Button>
+
+          <ShareModal
+            entityType={"challenge"}
+            entityId={metaData?.challengId}
+            open={openShare}
+            onClose={() => setOpenShare(false)}
+          />
         </div>
       </div>
     </div>

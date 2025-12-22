@@ -65,8 +65,8 @@ function PostCard({ post, accountData }: { post: IPost; accountData?: any }) {
       <Card className=" border-none shadow-sm bg-white dark:bg-gray-800 pt-3 pb-1 gap-0 ">
         <CardHeader className="px-3 ">
           <div className="flex justify-between items-start">
-            <Link
-              href={`${isUser ? "/profile" : "/page"}/${post?.accountId?._id}`}
+            <div
+              // href={`${isUser ? "/profile" : "/page"}/${post?.accountId?._id}`}
               className="flex gap-3"
             >
               <Avatar className="border-2 border-blue-400 dark:border-teal-900 w-10 h-10">
@@ -85,7 +85,7 @@ function PostCard({ post, accountData }: { post: IPost; accountData?: any }) {
                  
                 </div>
               </div>
-            </Link>
+            </div>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

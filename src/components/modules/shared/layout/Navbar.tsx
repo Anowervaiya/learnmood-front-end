@@ -35,11 +35,12 @@ const navigationLinks = [
 
 const middlePageIcon =[
   {href:'/' , Icon : <House/> , allowFor: 'All'},
-  {href:'/friends/recommended' , Icon : <Users />, allowFor: ACCOUNT_TYPE.User},
+    {href:'/challenge' , Icon :    <Trophy />, allowFor: 'All' },
+  {href:'/blood' , Icon :   <Droplets /> , allowFor: 'All'},
   {href:'/tutors' , Icon :     <LiaChalkboardTeacherSolid className="w-7 h-7" /> , allowFor: 'All'},
-  {href:'/course' , Icon :   <SquarePlay />,  allowFor: 'All'},
-  {href:'/challenge' , Icon :    <Trophy />, allowFor: 'All' },
-  {href:'/blood' , Icon :   <Droplets /> , allowFor: 'All'}
+  {href:'/friends/recommended' , Icon : <Users />, allowFor: ACCOUNT_TYPE.User},
+  // {href:'/course' , Icon :   <SquarePlay />,  allowFor: 'All'},
+
 ]
 export type IChat = {
   _id: string;

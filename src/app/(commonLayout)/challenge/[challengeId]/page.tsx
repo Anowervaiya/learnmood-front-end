@@ -23,15 +23,15 @@ const ChallengeDetailsPage = async ({ params }: { params: Promise<{ challengeId:
 
 
   return (
-    <div className="min-h-screen w-full bg-background">
+    <div className="min-h-screen w-full col-span-full bg-background">
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Video & Content */}
         <div className="lg:col-span-2 space-y-6">
           <VideoPlayer video={data.challenge.banner} />
-          <VideoMetadata metaData={{  createdBy: data.challenge.createdBy , title: data.challenge.title, followStatus: followStatus.isFollowing}} />
+          <VideoMetadata metaData={{challengId:data?.challenge._id,  createdBy: data.challenge.createdBy , title: data.challenge.title, followStatus: followStatus.isFollowing}} />
           <ChallengeDescription description={data.challenge.description} />
           <ChallengeContent days={data.days} />
-          <ReviewsSection />
+          {/* <ReviewsSection /> */}
         </div>
 
         {/* Right Column - Course Overview & Similar Courses */}

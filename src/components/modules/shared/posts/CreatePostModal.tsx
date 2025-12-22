@@ -83,6 +83,7 @@ const CreatePostModal = ({ data }: { data: any }) => {
       setIsSubmit(false);
     }
   };
+ 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -138,10 +139,10 @@ const CreatePostModal = ({ data }: { data: any }) => {
           <hr className="border-gray-200 dark:border-neutral-800" />
 
           <div className="flex gap-3 pt-2 items-center">
-            {data?.data?.image?.profile ? (
+            {data?.image?.profile ? (
               <Avatar className="w-10 h-10">
                 <AvatarImage
-                  src={data?.data?.image?.profile}
+                  src={data?.image?.profile}
                   className="object-cover"
                 />
                 <AvatarFallback className="text-lg">
@@ -154,7 +155,7 @@ const CreatePostModal = ({ data }: { data: any }) => {
 
             <div>
               <h1 className="text-[14px] pb-1 font-semibold text-gray-900 dark:text-gray-100">
-                {data?.data?.name}
+                {data?.name}
               </h1>
 
               <FormField

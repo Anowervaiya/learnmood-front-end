@@ -13,6 +13,8 @@ import { IPage } from "@/interfaces/page.interface";
 import { useCurrentAccount } from "@/hooks/useCurrentAccount";
 import RecommendedFriendLeftSideCard from "./RecommendedFriendLeftSideCard";
 import { User } from "lucide-react";
+import PostLoading from "../../posts/PostLoading";
+import { FriendsSkeleton } from "../../friends/FriendsSkeleton";
 
 function LeftSiderbar() {
   const { account, isPage, isUser, isLoading } = useCurrentAccount();
@@ -24,7 +26,7 @@ function LeftSiderbar() {
     isPage ? undefined : skipToken
   );
 
-  const { data: recommendFriends } = useRecommendedFriendsQuery(
+  const { data: recommendFriends , isFetching: recommendFriendsFetching} = useRecommendedFriendsQuery(
     isUser ? undefined : skipToken
   );
 
@@ -109,11 +111,16 @@ function LeftSiderbar() {
           <h3 className="font-semibold pb-4">Recommended</h3>
 
           <div className="flex flex-col gap-1">
-            {recommendFriends?.data?.length > 0
-              ? recommendFriends?.data?.map((friend: any, idx: number) => (
+       
+              {recommendFriends?.data?.map((friend: any, idx: number) => (
                   <RecommendedFriendLeftSideCard key={idx} friend={friend} />
-                ))
-              : "you have sent all user of this site"}
+                ))}
+           {recommendFriendsFetching &&
+            Array.from({ length: 15 }).map((_, i) => 
+            <FriendsSkeleton/>
+            )}
+                
+           
             {allPages?.data &&
               allPages?.data?.map((page: IPage, idx: number) => (
                 <div key={idx} className="border rounded-lg p-2">

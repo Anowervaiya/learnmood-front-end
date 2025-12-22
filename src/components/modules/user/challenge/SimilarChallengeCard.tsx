@@ -13,15 +13,15 @@ function SimilarChallengeCard({challenge} : {challenge:IChallenge}) {
             />
             <div className="flex-1 min-w-0">
               <h4 className="font-semibold text-sm line-clamp-2 ">{challenge.title}</h4>
-              <p className="text-xs text-muted-foreground ">{challenge?.createdBy?.name}</p>
-              <div className="flex items-center gap-1 ">
-                <span className="text-xs font-bold text-warning">5</span>
-                <Star className="h-3 w-3 fill-warning text-warning" />
-                <span className="text-xs text-muted-foreground">({challenge.participantCount})</span>
-              </div>
+              <p className="text-normal text-muted-foreground ">{challenge?.createdBy?.name}</p>
+              {/* <div className="flex items-center gap-1 "> */}
+                {/* <span className="text-xs font-bold text-warning">5</span>
+                <Star className="h-3 w-3 fill-warning text-warning" /> */}
+                {/* <span className="text-xs text-muted-foreground">({challenge.participantCount})</span>
+              </div> */}
               <div className="flex items-baseline gap-2">
-                <span className="text-sm font-bold">{challenge.price}</span>
-                <span className="text-xs text-muted-foreground line-through">{challenge.price}</span>
+           <span className='text-md text-muted-foreground '>{challenge.price} tk</span>
+                {/* <span className="text-xs text-muted-foreground line-through">{challenge.price}</span> */}
               </div>
             </div>
           </div></Link>
